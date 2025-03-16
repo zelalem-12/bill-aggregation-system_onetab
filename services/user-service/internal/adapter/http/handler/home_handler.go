@@ -1,0 +1,36 @@
+package handler
+
+import (
+	"fmt"
+	"html/template"
+
+	"github.com/labstack/echo/v4"
+	"github.com/zelalem-12/onetab/internal/infrastructure/config"
+)
+
+type HomeHandler struct {
+	config *config.Config
+	tmpl   *template.Template
+}
+
+func NewHomeHandler(config *config.Config) (*HomeHandler, error) {
+
+	tmpl, err := template.ParseFiles("public/index.html")
+	if err != nil {
+		return nil, err
+	}
+
+	return &HomeHandler{
+		config: config,
+		tmpl:   tmpl,
+	}, nil
+}
+
+func (h *HomeHandler) Home(c echo.Context) error {
+
+	data := map[string]interface{}{
+		"link": fmt.Sprintf("%s:%d/api/v1/swagger/index.html", h.config.SERVER_HOST, h.config.SERVER_PORT),
+	}
+
+	return h.tmpl.Execute(c.Response(), data)
+}

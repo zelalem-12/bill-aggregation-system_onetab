@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Bill Aggregation Service - Home</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Reset margins and padding, set full height for html and body */
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        /* Ensure body uses full screen and allows for vertical centering */
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* Header styling */
+        header {
+            background-color: #005A8D;
+            color: #fff;
+            padding: 30px 20px;
+            text-align: center;
+            flex-shrink: 0; /* Prevents header from shrinking */
+        }
+
+        /* Container for main content */
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: #fff;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            flex-grow: 1; /* Allows content area to take up remaining space */
+        }
+
+        /* General section styling */
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section h2 {
+            color: #005A8D;
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+        }
+
+        .section p {
+            font-size: 1rem;
+            line-height: 1.8;
+        }
+
+        /* Call to action button styling */
+        .cta-button {
+            background-color: #005A8D;
+            color: white;
+            padding: 14px 28px;
+            text-decoration: none;
+            font-size: 1.2rem;
+            border-radius: 6px;
+            display: inline-block;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .cta-button:hover {
+            background-color: #003F60;
+        }
+
+        /* Footer styling */
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+
+        /* Ensure footer stays at bottom of screen if content is small */
+        footer {
+            margin-top: 40px;
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome to the Bill Aggregation Service</h1>
+        <p>Link your utility accounts, view all your bills in one place, and manage your expenses with ease.</p>
+    </header>
+
+    <div class="container">
+        <div class="section">
+            <h2>Bill Discovery</h2>
+            <p>Effortlessly find and connect your utility providers. Search and link accounts by service type, provider name, or location.</p>
+        </div>
+        
+        <div class="section">
+            <h2>Payment System</h2>
+            <p>Settle your bills directly through our platform. Choose from multiple payment options, set automatic payments, and track your payment history securely.</p>
+        </div>
+        
+        <div class="section">
+            <h2>Engage with Providers</h2>
+            <p>Communicate with service providers, receive bill updates, and get notified about special offers or discounts.</p>
+        </div>
+        
+        <div class="section">
+            <h2>Explore Our API</h2>
+            <p>If you're a developer or interested in integrating our bill aggregation features into your application, explore our API documentation:</p>
+            <a href="{{.link}}" target="_blank" class="cta-button">View API Documentation</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Bill Aggregation Service</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{{define "content"}}
+<p>Hello {{.FirstName}} {{.LastName}},</p>
+<p>Thank you for verifying your email address! Your account is now ready to use.</p>
+<p>To complete your account setup, please set your password by clicking the link below:</p>
+<p>
+  <a 
+    href="{{.Link}}" 
+    class="button" 
+    target="_blank" 
+    rel="noopener noreferrer nofollow"
+  >
+    Set Your Password
+  </a>
+</p>
+<p>If you didn't request this verification, please contact support for assistance.</p>
+{{end}}

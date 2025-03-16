@@ -1,17 +1,28 @@
 services:
-  - name: auth-service
-    url: http://auth-service:8001 # URL for Auth Microservice
-    routes:
-      - name: login-route
-        paths:
-          - /auth/login
-      - name: register-route
-        paths:
-          - /auth/register
-
   - name: user-service
-    url: http://user-service:8002 # URL for User Microservice
+    url: http://user-service:8001 # URL for User Microservice
     routes:
+      - name: user-registration-route
+        paths:
+          - /user/register
       - name: user-details-route
         paths:
           - /user/:id
+      - name: login-route
+        paths:
+          - /auth/login
+      - name: refresh-token-route
+        paths:
+          - /auth/refresh-token
+      - name: verify-email-route
+        paths:
+          - /auth/verify-email
+      - name: set-password-route
+        paths:
+          - /auth/set-password
+      - name: request-password-reset-route
+        paths:
+          - /auth/request-password-reset
+      - name: reset-password-route
+        paths:
+          - /auth/reset-password

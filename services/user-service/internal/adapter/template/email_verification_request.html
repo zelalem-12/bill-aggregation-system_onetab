@@ -1,0 +1,15 @@
+{{define "content"}}
+<p>Hello {{.FirstName}} {{.LastName}},</p>
+<p>Thank you for registering with us! To complete your registration, please verify your email address by clicking the link below:</p>
+<p>
+  <a 
+    href="{{.Link}}" 
+    class="button" 
+    target="_blank" 
+    rel="noopener noreferrer nofollow"
+  >
+    Verify Your Email
+  </a>
+</p>
+<p>If you did not sign up for an account, please ignore this email.</p>
+{{end}}
