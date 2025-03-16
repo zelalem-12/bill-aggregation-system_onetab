@@ -1,0 +1,17 @@
+services:
+  - name: auth-service
+    url: http://auth-service:8001 # URL for Auth Microservice
+    routes:
+      - name: login-route
+        paths:
+          - /auth/login
+      - name: register-route
+        paths:
+          - /auth/register
+
+  - name: user-service
+    url: http://user-service:8002 # URL for User Microservice
+    routes:
+      - name: user-details-route
+        paths:
+          - /user/:id
