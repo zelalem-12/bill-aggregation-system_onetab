@@ -5,12 +5,12 @@ import (
 	"fmt"
 
 	"github.com/google/uuid"
-	"github.com/zelalem-12/onetab/internal/app/client"
-	"github.com/zelalem-12/onetab/internal/app/repo"
-	"github.com/zelalem-12/onetab/internal/app/service"
-	"github.com/zelalem-12/onetab/internal/domain"
-	"github.com/zelalem-12/onetab/internal/infrastructure/config"
-	"github.com/zelalem-12/onetab/internal/util"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/client"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/repo"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/service"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/domain"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/infrastructure/config"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/util"
 )
 
 type PasswordResetRequestCommandHandler struct {

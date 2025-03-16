@@ -4,8 +4,8 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo/v4"
-	"github.com/zelalem-12/onetab/internal/infrastructure/config"
-	"github.com/zelalem-12/onetab/internal/util"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/infrastructure/config"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/util"
 )
 
 type AuthMiddleware struct {

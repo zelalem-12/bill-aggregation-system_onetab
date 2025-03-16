@@ -7,7 +7,7 @@ import (
 
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/google/uuid"
-	"github.com/zelalem-12/onetab/internal/domain"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/domain"
 	"golang.org/x/crypto/bcrypt"
 )
 

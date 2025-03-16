@@ -4,9 +4,9 @@ import (
 	"context"
 
 	"github.com/google/uuid"
-	"github.com/zelalem-12/onetab/internal/adapter/persistence/postgres/model"
-	repoPort "github.com/zelalem-12/onetab/internal/app/repo"
-	"github.com/zelalem-12/onetab/internal/domain"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/adapter/persistence/postgres/model"
+	repoPort "github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/repo"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/domain"
 	"gorm.io/gorm"
 )
 

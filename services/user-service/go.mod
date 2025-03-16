@@ -1,4 +1,4 @@
-module github.com/zelalem-12/onetab
+module github.com/zelalem-12/bill-aggregation-system_onetab/user-service
 
 go 1.23.0
 

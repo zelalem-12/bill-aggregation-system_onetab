@@ -2,16 +2,16 @@ package app
 
 import (
 	"github.com/mehdihadeli/go-mediatr"
-	"github.com/zelalem-12/onetab/internal/app/client"
-	"github.com/zelalem-12/onetab/internal/app/command/emailverify"
-	"github.com/zelalem-12/onetab/internal/app/command/passwordchange"
-	"github.com/zelalem-12/onetab/internal/app/command/passwordreset"
-	"github.com/zelalem-12/onetab/internal/app/command/passwordresetrequest"
-	"github.com/zelalem-12/onetab/internal/app/command/tokenrefresh"
-	"github.com/zelalem-12/onetab/internal/app/command/userlogin"
-	"github.com/zelalem-12/onetab/internal/app/command/usersignup"
-	"github.com/zelalem-12/onetab/internal/app/repo"
-	"github.com/zelalem-12/onetab/internal/infrastructure/config"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/client"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/command/emailverify"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/command/passwordchange"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/command/passwordreset"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/command/passwordresetrequest"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/command/tokenrefresh"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/command/userlogin"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/command/usersignup"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/repo"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/infrastructure/config"
 )
 
 func RegisterCQRSHandlers(

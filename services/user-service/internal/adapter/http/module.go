@@ -2,10 +2,10 @@ package http
 
 import (
 	"github.com/labstack/echo/v4"
-	"github.com/zelalem-12/onetab/internal/adapter/http/handler"
-	"github.com/zelalem-12/onetab/internal/adapter/http/middleware"
-	"github.com/zelalem-12/onetab/internal/adapter/http/router"
-	"github.com/zelalem-12/onetab/internal/infrastructure/config"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/adapter/http/handler"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/adapter/http/middleware"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/adapter/http/router"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/infrastructure/config"
 	"go.uber.org/fx"
 )
 

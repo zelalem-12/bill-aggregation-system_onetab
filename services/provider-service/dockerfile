@@ -1,0 +1,21 @@
+# Use Go official image
+FROM golang:1.23-alpine
+
+# Set build-time arguments 
+ARG SERVER_PORT
+
+WORKDIR /app
+
+COPY go.mod go.sum ./
+
+RUN go mod download
+
+RUN go install github.com/swaggo/swag/cmd/swag@latest
+
+COPY . .
+
+RUN swag init --dir ./cmd/http,./internal/adapter/http --generalInfo main.go --output ./docs/openapi
+
+EXPOSE ${SERVER_PORT}
+
+CMD ["go", "run", "./cmd/http/main.go"]

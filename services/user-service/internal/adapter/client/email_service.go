@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"html/template"
 
-	clientPort "github.com/zelalem-12/onetab/internal/app/client"
-	"github.com/zelalem-12/onetab/internal/app/service"
+	clientPort "github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/client"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/service"
 	"gopkg.in/gomail.v2"
 )
 

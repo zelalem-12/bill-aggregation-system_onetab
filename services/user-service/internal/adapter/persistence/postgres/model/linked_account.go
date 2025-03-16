@@ -2,7 +2,7 @@ package model
 
 import (
 	"github.com/google/uuid"
-	"github.com/zelalem-12/onetab/internal/domain"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/domain"
 )
 
 type LinkedAccount struct {

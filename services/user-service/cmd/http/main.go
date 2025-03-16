@@ -1,16 +1,16 @@
 package main
 
 import (
-	_ "github.com/zelalem-12/onetab/docs/openapi" // Swagger docs
-	clientService "github.com/zelalem-12/onetab/internal/adapter/client"
-	"github.com/zelalem-12/onetab/internal/adapter/http"
-	"github.com/zelalem-12/onetab/internal/adapter/persistence/postgres/migration"
-	"github.com/zelalem-12/onetab/internal/adapter/persistence/postgres/repo"
-	"github.com/zelalem-12/onetab/internal/app"
-	"github.com/zelalem-12/onetab/internal/infrastructure/client"
-	"github.com/zelalem-12/onetab/internal/infrastructure/config"
-	"github.com/zelalem-12/onetab/internal/infrastructure/database"
-	"github.com/zelalem-12/onetab/internal/infrastructure/server"
+	_ "github.com/zelalem-12/bill-aggregation-system_onetab/user-service/docs/openapi" // Swagger docs
+	clientService "github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/adapter/client"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/adapter/http"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/adapter/persistence/postgres/migration"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/adapter/persistence/postgres/repo"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/infrastructure/client"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/infrastructure/config"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/infrastructure/database"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/infrastructure/server"
 	"go.uber.org/fx"
 )
 

@@ -1,11 +1,11 @@
 package request
 
 import (
-	"github.com/zelalem-12/onetab/internal/app/command/passwordreset"
-	"github.com/zelalem-12/onetab/internal/app/command/passwordresetrequest"
-	"github.com/zelalem-12/onetab/internal/app/command/userlogin"
-	"github.com/zelalem-12/onetab/internal/app/command/usersignup"
-	"github.com/zelalem-12/onetab/internal/util"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/command/passwordreset"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/command/passwordresetrequest"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/command/userlogin"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/command/usersignup"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/util"
 )
 
 type RegisterRequest struct {

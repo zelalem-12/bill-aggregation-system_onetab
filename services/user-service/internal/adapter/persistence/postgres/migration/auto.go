@@ -3,7 +3,7 @@ package migration
 import (
 	"log"
 
-	"github.com/zelalem-12/onetab/internal/adapter/persistence/postgres/model"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/adapter/persistence/postgres/model"
 	"gorm.io/gorm"
 )
 

@@ -4,8 +4,8 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 	echojwt "github.com/labstack/echo-jwt/v4"
 	"github.com/labstack/echo/v4"
-	"github.com/zelalem-12/onetab/internal/infrastructure/config"
-	"github.com/zelalem-12/onetab/internal/util"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/infrastructure/config"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/util"
 )
 
 type Middleware struct {

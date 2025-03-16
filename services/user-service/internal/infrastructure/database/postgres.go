@@ -3,7 +3,7 @@ package database
 import (
 	"fmt"
 
-	"github.com/zelalem-12/onetab/internal/infrastructure/config"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/infrastructure/config"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )

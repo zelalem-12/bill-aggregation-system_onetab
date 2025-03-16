@@ -2,12 +2,12 @@ package response
 
 import (
 	"github.com/google/uuid"
-	"github.com/zelalem-12/onetab/internal/app/command/emailverify"
-	"github.com/zelalem-12/onetab/internal/app/command/passwordreset"
-	"github.com/zelalem-12/onetab/internal/app/command/passwordresetrequest"
-	"github.com/zelalem-12/onetab/internal/app/command/tokenrefresh"
-	"github.com/zelalem-12/onetab/internal/app/command/userlogin"
-	"github.com/zelalem-12/onetab/internal/app/command/usersignup"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/command/emailverify"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/command/passwordreset"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/command/passwordresetrequest"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/command/tokenrefresh"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/command/userlogin"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/command/usersignup"
 )
 
 type UserSignupResponse struct {
