@@ -1,4 +1,4 @@
-FROM kong:3.9.0-alpine
+FROM kong:2.8.5-alpine
 
 ARG KONG_PROXY_PORT
 ARG KONG_ADMIN_PORT

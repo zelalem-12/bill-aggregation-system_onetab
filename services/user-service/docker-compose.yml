@@ -5,7 +5,7 @@ services:
       dockerfile: dockerfile
       args:
         - SERVER_PORT=${SERVER_PORT}
-    container_name: onetab
+    container_name: user_service
     ports:
       - "${SERVER_PORT}:${SERVER_PORT}"
     restart: unless-stopped
@@ -38,7 +38,7 @@ services:
 
   postgres:
     image: postgres:14-alpine
-    container_name: postgres
+    container_name: user_postgres
     restart: unless-stopped
     environment:
       POSTGRES_USER: ${POSTGRES_USER}

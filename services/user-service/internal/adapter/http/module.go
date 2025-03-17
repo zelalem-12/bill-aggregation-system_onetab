@@ -19,16 +19,13 @@ func setupRoutes(
 
 	authHandler *handler.AuthHandler,
 
-) *echo.Group {
+) {
 
 	router.RegisterHomeRoute(e, config, homeHandler)
 
-	v1 := e.Group("/api/v1")
+	router.RegisterSwaggerRoute(e)
+	router.RegisterAuthRoutes(e, authMiddleware, authHandler)
 
-	router.RegisterSwaggerRoute(v1)
-	router.RegisterAuthRoutes(v1, authMiddleware, authHandler)
-
-	return v1
 }
 
 var Module = fx.Options(

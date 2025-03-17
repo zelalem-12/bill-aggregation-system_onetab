@@ -12,39 +12,39 @@ services:
       - "${KONG_PROXY_PORT}:${KONG_PROXY_PORT}"
       - "${KONG_ADMIN_PORT}:${KONG_ADMIN_PORT}"
     environment:
-      KONG_PROXY_HOST: ${KONG_PROXY_HOST}  
-      KONG_ADMIN_HOST: ${KONG_ADMIN_HOST}
-      KONG_PROXY_PORT: ${KONG_PROXY_PORT}
-      KONG_ADMIN_PORT: ${KONG_ADMIN_PORT}
+      KONG_DATABASE: postgres
       KONG_PG_HOST: ${POSTGRES_HOST}  
       KONG_PG_PORT: ${POSTGRES_PORT}  
       KONG_PG_USER: ${POSTGRES_USER}  
       KONG_PG_PASSWORD: ${POSTGRES_PASSWORD}  
       KONG_PG_DATABASE: ${POSTGRES_DATABASE}  
+      KONG_PROXY_LISTEN: "${KONG_PROXY_HOST}:${KONG_PROXY_PORT}"
+      KONG_ADMIN_LISTEN: "${KONG_ADMIN_HOST}:${KONG_ADMIN_PORT}"
     depends_on:
-      - kong-migrations
+      - kong-migration
     networks:
       - kong-net
 
-  kong-migrations:
-    image: kong:latest
-    container_name: kong-migrations
+  kong-migration:
+    image: kong:2.8.5-alpine
+    container_name: kong-migration
     restart: unless-stopped
     command: kong migrations bootstrap
     environment:
       KONG_DATABASE: postgres
       KONG_PG_HOST: ${POSTGRES_HOST}  
+      KONG_PG_PORT: ${POSTGRES_PORT}  
       KONG_PG_USER: ${POSTGRES_USER}  
       KONG_PG_PASSWORD: ${POSTGRES_PASSWORD}  
-      KONG_PG_DATABASE: ${POSTGRES_DATABASE}  
+      KONG_PG_DATABASE: ${POSTGRES_DATABASE} 
     depends_on:
-      - kong-db
+      - postgres
     networks:
       - kong-net
 
-  kong-db:
+  postgres:
     image: postgres:14-alpine
-    container_name: kong-db
+    container_name: kong-postgres
     restart: unless-stopped
     environment:
       POSTGRES_USER: ${POSTGRES_USER} 
