@@ -4,7 +4,7 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
-        - KONG_PROXY_PORT=${KONG_PROXY_PORT}  
+        - KONG_PROXY_PORT=${KONG_PROXY_PORT}
         - KONG_ADMIN_PORT=${KONG_ADMIN_PORT}
     container_name: kong
     restart: unless-stopped
@@ -13,17 +13,18 @@ services:
       - "${KONG_ADMIN_PORT}:${KONG_ADMIN_PORT}"
     environment:
       KONG_DATABASE: postgres
-      KONG_PG_HOST: ${POSTGRES_HOST}  
-      KONG_PG_PORT: ${POSTGRES_PORT}  
-      KONG_PG_USER: ${POSTGRES_USER}  
-      KONG_PG_PASSWORD: ${POSTGRES_PASSWORD}  
-      KONG_PG_DATABASE: ${POSTGRES_DATABASE}  
+      KONG_PG_HOST: ${POSTGRES_HOST}
+      KONG_PG_PORT: ${POSTGRES_PORT}
+      KONG_PG_USER: ${POSTGRES_USER}
+      KONG_PG_PASSWORD: ${POSTGRES_PASSWORD}
+      KONG_PG_DATABASE: ${POSTGRES_DATABASE}
       KONG_PROXY_LISTEN: "${KONG_PROXY_HOST}:${KONG_PROXY_PORT}"
       KONG_ADMIN_LISTEN: "${KONG_ADMIN_HOST}:${KONG_ADMIN_PORT}"
     depends_on:
       - kong-migration
     networks:
-      - kong-net
+      - services_network
+      - kong_db_network    
 
   kong-migration:
     image: kong:2.8.5-alpine
@@ -32,31 +33,35 @@ services:
     command: kong migrations bootstrap
     environment:
       KONG_DATABASE: postgres
-      KONG_PG_HOST: ${POSTGRES_HOST}  
-      KONG_PG_PORT: ${POSTGRES_PORT}  
-      KONG_PG_USER: ${POSTGRES_USER}  
-      KONG_PG_PASSWORD: ${POSTGRES_PASSWORD}  
-      KONG_PG_DATABASE: ${POSTGRES_DATABASE} 
+      KONG_PG_HOST: ${POSTGRES_HOST}
+      KONG_PG_PORT: ${POSTGRES_PORT}
+      KONG_PG_USER: ${POSTGRES_USER}
+      KONG_PG_PASSWORD: ${POSTGRES_PASSWORD}
+      KONG_PG_DATABASE: ${POSTGRES_DATABASE}
     depends_on:
       - postgres
     networks:
-      - kong-net
+      - kong_db_network     
 
   postgres:
     image: postgres:14-alpine
     container_name: kong-postgres
     restart: unless-stopped
     environment:
-      POSTGRES_USER: ${POSTGRES_USER} 
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}  
-      POSTGRES_DB: ${POSTGRES_DATABASE}  
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DATABASE}
     volumes:
       - kong-db-data:/var/lib/postgresql/data
     networks:
-      - kong-net
+      - kong_db_network
 
 networks:
-  kong-net:
+  services_network:
+    name: services_network
+    driver: bridge
+  kong_db_network:
+    name: kong_db_network
     driver: bridge
 
 volumes:

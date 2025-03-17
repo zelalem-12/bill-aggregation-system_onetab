@@ -5,27 +5,13 @@ services:
       dockerfile: dockerfile
       args:
         - SERVER_PORT=${SERVER_PORT}
-    container_name: user_service
-    ports:
-      - "${SERVER_PORT}:${SERVER_PORT}"
+    container_name: user-service
     restart: unless-stopped
     environment:
       - ENV=${ENV}
       - SERVER_PORT=${SERVER_PORT}
       - SERVER_HOST=${SERVER_HOST}
-      - FRONTEND_URL=${FRONTEND_URL}
-
-      - ACCESS_TOKEN_KEY=${ACCESS_TOKEN_KEY}
-      - REFRESH_TOKEN_KEY=${REFRESH_TOKEN_KEY}
-
-      - ACCESS_TOKEN_EXPIRY=${ACCESS_TOKEN_EXPIRY}
-      - REFRESH_TOKEN_EXPIRY=${REFRESH_TOKEN_EXPIRY}
-
-      - SMTP_HOST=${SMTP_HOST}
-      - SMTP_PORT=${SMTP_PORT}
-      - SENDER_EMAIL=${SENDER_EMAIL}
-      - SENDER_PASSWORD=${SENDER_PASSWORD}
-
+      
       - POSTGRES_HOST=${POSTGRES_HOST}
       - POSTGRES_PORT=${POSTGRES_PORT}
       - POSTGRES_DATABASE=${POSTGRES_DATABASE}
@@ -35,17 +21,30 @@ services:
     command: ["go", "run", "./cmd/http/main.go"]
     depends_on:
       - postgres
+    networks:
+      - services_network
+      - user_db_network
 
   postgres:
     image: postgres:14-alpine
-    container_name: user_postgres
+    container_name: user-postgres
     restart: unless-stopped
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DATABASE}
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - user-db-data:/var/lib/postgresql/data
+    networks:
+      - user_db_network
+
+networks:
+  services_network:
+    name: services_network
+    driver: bridge
+  user_db_network:
+    name: user_db_network
+    driver: bridge
 
 volumes:
-  postgres_data:
+  user-db-data:
