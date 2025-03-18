@@ -14,9 +14,9 @@ import (
 	"go.uber.org/fx"
 )
 
-// @title OneTab API
+// @title  Bill Aggregation System API
 // @version 1.0
-// @description This is the API for fund donations.
+// @description This is the API for Bill Aggregation System.
 // @termsOfService http://example.com/terms/
 
 // @contact.name API Support
