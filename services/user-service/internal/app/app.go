@@ -6,11 +6,13 @@ import (
 	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/command/currentuserdelete"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/command/currentuserupdate"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/command/emailverify"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/command/linkaccount"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/command/passwordchange"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/command/passwordreset"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/command/passwordresetrequest"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/command/passwordset"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/command/tokenrefresh"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/command/unlinkaccount"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/command/userlogin"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/command/userlogout"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/command/usersignup"
@@ -24,6 +26,7 @@ func RegisterCQRSHandlers(
 	emailService client.EmailServicePort,
 	userRepo repo.UserRepo,
 	tokenRepo repo.TokenRepo,
+	linkedAccountRepo repo.LinkedAccountRepo,
 
 ) error {
 
@@ -38,6 +41,8 @@ func RegisterCQRSHandlers(
 	userlogoutCommandHandler := userlogout.NewUserLogoutCommandHandler(userRepo, tokenRepo)
 	currentuserupdateCommandHandler := currentuserupdate.NewUpdateCurrentUserHandler(userRepo)
 	currentuserdeleteCommandHandler := currentuserdelete.NewDeleteCurrentUserHandler(userRepo)
+	linkaccountCommandHandler := linkaccount.NewLinkAccountCommandHandler(cfg, linkedAccountRepo)
+	unlinkaccountCommandHandler := unlinkaccount.NewUnlinkAccountCommandHandler(cfg, linkedAccountRepo)
 
 	currentuserQueryHandler := currentuser.NewCurrentUserQueryHandler(userRepo)
 
@@ -72,6 +77,12 @@ func RegisterCQRSHandlers(
 		return err
 	}
 	if err := mediatr.RegisterRequestHandler(currentuserdeleteCommandHandler); err != nil {
+		return err
+	}
+	if err := mediatr.RegisterRequestHandler(linkaccountCommandHandler); err != nil {
+		return err
+	}
+	if err := mediatr.RegisterRequestHandler(unlinkaccountCommandHandler); err != nil {
 		return err
 	}
 

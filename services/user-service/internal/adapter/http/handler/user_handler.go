@@ -35,7 +35,7 @@ func NewUserHandler() *UserHandler {
 // @Success 200 {object} response.PasswordChangedResponse
 // @Failure 400 {object} response.ErrorResponse
 // @Failure 500 {object} response.ErrorResponse
-// @Router /users/change-password [post]
+// @Router /user/change-password [post]
 func (handler *UserHandler) ChangePasswordHandler(c echo.Context) error {
 
 	changePasswordRequest := &request.ChangePasswordRequest{}
@@ -74,7 +74,7 @@ func (handler *UserHandler) ChangePasswordHandler(c echo.Context) error {
 // @Success 200 {object} response.UserResponse
 // @Failure 401 {object} response.ErrorResponse
 // @Failure 500 {object} response.ErrorResponse
-// @Router /users/current [get]
+// @Router /user/current [get]
 func (handler *UserHandler) GetCurrentUserHandler(c echo.Context) error {
 	user := c.Get("user").(util.BasicUserInfo)
 
@@ -110,7 +110,7 @@ func (handler *UserHandler) GetCurrentUserHandler(c echo.Context) error {
 // @Success 200 {object} response.UserUpdateResponse
 // @Failure 400 {object} response.ErrorResponse
 // @Failure 500 {object} response.ErrorResponse
-// @Router /users/update [put]
+// @Router /user/update [put]
 func (handler *UserHandler) UpdateCurrentUserHandler(c echo.Context) error {
 
 	user := c.Get("user").(util.BasicUserInfo)
@@ -140,7 +140,7 @@ func (handler *UserHandler) UpdateCurrentUserHandler(c echo.Context) error {
 // @Success 200 {object} response.UserDeleteResponse
 // @Failure 400 {object} response.ErrorResponse
 // @Failure 500 {object} response.ErrorResponse
-// @Router /users/delete [delete]
+// @Router /user/delete [delete]
 func (handler *UserHandler) DeleteCurrentUserHandler(c echo.Context) error {
 	user := c.Get("user").(util.BasicUserInfo)
 

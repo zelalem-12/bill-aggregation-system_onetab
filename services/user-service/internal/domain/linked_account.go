@@ -40,7 +40,7 @@ func (la *LinkedAccount) GetUser() *User {
 	return la.user
 }
 
-func NewAccount(userID, providerID, authToken, accountID string) *LinkedAccount {
+func NewLinkedAccount(userID, providerID, authToken string) *LinkedAccount {
 	return &LinkedAccount{
 		userID:     userID,
 		providerID: providerID,

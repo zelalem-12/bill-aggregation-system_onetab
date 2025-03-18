@@ -45,6 +45,7 @@ func main() {
 			clientService.NewEmailService,
 			repo.NewUserRepo,
 			repo.NewToken,
+			repo.NewLinkedAccountRepo,
 		),
 		http.Module,
 		fx.Invoke(

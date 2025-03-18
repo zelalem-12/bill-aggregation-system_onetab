@@ -39,3 +39,11 @@ services:
         paths:
           - /api/v1/auth/reset-password
         strip_path: false
+      - name: link-account-route
+        paths:
+          - /api/v1/accounts/link
+        strip_path: false
+      - name: unlink-account-route
+        paths:
+          - /api/v1/accounts/:account_id
+        strip_path: false

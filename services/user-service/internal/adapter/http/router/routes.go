@@ -16,6 +16,7 @@ func RegisterHomeRoute(
 ) {
 	e.GET("", homeHandler.Home)
 }
+
 func RegisterSwaggerRoute(baseApi *echo.Group) {
 	baseApi.GET("/swagger/*filepath", echoSwagger.WrapHandler)
 }
@@ -53,4 +54,16 @@ func RegisterUserRoutes(
 	userRoutes.PUT("/me", userHandler.UpdateCurrentUserHandler)
 	userRoutes.DELETE("/me", userHandler.DeleteCurrentUserHandler)
 
+}
+
+func RegisterLinkedAccountRoutes(
+	baseApi *echo.Group,
+	linkedAccountMiddleware *middleware.LinkedAccountMiddleware,
+	linkedAccountHandler *handler.LinkedAccountHandler,
+) {
+
+	linkedAccountRoutes := baseApi.Group("/accounts", linkedAccountMiddleware.ConstructJWTConfig(), linkedAccountMiddleware.AttachCustomClaims)
+
+	linkedAccountRoutes.POST("/link", linkedAccountHandler.LinkAccountHandler)
+	linkedAccountRoutes.DELETE("/:account_id", linkedAccountHandler.UnlinkAccountHandler)
 }
