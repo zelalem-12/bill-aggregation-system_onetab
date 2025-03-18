@@ -28,13 +28,29 @@ func RegisterAuthRoutes(
 	authRoutes := baseApi.Group("/auth")
 
 	authRoutes.POST("/register", authHandler.SignupUserHandler)
-	authRoutes.POST("/verify-email", authHandler.VerifyEmailHandler, authMiddleware.ValidateVerifyTokenMiddleware)
-	authRoutes.POST("/set-password", authHandler.SetPasswordHandler, authMiddleware.ValidateVerifyTokenMiddleware)
+	authRoutes.POST("/verify-email", authHandler.VerifyEmailHandler, authMiddleware.ValidateAccessTokenMiddleware)
+	authRoutes.POST("/set-password", authHandler.SetPasswordHandler, authMiddleware.ValidateAccessTokenMiddleware)
 
 	authRoutes.POST("/request-password-reset", authHandler.RequestPasswordResetHandler)
-	authRoutes.POST("/reset-password", authHandler.ResetPasswordHandler, authMiddleware.ValidateVerifyTokenMiddleware)
+	authRoutes.POST("/reset-password", authHandler.ResetPasswordHandler, authMiddleware.ValidateAccessTokenMiddleware)
 
 	authRoutes.POST("/login", authHandler.LoginUserHandler)
 	authRoutes.POST("/refresh-token", authHandler.RefreshTokenHandler, authMiddleware.ValidateRefreshTokenMiddleware)
+
+	authRoutes.POST("/logout", authHandler.LogoutHandler, authMiddleware.ValidateAccessTokenMiddleware)
+
+}
+
+func RegisterUserRoutes(
+	baseApi *echo.Group,
+	userMiddleware *middleware.UserMiddleware,
+	userHandler *handler.UserHandler,
+) {
+	userRoutes := baseApi.Group("/user", userMiddleware.ConstructJWTConfig(), userMiddleware.AttachCustomClaims)
+
+	userRoutes.POST("/change-password", userHandler.ChangePasswordHandler)
+	userRoutes.GET("/me", userHandler.GetCurrentUserHandler)
+	userRoutes.PUT("/me", userHandler.UpdateCurrentUserHandler)
+	userRoutes.DELETE("/me", userHandler.DeleteCurrentUserHandler)
 
 }

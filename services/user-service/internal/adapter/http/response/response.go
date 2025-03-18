@@ -11,3 +11,5 @@ func NewErrorResponse(message string, code int) *ErrorResponse {
 		Code:    code,
 	}
 }
+
+

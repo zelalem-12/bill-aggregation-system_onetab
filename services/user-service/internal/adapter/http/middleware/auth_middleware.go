@@ -18,7 +18,7 @@ func NewAuthMiddleware(config *config.Config) *AuthMiddleware {
 	}
 }
 
-func (m *AuthMiddleware) ValidateVerifyTokenMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
+func (m *AuthMiddleware) ValidateAccessTokenMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
 
 		accessToken := c.QueryParam("token")

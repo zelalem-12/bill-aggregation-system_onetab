@@ -14,6 +14,7 @@ import (
 	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/command/passwordset"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/command/tokenrefresh"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/command/userlogin"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/command/userlogout"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/command/usersignup"
 )
 
@@ -299,4 +300,38 @@ func (handler *AuthHandler) SetPasswordHandler(c echo.Context) error {
 	passwordSetResponse.FromCommand(result)
 
 	return c.JSON(200, passwordSetResponse)
+}
+
+// LogoutHandler godoc
+// @Summary User logout
+// @Description Logs out the user by invalidating the refresh token.
+// @Tags Authentication
+// @Accept json
+// @Produce json
+// @Success 200 {object} response.LogoutResponse
+// @Failure 400 {object} response.ErrorResponse
+// @Router /auth/logout [post]
+func (handler *AuthHandler) LogoutHandler(c echo.Context) error {
+	userId := c.Get("user_id").(uuid.UUID)
+	token := c.Get("token").(string)
+
+	logoutResponse := &response.LogoutResponse{}
+
+	command := &userlogout.UserLogoutCommand{
+		UserID: userId,
+		Token:  token,
+	}
+
+	if err := command.Validate(); err != nil {
+		return echo.ErrBadRequest
+	}
+
+	result, err := mediatr.Send[*userlogout.UserLogoutCommand, *userlogout.UserLogoutCommandResponse](context.Background(), command)
+	if err != nil {
+		return err
+	}
+
+	logoutResponse.FromCommand(result)
+
+	return c.JSON(200, logoutResponse)
 }

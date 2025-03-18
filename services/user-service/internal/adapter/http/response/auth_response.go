@@ -8,6 +8,7 @@ import (
 	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/command/passwordset"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/command/tokenrefresh"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/command/userlogin"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/command/userlogout"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/command/usersignup"
 )
 
@@ -69,4 +70,12 @@ type PasswordSetResponse struct {
 
 func (p *PasswordSetResponse) FromCommand(command *passwordset.PasswordSetCommandResponse) {
 	p.Message = command.Message
+}
+
+type LogoutResponse struct {
+	Message string `json:"message"`
+}
+
+func (l *LogoutResponse) FromCommand(command *userlogout.UserLogoutCommandResponse) {
+	l.Message = command.Message
 }

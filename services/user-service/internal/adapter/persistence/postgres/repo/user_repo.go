@@ -103,3 +103,7 @@ func (repo *UserRepo) Update(ctx context.Context, domainModel *domain.User) (*do
 func (repo *UserRepo) DeleteByID(ctx context.Context, id uuid.UUID) error {
 	return repo.DB.WithContext(ctx).Where("id = ?", id).Delete(&model.User{}).Error
 }
+
+func (repo *UserRepo) Delete(ctx context.Context, id uuid.UUID) error {
+	return repo.DB.WithContext(ctx).Where("id = ?", id).Delete(&model.User{}).Error
+}
