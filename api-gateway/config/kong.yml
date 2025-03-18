@@ -1,39 +1,41 @@
+_format_version: "1.1"
 services:
   - name: user-service
-    url: http://user-service:8080 # URL for User Microservice
+    url: http://user-service:8080
     routes:
       - name: home-route
         paths:
           - /
+        strip_path: false
       - name: swagger-route
         paths:
           - /api/v1/swagger/*filepath
-        strip_path: true
+        strip_path: false
       - name: user-registration-route
         paths:
           - /api/v1/auth/register
-        strip_path: true
+        strip_path: false
       - name: login-route
         paths:
           - /api/v1/auth/login
-        strip_path: true
+        strip_path: false
       - name: refresh-token-route
         paths:
           - /api/v1/auth/refresh-token
-        strip_path: true
+        strip_path: false
       - name: verify-email-route
         paths:
           - /api/v1/auth/verify-email
-        strip_path: true
+        strip_path: false
       - name: set-password-route
         paths:
           - /api/v1/auth/set-password
-        strip_path: true
+        strip_path: false
       - name: request-password-reset-route
         paths:
           - /api/v1/auth/request-password-reset
-        strip_path: true
+        strip_path: false
       - name: reset-password-route
         paths:
           - /api/v1/auth/reset-password
-        strip_path: true
+        strip_path: false

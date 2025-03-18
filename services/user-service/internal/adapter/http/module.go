@@ -20,11 +20,12 @@ func setupRoutes(
 	authHandler *handler.AuthHandler,
 
 ) {
-
 	router.RegisterHomeRoute(e, config, homeHandler)
 
-	router.RegisterSwaggerRoute(e)
-	router.RegisterAuthRoutes(e, authMiddleware, authHandler)
+	v1 := e.Group("/api/v1")
+
+	router.RegisterSwaggerRoute(v1)
+	router.RegisterAuthRoutes(v1, authMiddleware, authHandler)
 
 }
 

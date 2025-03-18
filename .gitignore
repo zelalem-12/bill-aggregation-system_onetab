@@ -21,11 +21,15 @@
 # Go workspace file
 go.work
 
+**/*.env
 
-.env
+
+*/.env
+
 test.env
 .test.env
 
+api-gateway/.env
 #/.vscode
 #!.vscode/golangci-lint-settings.json
 /.vscode

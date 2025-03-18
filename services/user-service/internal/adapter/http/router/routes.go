@@ -16,12 +16,12 @@ func RegisterHomeRoute(
 ) {
 	e.GET("", homeHandler.Home)
 }
-func RegisterSwaggerRoute(baseApi *echo.Echo) {
+func RegisterSwaggerRoute(baseApi *echo.Group) {
 	baseApi.GET("/swagger/*filepath", echoSwagger.WrapHandler)
 }
 
 func RegisterAuthRoutes(
-	baseApi *echo.Echo,
+	baseApi *echo.Group,
 	authMiddleware *middleware.AuthMiddleware,
 	authHandler *handler.AuthHandler,
 ) {
