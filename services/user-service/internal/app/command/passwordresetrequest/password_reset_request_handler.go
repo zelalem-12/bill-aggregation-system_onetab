@@ -46,6 +46,13 @@ func (h *PasswordResetRequestCommandHandler) Handle(ctx context.Context, command
 		return nil, err
 	}
 
+	if token, err := h.tokenRepo.FindByUserID(ctx, userID); err == nil && token != nil {
+		err = h.tokenRepo.DeleteByUserID(ctx, userID)
+		if err != nil {
+			return nil, err
+		}
+	}
+
 	resetToken, err := util.GenerateNonAccessToken(h.config.ACCESS_TOKEN_KEY, userID, h.config.ACCESS_TOKEN_EXPIRY)
 	if err != nil {
 		return nil, err

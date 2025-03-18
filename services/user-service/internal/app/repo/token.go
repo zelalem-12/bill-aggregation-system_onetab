@@ -12,4 +12,5 @@ type TokenRepo interface {
 	Find(ctx context.Context, userId uuid.UUID, token string) (*domain.Token, error)
 	Delete(ctx context.Context, userId uuid.UUID, token string) error
 	DeleteByUserID(ctx context.Context, userId uuid.UUID) error
+	FindByUserID(ctx context.Context, id uuid.UUID) (*domain.Token, error)
 }

@@ -7,6 +7,7 @@ import (
 	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/command/passwordchange"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/command/passwordreset"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/command/passwordresetrequest"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/command/passwordset"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/command/tokenrefresh"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/command/userlogin"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/command/usersignup"
@@ -25,6 +26,7 @@ func RegisterCQRSHandlers(
 	emailVerifyCommandHandler := emailverify.NewEmailVerifyCommandHandler(cfg, userRepo, tokenRepo, emailService)
 	passwordChangeCommandHandler := passwordchange.NewPasswordChangeCommandHandler(userRepo, tokenRepo)
 	passwordresetCommandHandler := passwordreset.NewPasswordResetCommandHandler(cfg, userRepo, tokenRepo, emailService)
+	passwordsetCommandHandler := passwordset.NewPasswordSetCommandHandler(cfg, userRepo, tokenRepo, emailService)
 	passwordResetRequestCommandHandler := passwordresetrequest.NewPasswordResetRequestCommandHandler(cfg, userRepo, tokenRepo, emailService)
 	refreshTokenCommandHandler := tokenrefresh.NewTokenRefreshCommandHandler(cfg, userRepo, tokenRepo)
 	userLoginCommandHandler := userlogin.NewUserLoginCommandHandler(cfg, userRepo, tokenRepo)
@@ -37,6 +39,9 @@ func RegisterCQRSHandlers(
 		return err
 	}
 	if err := mediatr.RegisterRequestHandler(passwordresetCommandHandler); err != nil {
+		return err
+	}
+	if err := mediatr.RegisterRequestHandler(passwordsetCommandHandler); err != nil {
 		return err
 	}
 	if err := mediatr.RegisterRequestHandler(passwordResetRequestCommandHandler); err != nil {

@@ -29,7 +29,7 @@ func RegisterAuthRoutes(
 
 	authRoutes.POST("/register", authHandler.SignupUserHandler)
 	authRoutes.POST("/verify-email", authHandler.VerifyEmailHandler, authMiddleware.ValidateVerifyTokenMiddleware)
-	authRoutes.POST("/set-password", authHandler.ResetPasswordHandler, authMiddleware.ValidateVerifyTokenMiddleware)
+	authRoutes.POST("/set-password", authHandler.SetPasswordHandler, authMiddleware.ValidateVerifyTokenMiddleware)
 
 	authRoutes.POST("/request-password-reset", authHandler.RequestPasswordResetHandler)
 	authRoutes.POST("/reset-password", authHandler.ResetPasswordHandler, authMiddleware.ValidateVerifyTokenMiddleware)

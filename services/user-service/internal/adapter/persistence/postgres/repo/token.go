@@ -54,3 +54,14 @@ func (repo *TokenRepo) DeleteByUserID(ctx context.Context, userId uuid.UUID) err
 
 	return repo.DB.WithContext(ctx).Where("user_id = ?", userId).Delete(&model.Token{}).Error
 }
+
+func (repo *TokenRepo) FindByUserID(ctx context.Context, id uuid.UUID) (*domain.Token, error) {
+	dataModel := &model.Token{}
+
+	err := repo.DB.WithContext(ctx).Where("user_id = ?", id).First(dataModel).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return dataModel.ToDomainModel(), nil
+}

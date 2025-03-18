@@ -78,3 +78,25 @@ func (r *PasswordResetRequest) ToCommand() *passwordreset.PasswordResetCommand {
 		Password: r.Password,
 	}
 }
+
+type PasswordSetRequest struct {
+	Password        string `json:"password"`
+	ConfirmPassword string `json:"confirm_password"`
+}
+
+func (r *PasswordSetRequest) Validate() error {
+
+	if r.Password != r.ConfirmPassword {
+		return util.CreateError("password and confirm password do not match")
+	}
+	if err := validate.Struct(r); err != nil {
+		return err
+	}
+
+	return nil
+}
+func (r *PasswordSetRequest) ToCommand() *passwordreset.PasswordResetCommand {
+	return &passwordreset.PasswordResetCommand{
+		Password: r.Password,
+	}
+}

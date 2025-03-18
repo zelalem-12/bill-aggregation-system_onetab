@@ -48,6 +48,13 @@ func (h *UserLoginCommandHandler) Handle(ctx context.Context, command *UserLogin
 		return nil, errors.New("wrong password")
 	}
 
+	if token, err := h.tokenRepo.FindByUserID(ctx, userID); err == nil && token != nil {
+		err = h.tokenRepo.DeleteByUserID(ctx, userID)
+		if err != nil {
+			return nil, err
+		}
+	}
+
 	accessToken, err := util.GenerateAccessToken(h.config.ACCESS_TOKEN_KEY, user, h.config.ACCESS_TOKEN_EXPIRY)
 	if err != nil {
 		return nil, err

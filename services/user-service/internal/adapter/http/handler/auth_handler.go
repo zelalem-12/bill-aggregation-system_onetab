@@ -11,6 +11,7 @@ import (
 	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/command/emailverify"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/command/passwordreset"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/command/passwordresetrequest"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/command/passwordset"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/command/tokenrefresh"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/command/userlogin"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/command/usersignup"
@@ -253,4 +254,49 @@ func (handler *AuthHandler) VerifyEmailHandler(c echo.Context) error {
 	emailVerifyResponse.FromCommand(result)
 
 	return c.JSON(200, emailVerifyResponse)
+}
+
+// ResetPasswordHandler godoc
+// @Summary Reset user password
+// @Description Allows users to reset their password by providing a new password and set token.
+// @Tags Authentication
+// @Accept json
+// @Produce json
+// @Param body body request.PasswordSetRequest true "Password set details"
+// @Success 200 {object} response.PasswordSetResponse
+// @Failure 400 {object} response.ErrorResponse
+// @Router /auth/set-password [post]
+func (handler *AuthHandler) SetPasswordHandler(c echo.Context) error {
+	userId := c.Get("user_id").(uuid.UUID)
+	passwordSetToken := c.Get("token").(string)
+
+	passwordSetRequest := &request.PasswordSetRequest{}
+	passwordSetResponse := &response.PasswordSetResponse{}
+
+	if err := handler.BindAndValidate(c, passwordSetRequest); err != nil {
+		return echo.ErrBadRequest
+	}
+
+	if err := passwordSetRequest.Validate(); err != nil {
+		return echo.ErrBadRequest
+	}
+
+	command := &passwordset.PasswordSetCommand{
+		UserID:   userId,
+		Password: passwordSetRequest.Password,
+		SetToken: passwordSetToken,
+	}
+
+	if err := command.Validate(); err != nil {
+		return echo.ErrBadRequest
+	}
+
+	result, err := mediatr.Send[*passwordset.PasswordSetCommand, *passwordset.PasswordSetCommandResponse](context.Background(), command)
+	if err != nil {
+		return err
+	}
+
+	passwordSetResponse.FromCommand(result)
+
+	return c.JSON(200, passwordSetResponse)
 }
