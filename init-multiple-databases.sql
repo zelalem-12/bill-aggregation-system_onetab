@@ -1,0 +1,3 @@
+CREATE DATABASE bill_db;
+CREATE DATABASE provider_db;
+CREATE DATABASE user_db;

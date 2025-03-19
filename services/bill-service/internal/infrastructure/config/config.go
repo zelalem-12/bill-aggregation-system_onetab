@@ -18,8 +18,7 @@ func (config *Config) Validate() error {
 }
 
 type Config struct {
-	SERVER_HOST string `validate:"required"`
-	SERVER_PORT int    `validate:"required"`
+	SERVER_PORT int `validate:"required"`
 
 	ACCESS_TOKEN_KEY string `validate:"required"`
 
@@ -31,12 +30,13 @@ type Config struct {
 }
 
 func Load() (*Config, error) {
+
 	err := godotenv.Load()
 	if err != nil {
 		return nil, err
 	}
 
-	serverPort, err := strconv.Atoi(strings.TrimSpace(os.Getenv("SERVER_PORT")))
+	serverPort, err := strconv.Atoi(strings.TrimSpace(os.Getenv("BILL_SERVER_PORT")))
 	if err != nil {
 		return nil, err
 	}
@@ -47,7 +47,6 @@ func Load() (*Config, error) {
 	}
 
 	config := Config{
-		SERVER_HOST: strings.TrimSpace(os.Getenv("SERVER_HOST")),
 		SERVER_PORT: serverPort,
 
 		ACCESS_TOKEN_KEY: strings.TrimSpace(os.Getenv("ACCESS_TOKEN_KEY")),

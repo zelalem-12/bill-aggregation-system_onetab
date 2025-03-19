@@ -24,11 +24,11 @@ func MigrateDatabaseSchema(db *gorm.DB) {
 
 	runPreMigrationScript(db)
 
-	userEntities := []interface{}{
+	billEntities := []interface{}{
 		&model.Bill{},
 	}
 
-	db.AutoMigrate(userEntities...)
+	db.AutoMigrate(billEntities...)
 
 	log.Println("DB Schema Migrated...")
 }

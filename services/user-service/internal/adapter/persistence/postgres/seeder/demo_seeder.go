@@ -17,6 +17,12 @@ func SeedDemoData(db *gorm.DB) {
 		log.Fatalf("Failed to hash password: %v", err)
 	}
 
+	var existingUser model.User
+	if err := db.Where("email = ?", "john.doe@example.com").First(&existingUser).Error; err == nil {
+		log.Println("User with the given email already exists.")
+		return
+	}
+
 	user := model.User{
 		FirstName:      "John",
 		LastName:       "Doe",

@@ -18,7 +18,6 @@ func (config *Config) Validate() error {
 }
 
 type Config struct {
-	SERVER_HOST  string `validate:"required"`
 	SERVER_PORT  int    `validate:"required"`
 	FRONTEND_URL string `validate:"required"`
 
@@ -46,7 +45,7 @@ func Load() (*Config, error) {
 		return nil, err
 	}
 
-	serverPort, err := strconv.Atoi(strings.TrimSpace(os.Getenv("SERVER_PORT")))
+	serverPort, err := strconv.Atoi(strings.TrimSpace(os.Getenv("USER_SERVER_PORT")))
 	if err != nil {
 		return nil, err
 	}
@@ -61,7 +60,6 @@ func Load() (*Config, error) {
 	}
 
 	config := Config{
-		SERVER_HOST:  strings.TrimSpace(os.Getenv("SERVER_HOST")),
 		SERVER_PORT:  serverPort,
 		FRONTEND_URL: strings.TrimSpace(os.Getenv("FRONTEND_URL")),
 
