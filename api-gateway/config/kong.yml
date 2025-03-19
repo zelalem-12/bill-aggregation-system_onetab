@@ -47,3 +47,19 @@ services:
         paths:
           - /api/v1/accounts/:account_id
         strip_path: false
+
+  - name: provider-service
+    url: http://provider-service:8082
+    routes:
+      - name: get-provider-by-id-route
+        paths:
+          - /api/v1/providers/:providerID
+        strip_path: false
+      - name: get-provider-by-name-route
+        paths:
+          - /api/v1/providers/name/:providerName
+        strip_path: false
+      - name: get-all-providers-route
+        paths:
+          - /api/v1/providers
+        strip_path: false

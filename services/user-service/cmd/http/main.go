@@ -6,6 +6,7 @@ import (
 	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/adapter/http"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/adapter/persistence/postgres/migration"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/adapter/persistence/postgres/repo"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/adapter/persistence/postgres/seeder"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/infrastructure/client"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/infrastructure/config"
@@ -50,6 +51,7 @@ func main() {
 		http.Module,
 		fx.Invoke(
 			migration.MigrateDatabaseSchema,
+			seeder.SeedDemoData,
 			app.RegisterCQRSHandlers,
 			server.ManageServerLifecycle,
 		),

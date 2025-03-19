@@ -11,13 +11,29 @@ services:
       - ENV=${ENV}
       - SERVER_PORT=${SERVER_PORT}
       - SERVER_HOST=${SERVER_HOST}
-      
+      - FRONTEND_URL=${FRONTEND_URL}
+
+      # JWT Variables
+      - ACCESS_TOKEN_KEY=${ACCESS_TOKEN_KEY}
+      - REFRESH_TOKEN_KEY=${REFRESH_TOKEN_KEY}
+
+      # Token Expiry
+      - ACCESS_TOKEN_EXPIRY=${ACCESS_TOKEN_EXPIRY}
+      - REFRESH_TOKEN_EXPIRY=${REFRESH_TOKEN_EXPIRY}
+
+      # SMTP Variables
+      - SMTP_HOST=${SMTP_HOST}
+      - SMTP_PORT=${SMTP_PORT}
+      - SENDER_EMAIL=${SENDER_EMAIL}
+      - SENDER_PASSWORD=${SENDER_PASSWORD}
+
+      # Database Variables
       - POSTGRES_HOST=${POSTGRES_HOST}
       - POSTGRES_PORT=${POSTGRES_PORT}
       - POSTGRES_DATABASE=${POSTGRES_DATABASE}
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      
+
     command: ["go", "run", "./cmd/http/main.go"]
     depends_on:
       - postgres

@@ -9,7 +9,8 @@ import (
 
 type Bill struct {
 	Base
-	LinkedAccountID string    `gorm:"type:uuid;not null"`
+	UserID          uuid.UUID `gorm:"type:uuid;not null"`
+	LinkedAccountID string    `gorm:"type:uuid;not null"` // Each user has one account in each provider
 	AmountDue       float64   `gorm:"not null"`
 	Status          string    `gorm:"not null"`
 	DueDate         time.Time `gorm:"not null"`

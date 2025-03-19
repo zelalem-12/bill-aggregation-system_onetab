@@ -15,7 +15,7 @@ type ProviderRepo struct {
 	DB *gorm.DB
 }
 
-func NewUserRepo(DB *gorm.DB) repoPort.ProviderRepo {
+func NewProviderRepo(DB *gorm.DB) repoPort.ProviderRepo {
 	return &ProviderRepo{
 		DB: DB,
 	}
@@ -41,18 +41,6 @@ func (repo *ProviderRepo) Save(ctx context.Context, domainModel *domain.Provider
 	return provider, nil
 }
 
-func (repo *ProviderRepo) FindByID(ctx context.Context, id uuid.UUID) (*domain.Provider, error) {
-	dataModel := &model.Provider{}
-
-	err := repo.DB.WithContext(ctx).Where("id = ?", id).First(dataModel).Error
-	if err != nil {
-		return nil, err
-	}
-
-	return dataModel.ToDomainModel(), nil
-
-}
-
 func (repo *ProviderRepo) FindAll(ctx context.Context) ([]*domain.Provider, error) {
 	dataModels := []*model.Provider{}
 
@@ -64,10 +52,58 @@ func (repo *ProviderRepo) FindAll(ctx context.Context) ([]*domain.Provider, erro
 	domainModels := make([]*domain.Provider, 0, len(dataModels))
 
 	for _, dataModel := range dataModels {
-
 		domainModels = append(domainModels, dataModel.ToDomainModel())
 	}
 
 	return domainModels, nil
+}
 
+func (repo *ProviderRepo) FindByID(ctx context.Context, id uuid.UUID) (*domain.Provider, error) {
+	dataModel := &model.Provider{}
+
+	err := repo.DB.WithContext(ctx).Where("id = ?", id).First(dataModel).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return dataModel.ToDomainModel(), nil
+}
+
+func (repo *ProviderRepo) FindByName(ctx context.Context, name string) (*domain.Provider, error) {
+	dataModel := &model.Provider{}
+
+	err := repo.DB.WithContext(ctx).Where("name = ?", name).First(dataModel).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return dataModel.ToDomainModel(), nil
+}
+
+func (repo *ProviderRepo) Update(ctx context.Context, domainModel *domain.Provider) (*domain.Provider, error) {
+	dataModel := &model.Provider{}
+
+	err := dataModel.FromDomainModel(domainModel)
+	if err != nil {
+		fmt.Println("ProviderRepo: Error converting domain model to data model", err)
+		return nil, err
+	}
+
+	err = repo.DB.WithContext(ctx).Save(dataModel).Error
+	if err != nil {
+		fmt.Println("ProviderRepo: Error updating provider", err)
+		return nil, err
+	}
+
+	return dataModel.ToDomainModel(), nil
+}
+
+func (repo *ProviderRepo) Delete(ctx context.Context, id uuid.UUID) error {
+	err := repo.DB.WithContext(ctx).Where("id = ?", id).Delete(&model.Provider{}).Error
+	if err != nil {
+		fmt.Println("ProviderRepo: Error deleting provider", err)
+		return err
+	}
+
+	return nil
 }

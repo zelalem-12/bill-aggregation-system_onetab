@@ -21,6 +21,8 @@ type Config struct {
 	SERVER_HOST string `validate:"required"`
 	SERVER_PORT int    `validate:"required"`
 
+	ACCESS_TOKEN_KEY string `validate:"required"`
+
 	POSTGRES_HOST     string `validate:"required"`
 	POSTGRES_PORT     int    `validate:"required"`
 	POSTGRES_DATABASE string `validate:"required"`
@@ -47,6 +49,8 @@ func Load() (*Config, error) {
 	config := Config{
 		SERVER_HOST: strings.TrimSpace(os.Getenv("SERVER_HOST")),
 		SERVER_PORT: serverPort,
+
+		ACCESS_TOKEN_KEY: strings.TrimSpace(os.Getenv("ACCESS_TOKEN_KEY")),
 
 		POSTGRES_HOST:     strings.TrimSpace(os.Getenv("POSTGRES_HOST")),
 		POSTGRES_PORT:     postGresPort,
