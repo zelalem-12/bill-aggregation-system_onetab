@@ -11,3 +11,7 @@ func NewErrorResponse(message string, code int) *ErrorResponse {
 		Code:    code,
 	}
 }
+
+type SuccessResponse struct {
+	Message string `json:"message"`
+}

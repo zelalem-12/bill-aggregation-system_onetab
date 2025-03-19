@@ -1,30 +1,48 @@
 package domain
 
-import "time"
+import (
+	"time"
+)
 
 type Bill struct {
 	Base
-	linkedAccountID string
-	amountDue       float64
-	status          BillStatus
-	dueDate         time.Time
-	billedAt        time.Time
+	userID       string
+	providerID   string
+	providerName string
+	amount       float64
+	dueDate      time.Time
+	status       BillStatus
 }
 
-func (bill *Bill) SetLinkedAccountID(linkedAccountID string) {
-	bill.linkedAccountID = linkedAccountID
+func (bill *Bill) SetUserID(user_id string) {
+	bill.userID = user_id
 }
 
-func (bill *Bill) GetLinkedAccountID() string {
-	return bill.linkedAccountID
+func (bill *Bill) GetUserID() string {
+	return bill.userID
 }
 
-func (bill *Bill) SetAmountDue(ammountDue float64) {
-	bill.amountDue = ammountDue
+func (bill *Bill) SetProviderID(provider_id string) {
+	bill.providerID = provider_id
+}
+func (bill *Bill) GetProviderID() string {
+	return bill.providerID
 }
 
-func (bill *Bill) GetAmountDue() float64 {
-	return bill.amountDue
+func (bill *Bill) SetProviderName(provider_name string) {
+	bill.providerName = provider_name
+}
+
+func (bill *Bill) GetProviderName() string {
+	return bill.providerName
+}
+
+func (bill *Bill) SetAmount(ammount float64) {
+	bill.amount = ammount
+}
+
+func (bill *Bill) GetAmount() float64 {
+	return bill.amount
 }
 
 func (bill *Bill) SetStatus(status BillStatus) {
@@ -43,20 +61,12 @@ func (bill *Bill) GetDueDate() time.Time {
 	return bill.dueDate
 }
 
-func (bill *Bill) SetBilledAt(billedAt time.Time) {
-	bill.billedAt = billedAt
-}
-
-func (bill *Bill) GetBilledAt() time.Time {
-	return bill.billedAt
-}
-
-func NewBill(linkedAccountID string, amountDue float64, status BillStatus, dueDate, billedAt time.Time) *Bill {
+func NewBill(userId, providerId string, amount float64, status BillStatus, dueDate time.Time) *Bill {
 	return &Bill{
-		linkedAccountID: linkedAccountID,
-		amountDue:       amountDue,
-		status:          status,
-		dueDate:         dueDate,
-		billedAt:        billedAt,
+		userID:     userId,
+		providerID: providerId,
+		amount:     amount,
+		status:     status,
+		dueDate:    dueDate,
 	}
 }

@@ -13,7 +13,7 @@ func RegisterProviderRoutes(
 	providerHandler *handler.ProviderHandler,
 ) {
 	providerRoute := baseApi.Group("/providers", providerMiddleware.ConstructJWTConfig(), providerMiddleware.AttachCustomClaims)
-	providerRoute.GET("/:provider_id", providerHandler.GetProviderByID)
-	providerRoute.GET("/name/:provider_name", providerHandler.GetProviderByName)
+	providerRoute.GET("/:provider_id", providerHandler.GetProviderByIdHandler)
+	providerRoute.GET("/name/:provider_name", providerHandler.GetProviderByNameHandler)
 	providerRoute.GET("", providerHandler.GetProvidersHandler)
 }

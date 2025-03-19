@@ -33,7 +33,7 @@ func NewProviderHandler() *ProviderHandler {
 // @Success 200 {object} response.GetProviderByIDResponse
 // @Failure 400 {object} response.ErrorResponse
 // @Router /providers/{provider_id} [get]
-func (handler *ProviderHandler) GetProviderByID(c echo.Context) error {
+func (handler *ProviderHandler) GetProviderByIdHandler(c echo.Context) error {
 
 	requestDTO := &request.GetProviderByIDRequest{}
 	if err := handler.BindAndValidate(c, requestDTO); err != nil {
@@ -67,7 +67,7 @@ func (handler *ProviderHandler) GetProviderByID(c echo.Context) error {
 // @Success 200 {object} response.GetProviderByNameResponse
 // @Failure 400 {object} response.ErrorResponse
 // @Router /providers/name/{provider_name} [get]
-func (handler *ProviderHandler) GetProviderByName(c echo.Context) error {
+func (handler *ProviderHandler) GetProviderByNameHandler(c echo.Context) error {
 
 	requestDTO := &request.GetProviderByNameRequest{}
 	if err := handler.BindAndValidate(c, requestDTO); err != nil {

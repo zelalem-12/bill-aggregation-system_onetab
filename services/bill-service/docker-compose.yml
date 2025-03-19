@@ -11,6 +11,8 @@ services:
       - ENV=${ENV}
       - SERVER_PORT=${SERVER_PORT}
       - SERVER_HOST=${SERVER_HOST}
+
+      - ACCESS_TOKEN_KEY=${ACCESS_TOKEN_KEY}
       
       - POSTGRES_HOST=${POSTGRES_HOST}
       - POSTGRES_PORT=${POSTGRES_PORT}
