@@ -16,6 +16,7 @@ type Bill struct {
 	Amount       float64   `gorm:"not null;default:0"`
 	DueDate      time.Time `gorm:"not null"`
 	Status       string    `gorm:"type:status;not null"`
+	PaidDate     time.Time `gorm:"null"`
 }
 
 func (bill *Bill) FromDomainModel(domainBill *domain.Bill) error {
@@ -44,6 +45,7 @@ func (bill *Bill) FromDomainModel(domainBill *domain.Bill) error {
 	bill.Amount = domainBill.GetAmount()
 	bill.Status = string(domainBill.GetStatus())
 	bill.DueDate = domainBill.GetDueDate()
+	bill.PaidDate = domainBill.GetPaidDate()
 
 	return nil
 }
@@ -58,6 +60,7 @@ func (bill *Bill) ToDomainModel() *domain.Bill {
 	domainBill.SetAmount(bill.Amount)
 	domainBill.SetStatus(domain.BillStatus(bill.Status))
 	domainBill.SetDueDate(bill.DueDate)
+	domainBill.SetPaidDate(bill.PaidDate)
 
 	domainBill.SetCreatedAt(bill.CreatedAt)
 	domainBill.SetUpdatedAt(bill.UpdatedAt)

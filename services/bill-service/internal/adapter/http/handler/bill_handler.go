@@ -14,7 +14,12 @@ import (
 	"github.com/zelalem-12/bill-aggregation-system_onetab/bill-service/internal/app/command/deletebillsbyprovider"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/bill-service/internal/app/command/markbillaspaid"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/bill-service/internal/app/query/aggregatedbills"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/bill-service/internal/app/query/billcategories"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/bill-service/internal/app/query/billpaymenthistory"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/bill-service/internal/app/query/billsbyprovider"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/bill-service/internal/app/query/billsummary"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/bill-service/internal/app/query/overduebills"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/bill-service/internal/app/query/spendingtrends"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/bill-service/internal/util"
 )
 
@@ -254,5 +259,129 @@ func (handler *BillHandler) DeleteBillsByProvider(c echo.Context) error {
 	resDTO := response.DeleteBillsByProviderResponse{}
 	resDTO.FromCommandResponse(cmdResp)
 
+	return c.JSON(http.StatusOK, resDTO)
+}
+
+// GetOverdueBills godoc
+// @Summary Get overdue bills for a user
+// @Description Retrieves all overdue bills for a user along with amount due and due dates.
+// @Tags Bills
+// @Accept json
+// @Produce json
+// @Param Authorization header string true "Bearer token"
+// @Success 200 {object} response.GetOverdueBillsResponse
+// @Failure 400 {object} response.ErrorResponse
+// @Router /bills/overdue [get]
+func (handler *BillHandler) GetOverdueBillsHandler(c echo.Context) error {
+
+	user := c.Get("user").(util.BasicUserInfo)
+	resDTO := response.GetOverdueBillsResponse{}
+
+	query := overduebills.GetOverdueBillsQuery{UserID: user.UserID}
+
+	result, err := mediatr.Send[*overduebills.GetOverdueBillsQuery, *overduebills.GetOverdueBillsQueryResponse](context.Background(), &query)
+	if err != nil {
+		return err
+	}
+
+	resDTO.FromQueryResponse(result)
+
+	return c.JSON(http.StatusOK, resDTO)
+}
+
+// GetCategorySpending godoc
+// @Summary Get category spending insights for a user
+// @Description Retrieves insights into the total amount spent in each bill category.
+// @Tags Bills
+// @Accept json
+// @Produce json
+// @Param Authorization header string true "Bearer token"
+// @Success 200 {object} response.GetCategorySpendingResponse
+// @Failure 400 {object} response.ErrorResponse
+// @Router /bills/categories [get]
+func (handler *BillHandler) GetCategorySpendingHandler(c echo.Context) error {
+
+	user := c.Get("user").(util.BasicUserInfo)
+	resDTO := response.GetCategorySpendingResponse{}
+
+	query := billcategories.GetCategorySpendingQuery{UserID: user.UserID}
+	result, err := mediatr.Send[*billcategories.GetCategorySpendingQuery, *billcategories.GetCategorySpendingQueryResponse](context.Background(), &query)
+	if err != nil {
+		return err
+	}
+
+	resDTO.FromQueryResponse(result)
+	return c.JSON(http.StatusOK, resDTO)
+}
+
+// GetBillPaymentHistory godoc
+// @Summary Get bill payment history
+// @Description Retrieves the payment history of bills for a user, including paid date and due date.
+// @Tags Bills
+// @Accept json
+// @Produce json
+// @Param Authorization header string true "Bearer token"
+// @Success 200 {array} response.PaymentHistoryResponse
+// @Failure 400 {object} response.ErrorResponse
+// @Router /bills/history [get]
+func (handler *BillHandler) GetBillPaymentHistoryHandler(c echo.Context) error {
+
+	user := c.Get("user").(util.BasicUserInfo)
+	resDTO := response.GetBillPaymentHistoryResponse{}
+
+	query := billpaymenthistory.GetBillPaymentHistoryQuery{UserID: user.UserID}
+	result, err := mediatr.Send[*billpaymenthistory.GetBillPaymentHistoryQuery, *billpaymenthistory.GetBillPaymentHistoryQueryResponse](context.Background(), &query)
+	if err != nil {
+		return err
+	}
+
+	resDTO.FromQueryResponse(result)
+	return c.JSON(http.StatusOK, resDTO)
+}
+
+// HandlerGetBillSummary godoc
+// @Summary Get bill summary for a user
+// @Description Retrieves total outstanding, total paid, and overall due amounts for the user.
+// @Tags Bills
+// @Accept json
+// @Produce json
+// @Param Authorization header string true "Bearer token"
+// @Success 200 {object} response.GetBillSummaryResponse
+// @Failure 400 {object} response.ErrorResponse
+// @Router /bills/summary [get]
+func (handler *BillHandler) HandlerGetBillSummary(c echo.Context) error {
+	user := c.Get("user").(util.BasicUserInfo)
+	resDTO := response.GetBillSummaryResponse{}
+
+	query := billsummary.GetBillSummaryQuery{UserID: user.UserID}
+	result, err := mediatr.Send[*billsummary.GetBillSummaryQuery, *billsummary.GetBillSummaryQueryResponse](context.Background(), &query)
+	if err != nil {
+		return err
+	}
+
+	resDTO.FromQueryResponse(result)
+	return c.JSON(http.StatusOK, resDTO)
+}
+
+// HandlerGetMonthlySpendingTrends godoc
+// @Summary Get monthly spending trends for a user
+// @Description Retrieves spending trends over time, grouped by month.
+// @Tags Bills
+// @Accept json
+// @Produce json
+// @Param Authorization header string true "Bearer token"
+// @Success 200 {object} response.GetMonthlySpendingTrendsResponse
+// @Failure 400 {object} response.ErrorResponse
+// @Router /bills/summary/trends [get]
+func (handler *BillHandler) HandlerGetMonthlySpendingTrends(c echo.Context) error {
+	user := c.Get("user").(util.BasicUserInfo)
+	resDTO := response.GetMonthlySpendingTrendsResponse{}
+
+	query := spendingtrends.GetMonthlySpendingTrendsQuery{UserID: user.UserID}
+	result, err := mediatr.Send[*spendingtrends.GetMonthlySpendingTrendsQuery, *spendingtrends.GetMonthlySpendingTrendsQueryResponse](context.Background(), &query)
+	if err != nil {
+		return err
+	}
+	resDTO.FromQueryResponse(result)
 	return c.JSON(http.StatusOK, resDTO)
 }

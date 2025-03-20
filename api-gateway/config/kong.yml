@@ -63,3 +63,51 @@ services:
         paths:
           - /api/v1/providers
         strip_path: false
+
+  - name: bill-service
+    url: http://bill-service:8083
+    routes:
+      - name: get-aggregated-bills-route
+        paths:
+          - /api/v1/bills
+        strip_path: false
+      - name: get-bills-by-provider-route
+        paths:
+          - /api/v1/bills/:provider_name
+        strip_path: false
+      - name: get-bills-by-provider-id-route
+        paths:
+          - /api/v1/bills/provider/:provider_Id
+        strip_path: false
+      - name: mark-bill-as-paid-route
+        paths:
+          - /api/v1/bills/:bill_id/pay
+        strip_path: false
+      - name: delete-bill-route
+        paths:
+          - /api/v1/bills/:bill_id
+        strip_path: false
+      - name: create-bill-route
+        paths:
+          - /api/v1/bills
+        strip_path: false
+      - name: get-overdue-bills-route
+        paths:
+          - /api/v1/bills/overdue
+        strip_path: false
+      - name: get-category-spending-route
+        paths:
+          - /api/v1/bills/categories
+        strip_path: false
+      - name: get-bill-payment-history-route
+        paths:
+          - /api/v1/bills/history
+        strip_path: false
+      - name: get-bill-summary-route
+        paths:
+          - /api/v1/bills/summary
+        strip_path: false
+      - name: get-monthly-spending-trends-route
+        paths:
+          - /api/v1/bills/summary/trends
+        strip_path: false

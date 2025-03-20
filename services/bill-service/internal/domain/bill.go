@@ -12,6 +12,7 @@ type Bill struct {
 	amount       float64
 	dueDate      time.Time
 	status       BillStatus
+	paidDate     time.Time
 }
 
 func (bill *Bill) SetUserID(user_id string) {
@@ -61,12 +62,21 @@ func (bill *Bill) GetDueDate() time.Time {
 	return bill.dueDate
 }
 
-func NewBill(userId, providerId string, amount float64, status BillStatus, dueDate time.Time) *Bill {
+func (bill *Bill) SetPaidDate(paidDate time.Time) {
+	bill.paidDate = paidDate
+}
+
+func (bill *Bill) GetPaidDate() time.Time {
+	return bill.paidDate
+}
+
+func NewBill(userId, providerId string, amount float64, status BillStatus, dueDate, paidDate time.Time) *Bill {
 	return &Bill{
 		userID:     userId,
 		providerID: providerId,
 		amount:     amount,
 		status:     status,
 		dueDate:    dueDate,
+		paidDate:   paidDate,
 	}
 }

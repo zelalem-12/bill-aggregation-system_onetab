@@ -14,7 +14,7 @@ func runPreMigrationScript(db *gorm.DB) {
 	DO $$ 
 	BEGIN
 		IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'status') THEN
-			CREATE TYPE status AS ENUM ('paid', 'unpaid', 'overdue');
+			CREATE TYPE status AS ENUM ('paid', 'unpaid');
 		END IF;
 	END $$;
 	`)

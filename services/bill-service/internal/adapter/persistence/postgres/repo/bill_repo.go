@@ -2,6 +2,7 @@ package repo
 
 import (
 	"context"
+	"time"
 
 	"github.com/google/uuid"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/bill-service/internal/adapter/persistence/postgres/model"
@@ -87,7 +88,9 @@ func (repo *BillRepo) MarkAsPaid(ctx context.Context, billID uuid.UUID) error {
 	return repo.DB.WithContext(ctx).
 		Model(&model.Bill{}).
 		Where("id = ?", billID).
-		Update("status", "paid").Error
+		Update("status", "paid").
+		Update("paid_at", time.Now()).
+		Error
 }
 
 func (repo *BillRepo) Delete(ctx context.Context, billID uuid.UUID) error {

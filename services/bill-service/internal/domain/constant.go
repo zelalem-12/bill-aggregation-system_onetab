@@ -3,9 +3,8 @@ package domain
 type BillStatus string
 
 const (
-	PAID    BillStatus = "paid"
-	UNPAID  BillStatus = "unpaid"
-	OVERDUE BillStatus = "overdue"
+	PAID   BillStatus = "paid"
+	UNPAID BillStatus = "unpaid"
 )
 
 func (s BillStatus) String() string {
@@ -14,7 +13,7 @@ func (s BillStatus) String() string {
 
 func (s BillStatus) IsValid() bool {
 	switch s {
-	case PAID, UNPAID, OVERDUE:
+	case PAID, UNPAID:
 		return true
 	}
 	return false
@@ -26,8 +25,4 @@ func (s BillStatus) IsPaid() bool {
 
 func (s BillStatus) IsUnpaid() bool {
 	return s == UNPAID
-}
-
-func (s BillStatus) IsOverdue() bool {
-	return s == OVERDUE
 }

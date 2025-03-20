@@ -12,6 +12,7 @@ type CreateBillCommand struct {
 	Status     string
 	UserID     uuid.UUID
 	ProviderID uuid.UUID
+	PaidDate   time.Time
 }
 
 type CreateBillCommandResponse struct {

@@ -21,7 +21,7 @@ func NewCreateBillCommandHandler(billRepo repo.BillRepo) *CreateBillCommandHandl
 
 func (h *CreateBillCommandHandler) Handle(ctx context.Context, cmd *CreateBillCommand) (*CreateBillCommandResponse, error) {
 
-	bill := domain.NewBill(cmd.UserID.String(), cmd.ProviderID.String(), cmd.Amount, domain.BillStatus(cmd.Status), cmd.DueDate)
+	bill := domain.NewBill(cmd.UserID.String(), cmd.ProviderID.String(), cmd.Amount, domain.BillStatus(cmd.Status), cmd.DueDate, cmd.PaidDate)
 
 	persistedBill, err := h.BillRepo.Save(ctx, bill)
 	if err != nil {
