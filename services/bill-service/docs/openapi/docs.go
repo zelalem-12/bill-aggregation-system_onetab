@@ -24,9 +24,9 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/auth/login": {
-            "post": {
-                "description": "Allows users to log in using their email and password, returning access and refresh tokens.",
+        "/bills": {
+            "get": {
+                "description": "Retrieve all bills for a user, aggregated from all linked providers.",
                 "consumes": [
                     "application/json"
                 ],
@@ -34,17 +34,53 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Authentication"
+                    "Bills"
                 ],
-                "summary": "User login",
+                "summary": "Fetch aggregated bills for a user",
                 "parameters": [
                     {
-                        "description": "User login details",
-                        "name": "body",
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.GetAggregatedBillsResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Creates a new bill record.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Bills"
+                ],
+                "summary": "Create a new bill",
+                "parameters": [
+                    {
+                        "description": "Bill details",
+                        "name": "bill",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/request.LoginRequest"
+                            "$ref": "#/definitions/request.CreateBillRequest"
                         }
                     }
                 ],
@@ -52,7 +88,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.UserLoginResponse"
+                            "$ref": "#/definitions/response.CreateBillResponse"
                         }
                     },
                     "400": {
@@ -64,9 +100,9 @@ const docTemplate = `{
                 }
             }
         },
-        "/auth/refresh-token": {
-            "post": {
-                "description": "Allows users to refresh their access token by providing a valid refresh token.",
+        "/bills/categories": {
+            "get": {
+                "description": "Retrieves insights into the total amount spent in each bill category.",
                 "consumes": [
                     "application/json"
                 ],
@@ -74,60 +110,23 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Authentication"
+                    "Bills"
                 ],
-                "summary": "Refresh access token",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/response.TokenRefreshResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/response.ErrorResponse"
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/response.ErrorResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/auth/request-password-reset": {
-            "post": {
-                "description": "Allows users to request a password reset by providing their email.",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Authentication"
-                ],
-                "summary": "Request password reset",
+                "summary": "Get category spending insights for a user",
                 "parameters": [
                     {
-                        "description": "Password reset request details",
-                        "name": "body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/request.PasswordResetRequestRequest"
-                        }
+                        "type": "string",
+                        "description": "Bearer token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.PasswordResetRequestResponse"
+                            "$ref": "#/definitions/response.GetCategorySpendingResponse"
                         }
                     },
                     "400": {
@@ -139,9 +138,9 @@ const docTemplate = `{
                 }
             }
         },
-        "/auth/reset-password": {
-            "post": {
-                "description": "Allows users to reset their password by providing a new password and reset token.",
+        "/bills/history": {
+            "get": {
+                "description": "Retrieves the payment history of bills for a user, including paid date and due date.",
                 "consumes": [
                     "application/json"
                 ],
@@ -149,25 +148,26 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Authentication"
+                    "Bills"
                 ],
-                "summary": "Reset user password",
+                "summary": "Get bill payment history",
                 "parameters": [
                     {
-                        "description": "Password reset details",
-                        "name": "body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/request.PasswordResetRequest"
-                        }
+                        "type": "string",
+                        "description": "Bearer token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.PasswordResetResponse"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/response.PaymentHistoryResponse"
+                            }
                         }
                     },
                     "400": {
@@ -179,9 +179,9 @@ const docTemplate = `{
                 }
             }
         },
-        "/auth/signup": {
-            "post": {
-                "description": "This endpoint allows users to sign up by providing their details like first name, last name, email, etc.",
+        "/bills/overdue": {
+            "get": {
+                "description": "Retrieves all overdue bills for a user along with amount due and due dates.",
                 "consumes": [
                     "application/json"
                 ],
@@ -189,25 +189,23 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Authentication"
+                    "Bills"
                 ],
-                "summary": "User signup",
+                "summary": "Get overdue bills for a user",
                 "parameters": [
                     {
-                        "description": "User signup details",
-                        "name": "body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/request.RegisterRequest"
-                        }
+                        "type": "string",
+                        "description": "Bearer token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
-                    "201": {
-                        "description": "Created",
+                    "200": {
+                        "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.UserSignupResponse"
+                            "$ref": "#/definitions/response.GetOverdueBillsResponse"
                         }
                     },
                     "400": {
@@ -219,9 +217,9 @@ const docTemplate = `{
                 }
             }
         },
-        "/auth/verify-email": {
-            "post": {
-                "description": "Allows users to verify their email by providing a verification token.",
+        "/bills/provider/{provider_Id}": {
+            "get": {
+                "description": "Fetch all bills from a specific provider",
                 "consumes": [
                     "application/json"
                 ],
@@ -229,14 +227,213 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Authentication"
+                    "Bills"
                 ],
-                "summary": "Verify user email",
+                "summary": "Fetch all bills from a specific provider",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Provider ID",
+                        "name": "provider_name",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.EmailVerifyResponse"
+                            "$ref": "#/definitions/response.GetBillsByProviderResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/bills/summary": {
+            "get": {
+                "description": "Retrieves total outstanding, total paid, and overall due amounts for the user.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Bills"
+                ],
+                "summary": "Get bill summary for a user",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.GetBillSummaryResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/bills/summary/trends": {
+            "get": {
+                "description": "Retrieves spending trends over time, grouped by month.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Bills"
+                ],
+                "summary": "Get monthly spending trends for a user",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.GetMonthlySpendingTrendsResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/bills/{bill_id}": {
+            "delete": {
+                "description": "Removes a bill record (if user deletes a linked provider, associated bills may also be deleted)",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Bills"
+                ],
+                "summary": "Delete a bill",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bill ID",
+                        "name": "bill_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.SuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/bills/{bill_id}/pay": {
+            "patch": {
+                "description": "Marks a bill as paid in the system",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Bills"
+                ],
+                "summary": "Mark a bill as paid",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bill ID",
+                        "name": "bill_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.SuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/bills/{provider_name}": {
+            "get": {
+                "description": "Fetch all bills from a specific provider",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Bills"
+                ],
+                "summary": "Fetch all bills from a specific provider",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Provider Name",
+                        "name": "provider_name",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.GetBillsByProviderResponse"
                         }
                     },
                     "400": {
@@ -250,68 +447,74 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "request.LoginRequest": {
+        "request.CreateBillRequest": {
             "type": "object",
             "required": [
-                "email",
-                "password"
+                "amount",
+                "due_date",
+                "provider_id",
+                "status",
+                "user_id"
             ],
             "properties": {
-                "email": {
+                "amount": {
+                    "type": "number"
+                },
+                "due_date": {
                     "type": "string"
                 },
-                "password": {
+                "provider_id": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string",
+                    "enum": [
+                        "paid",
+                        "unpaid"
+                    ]
+                },
+                "user_id": {
                     "type": "string"
                 }
             }
         },
-        "request.PasswordResetRequest": {
+        "response.BillResponse": {
             "type": "object",
             "properties": {
-                "confirm_password": {
+                "amount": {
+                    "type": "number"
+                },
+                "due_date": {
                     "type": "string"
                 },
-                "password": {
+                "id": {
+                    "type": "string"
+                },
+                "provider": {
+                    "type": "string"
+                },
+                "status": {
                     "type": "string"
                 }
             }
         },
-        "request.PasswordResetRequestRequest": {
+        "response.CategorySpendingResponse": {
             "type": "object",
-            "required": [
-                "email"
-            ],
             "properties": {
-                "email": {
+                "category": {
                     "type": "string"
+                },
+                "total_spent": {
+                    "type": "number"
                 }
             }
         },
-        "request.RegisterRequest": {
-            "type": "object",
-            "required": [
-                "email",
-                "first_name",
-                "last_name"
-            ],
-            "properties": {
-                "email": {
-                    "type": "string"
-                },
-                "first_name": {
-                    "type": "string"
-                },
-                "last_name": {
-                    "type": "string"
-                },
-                "middle_name": {
-                    "type": "string"
-                }
-            }
-        },
-        "response.EmailVerifyResponse": {
+        "response.CreateBillResponse": {
             "type": "object",
             "properties": {
+                "id": {
+                    "type": "string"
+                },
                 "message": {
                     "type": "string"
                 }
@@ -328,49 +531,128 @@ const docTemplate = `{
                 }
             }
         },
-        "response.PasswordResetRequestResponse": {
+        "response.GetAggregatedBillsResponse": {
             "type": "object",
             "properties": {
-                "message": {
+                "bills": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/response.BillResponse"
+                    }
+                },
+                "total_due": {
+                    "type": "number"
+                }
+            }
+        },
+        "response.GetBillSummaryResponse": {
+            "type": "object",
+            "properties": {
+                "total_amount_due": {
+                    "type": "number"
+                },
+                "total_overdue": {
+                    "type": "number"
+                },
+                "total_paid": {
+                    "type": "number"
+                }
+            }
+        },
+        "response.GetBillsByProviderResponse": {
+            "type": "object",
+            "properties": {
+                "bills": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/response.BillResponse"
+                    }
+                },
+                "provider": {
                     "type": "string"
                 }
             }
         },
-        "response.PasswordResetResponse": {
+        "response.GetCategorySpendingResponse": {
             "type": "object",
             "properties": {
-                "message": {
-                    "type": "string"
+                "categories": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/response.CategorySpendingResponse"
+                    }
                 }
             }
         },
-        "response.TokenRefreshResponse": {
+        "response.GetMonthlySpendingTrendsResponse": {
             "type": "object",
             "properties": {
-                "access_token": {
-                    "type": "string"
+                "trends": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/response.TrendResponse"
+                    }
                 }
             }
         },
-        "response.UserLoginResponse": {
+        "response.GetOverdueBillsResponse": {
             "type": "object",
             "properties": {
-                "access_token": {
+                "bills": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/response.OverdueBillResponse"
+                    }
+                }
+            }
+        },
+        "response.OverdueBillResponse": {
+            "type": "object",
+            "properties": {
+                "amount_due": {
+                    "type": "number"
+                },
+                "bill_id": {
                     "type": "string"
                 },
-                "refresh_token": {
+                "due_date": {
                     "type": "string"
                 }
             }
         },
-        "response.UserSignupResponse": {
+        "response.PaymentHistoryResponse": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "number"
+                },
+                "bill_id": {
+                    "type": "string"
+                },
+                "due_date": {
+                    "type": "string"
+                },
+                "paid_date": {
+                    "type": "string"
+                }
+            }
+        },
+        "response.SuccessResponse": {
             "type": "object",
             "properties": {
                 "message": {
                     "type": "string"
-                },
-                "user_id": {
+                }
+            }
+        },
+        "response.TrendResponse": {
+            "type": "object",
+            "properties": {
+                "month": {
                     "type": "string"
+                },
+                "total_spent": {
+                    "type": "number"
                 }
             }
         }
@@ -390,8 +672,8 @@ var SwaggerInfo = &swag.Spec{
 	Host:             "127.0.0.1:8080",
 	BasePath:         "/api/v1/",
 	Schemes:          []string{},
-	Title:            "OneTab API",
-	Description:      "This is the API for OneTab Bill Aggregation  Service.",
+	Title:            "Bill Aggregation System API",
+	Description:      "This is the API for Bill Aggregation System.",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

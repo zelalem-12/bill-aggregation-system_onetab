@@ -1,5 +1,28 @@
 basePath: /api/v1/
 definitions:
+  request.ChangePasswordRequest:
+    properties:
+      confirm_password:
+        type: string
+      new_password:
+        type: string
+      old_password:
+        type: string
+    required:
+    - confirm_password
+    - new_password
+    - old_password
+    type: object
+  request.LinkAccountRequest:
+    properties:
+      auth_token:
+        type: string
+      provider_id:
+        type: string
+    required:
+    - auth_token
+    - provider_id
+    type: object
   request.LoginRequest:
     properties:
       email:
@@ -7,8 +30,8 @@ definitions:
       password:
         type: string
     required:
-      - email
-      - password
+    - email
+    - password
     type: object
   request.PasswordResetRequest:
     properties:
@@ -22,7 +45,14 @@ definitions:
       email:
         type: string
     required:
-      - email
+    - email
+    type: object
+  request.PasswordSetRequest:
+    properties:
+      confirm_password:
+        type: string
+      password:
+        type: string
     type: object
   request.RegisterRequest:
     properties:
@@ -32,12 +62,19 @@ definitions:
         type: string
       last_name:
         type: string
-      middle_name:
-        type: string
     required:
-      - email
-      - first_name
-      - last_name
+    - email
+    - first_name
+    - last_name
+    type: object
+  request.UserUpdateRequest:
+    properties:
+      first_name:
+        type: string
+      last_name:
+        type: string
+      profile_picture:
+        type: string
     type: object
   response.EmailVerifyResponse:
     properties:
@@ -51,6 +88,23 @@ definitions:
       message:
         type: string
     type: object
+  response.LinkAccountResponse:
+    properties:
+      account_id:
+        type: string
+      message:
+        type: string
+    type: object
+  response.LogoutResponse:
+    properties:
+      message:
+        type: string
+    type: object
+  response.PasswordChangedResponse:
+    properties:
+      message:
+        type: string
+    type: object
   response.PasswordResetRequestResponse:
     properties:
       message:
@@ -61,9 +115,26 @@ definitions:
       message:
         type: string
     type: object
+  response.PasswordSetResponse:
+    properties:
+      message:
+        type: string
+    type: object
   response.TokenRefreshResponse:
     properties:
       access_token:
+        type: string
+    type: object
+  response.UnlinkAccountResponse:
+    properties:
+      account_id:
+        type: string
+      message:
+        type: string
+    type: object
+  response.UserDeleteResponse:
+    properties:
+      message:
         type: string
     type: object
   response.UserLoginResponse:
@@ -73,11 +144,31 @@ definitions:
       refresh_token:
         type: string
     type: object
+  response.UserResponse:
+    properties:
+      email:
+        type: string
+      first_name:
+        type: string
+      id:
+        type: string
+      is_verified:
+        type: boolean
+      last_name:
+        type: string
+      profile_picture:
+        type: string
+    type: object
   response.UserSignupResponse:
     properties:
       message:
         type: string
       user_id:
+        type: string
+    type: object
+  response.UserUpdateResponse:
+    properties:
+      message:
         type: string
     type: object
 host: 127.0.0.1:8080
@@ -86,170 +177,380 @@ info:
     email: support@example.com
     name: API Support
     url: http://www.example.com/support
-  description: This is the API for fund donations.
+  description: This is the API for Bill Aggregation System.
   license:
     name: MIT
     url: http://opensource.org/licenses/MIT
   termsOfService: http://example.com/terms/
-  title: OneTab API
+  title: Bill Aggregation System API
   version: "1.0"
 paths:
-  /auth/login:
-    post:
+  /accounts/{account_id}:
+    delete:
       consumes:
-        - application/json
-      description:
-        Allows users to log in using their email and password, returning
-        access and refresh tokens.
+      - application/json
+      description: Removes a linked utility account from the user’s profile.
       parameters:
-        - description: User login details
-          in: body
-          name: body
-          required: true
-          schema:
-            $ref: "#/definitions/request.LoginRequest"
+      - description: Linked account ID
+        in: path
+        name: account_id
+        required: true
+        type: string
       produces:
-        - application/json
+      - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: "#/definitions/response.UserLoginResponse"
+            $ref: '#/definitions/response.UnlinkAccountResponse'
         "400":
           description: Bad Request
           schema:
-            $ref: "#/definitions/response.ErrorResponse"
-      summary: User login
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Unlink a utility account
       tags:
-        - Authentication
-  /auth/refresh-token:
+      - Accounts
+  /accounts/link:
     post:
       consumes:
-        - application/json
-      description:
-        Allows users to refresh their access token by providing a valid
-        refresh token.
-      produces:
-        - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: "#/definitions/response.TokenRefreshResponse"
-        "400":
-          description: Bad Request
-          schema:
-            $ref: "#/definitions/response.ErrorResponse"
-        "401":
-          description: Unauthorized
-          schema:
-            $ref: "#/definitions/response.ErrorResponse"
-      summary: Refresh access token
-      tags:
-        - Authentication
-  /auth/request-password-reset:
-    post:
-      consumes:
-        - application/json
-      description: Allows users to request a password reset by providing their email.
+      - application/json
+      description: Links a utility account to the user’s profile.
       parameters:
-        - description: Password reset request details
-          in: body
-          name: body
-          required: true
-          schema:
-            $ref: "#/definitions/request.PasswordResetRequestRequest"
+      - description: Utility account details
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/request.LinkAccountRequest'
       produces:
-        - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: "#/definitions/response.PasswordResetRequestResponse"
-        "400":
-          description: Bad Request
-          schema:
-            $ref: "#/definitions/response.ErrorResponse"
-      summary: Request password reset
-      tags:
-        - Authentication
-  /auth/reset-password:
-    post:
-      consumes:
-        - application/json
-      description:
-        Allows users to reset their password by providing a new password
-        and reset token.
-      parameters:
-        - description: Password reset details
-          in: body
-          name: body
-          required: true
-          schema:
-            $ref: "#/definitions/request.PasswordResetRequest"
-      produces:
-        - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: "#/definitions/response.PasswordResetResponse"
-        "400":
-          description: Bad Request
-          schema:
-            $ref: "#/definitions/response.ErrorResponse"
-      summary: Reset user password
-      tags:
-        - Authentication
-  /auth/signup:
-    post:
-      consumes:
-        - application/json
-      description:
-        This endpoint allows users to sign up by providing their details
-        like first name, last name, email, etc.
-      parameters:
-        - description: User signup details
-          in: body
-          name: body
-          required: true
-          schema:
-            $ref: "#/definitions/request.RegisterRequest"
-      produces:
-        - application/json
+      - application/json
       responses:
         "201":
           description: Created
           schema:
-            $ref: "#/definitions/response.UserSignupResponse"
+            $ref: '#/definitions/response.LinkAccountResponse'
         "400":
           description: Bad Request
           schema:
-            $ref: "#/definitions/response.ErrorResponse"
-      summary: User signup
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Link a utility account
       tags:
-        - Authentication
-  /auth/verify-email:
+      - Accounts
+  /auth/login:
     post:
       consumes:
-        - application/json
-      description:
-        Allows users to verify their email by providing a verification
-        token.
+      - application/json
+      description: Allows users to log in using their email and password, returning
+        access and refresh tokens.
+      parameters:
+      - description: User login details
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/request.LoginRequest'
       produces:
-        - application/json
+      - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: "#/definitions/response.EmailVerifyResponse"
+            $ref: '#/definitions/response.UserLoginResponse'
         "400":
           description: Bad Request
           schema:
-            $ref: "#/definitions/response.ErrorResponse"
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: User login
+      tags:
+      - Authentication
+  /auth/logout:
+    post:
+      consumes:
+      - application/json
+      description: Logs out the user by invalidating the refresh token.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.LogoutResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: User logout
+      tags:
+      - Authentication
+  /auth/refresh-token:
+    post:
+      consumes:
+      - application/json
+      description: Allows users to refresh their access token by providing a valid
+        refresh token.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.TokenRefreshResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Refresh access token
+      tags:
+      - Authentication
+  /auth/request-password-reset:
+    post:
+      consumes:
+      - application/json
+      description: Allows users to request a password reset by providing their email.
+      parameters:
+      - description: Password reset request details
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/request.PasswordResetRequestRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.PasswordResetRequestResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Request password reset
+      tags:
+      - Authentication
+  /auth/reset-password:
+    post:
+      consumes:
+      - application/json
+      description: Allows users to reset their password by providing a new password
+        and reset token.
+      parameters:
+      - description: Password reset details
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/request.PasswordResetRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.PasswordResetResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Reset user password
+      tags:
+      - Authentication
+  /auth/set-password:
+    post:
+      consumes:
+      - application/json
+      description: Allows users to reset their password by providing a new password
+        and set token.
+      parameters:
+      - description: Password set details
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/request.PasswordSetRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.PasswordSetResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Reset user password
+      tags:
+      - Authentication
+  /auth/signup:
+    post:
+      consumes:
+      - application/json
+      description: This endpoint allows users to sign up by providing their details
+        like first name, last name, email, etc.
+      parameters:
+      - description: User signup details
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/request.RegisterRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/response.UserSignupResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: User signup
+      tags:
+      - Authentication
+  /auth/verify-email:
+    post:
+      consumes:
+      - application/json
+      description: Allows users to verify their email by providing a verification
+        token.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.EmailVerifyResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
       summary: Verify user email
       tags:
-        - Authentication
+      - Authentication
+  /user/change-password:
+    post:
+      consumes:
+      - application/json
+      description: This endpoint allows the user to change their password. The user
+        needs to provide the old password, new password, and a confirmation of the
+        new password.
+      parameters:
+      - description: Change password request details
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/request.ChangePasswordRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.PasswordChangedResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Change user password
+      tags:
+      - User
+  /user/current:
+    get:
+      consumes:
+      - application/json
+      description: This endpoint returns the details of the currently authenticated
+        user.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.UserResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get the current authenticated user
+      tags:
+      - User
+  /user/delete:
+    delete:
+      consumes:
+      - application/json
+      description: This endpoint allows the user to delete their account permanently.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.UserDeleteResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Delete current user account
+      tags:
+      - User
+  /user/update:
+    put:
+      consumes:
+      - application/json
+      description: This endpoint allows users to update their profile information
+        such as first name, last name, profile picture.
+      parameters:
+      - description: Update user profile information
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/request.UserUpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.UserUpdateResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Update current user profile
+      tags:
+      - User
 securityDefinitions:
   BearerAuth:
     in: header

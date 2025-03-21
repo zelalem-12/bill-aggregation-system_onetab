@@ -1,49 +1,5 @@
 basePath: /api/v1/
 definitions:
-  request.LoginRequest:
-    properties:
-      email:
-        type: string
-      password:
-        type: string
-    required:
-      - email
-      - password
-    type: object
-  request.PasswordResetRequest:
-    properties:
-      confirm_password:
-        type: string
-      password:
-        type: string
-    type: object
-  request.PasswordResetRequestRequest:
-    properties:
-      email:
-        type: string
-    required:
-      - email
-    type: object
-  request.RegisterRequest:
-    properties:
-      email:
-        type: string
-      first_name:
-        type: string
-      last_name:
-        type: string
-      middle_name:
-        type: string
-    required:
-      - email
-      - first_name
-      - last_name
-    type: object
-  response.EmailVerifyResponse:
-    properties:
-      message:
-        type: string
-    type: object
   response.ErrorResponse:
     properties:
       code:
@@ -51,33 +7,30 @@ definitions:
       message:
         type: string
     type: object
-  response.PasswordResetRequestResponse:
+  response.GetProviderByIDResponse:
     properties:
-      message:
-        type: string
+      provider:
+        $ref: '#/definitions/response.ProviderResponse'
     type: object
-  response.PasswordResetResponse:
+  response.GetProviderByNameResponse:
     properties:
-      message:
-        type: string
+      provider:
+        $ref: '#/definitions/response.ProviderResponse'
     type: object
-  response.TokenRefreshResponse:
+  response.GetProvidersResponse:
     properties:
-      access_token:
-        type: string
+      providers:
+        items:
+          $ref: '#/definitions/response.ProviderResponse'
+        type: array
     type: object
-  response.UserLoginResponse:
+  response.ProviderResponse:
     properties:
-      access_token:
+      api_url:
         type: string
-      refresh_token:
+      id:
         type: string
-    type: object
-  response.UserSignupResponse:
-    properties:
-      message:
-        type: string
-      user_id:
+      name:
         type: string
     type: object
 host: 127.0.0.1:8080
@@ -86,170 +39,83 @@ info:
     email: support@example.com
     name: API Support
     url: http://www.example.com/support
-  description: This is the API for fund donations.
+  description: This is the API for Bill Aggregation System.
   license:
     name: MIT
     url: http://opensource.org/licenses/MIT
   termsOfService: http://example.com/terms/
-  title: OneTab API
+  title: Bill Aggregation System API
   version: "1.0"
 paths:
-  /auth/login:
-    post:
+  /providers:
+    get:
       consumes:
-        - application/json
-      description:
-        Allows users to log in using their email and password, returning
-        access and refresh tokens.
+      - application/json
+      description: Retrieves a list of all available providers.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.GetProvidersResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get all providers
+      tags:
+      - Providers
+  /providers/{provider_id}:
+    get:
+      consumes:
+      - application/json
+      description: Fetches provider details using the provider ID.
       parameters:
-        - description: User login details
-          in: body
-          name: body
-          required: true
-          schema:
-            $ref: "#/definitions/request.LoginRequest"
+      - description: Provider ID
+        in: path
+        name: provider_id
+        required: true
+        type: string
       produces:
-        - application/json
+      - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: "#/definitions/response.UserLoginResponse"
+            $ref: '#/definitions/response.GetProviderByIDResponse'
         "400":
           description: Bad Request
           schema:
-            $ref: "#/definitions/response.ErrorResponse"
-      summary: User login
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get a provider by ID
       tags:
-        - Authentication
-  /auth/refresh-token:
-    post:
+      - Providers
+  /providers/name/{provider_name}:
+    get:
       consumes:
-        - application/json
-      description:
-        Allows users to refresh their access token by providing a valid
-        refresh token.
-      produces:
-        - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: "#/definitions/response.TokenRefreshResponse"
-        "400":
-          description: Bad Request
-          schema:
-            $ref: "#/definitions/response.ErrorResponse"
-        "401":
-          description: Unauthorized
-          schema:
-            $ref: "#/definitions/response.ErrorResponse"
-      summary: Refresh access token
-      tags:
-        - Authentication
-  /auth/request-password-reset:
-    post:
-      consumes:
-        - application/json
-      description: Allows users to request a password reset by providing their email.
+      - application/json
+      description: Fetches provider details using the provider name.
       parameters:
-        - description: Password reset request details
-          in: body
-          name: body
-          required: true
-          schema:
-            $ref: "#/definitions/request.PasswordResetRequestRequest"
+      - description: Provider Name
+        in: path
+        name: provider_name
+        required: true
+        type: string
       produces:
-        - application/json
+      - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: "#/definitions/response.PasswordResetRequestResponse"
+            $ref: '#/definitions/response.GetProviderByNameResponse'
         "400":
           description: Bad Request
           schema:
-            $ref: "#/definitions/response.ErrorResponse"
-      summary: Request password reset
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get a provider by name
       tags:
-        - Authentication
-  /auth/reset-password:
-    post:
-      consumes:
-        - application/json
-      description:
-        Allows users to reset their password by providing a new password
-        and reset token.
-      parameters:
-        - description: Password reset details
-          in: body
-          name: body
-          required: true
-          schema:
-            $ref: "#/definitions/request.PasswordResetRequest"
-      produces:
-        - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: "#/definitions/response.PasswordResetResponse"
-        "400":
-          description: Bad Request
-          schema:
-            $ref: "#/definitions/response.ErrorResponse"
-      summary: Reset user password
-      tags:
-        - Authentication
-  /auth/signup:
-    post:
-      consumes:
-        - application/json
-      description:
-        This endpoint allows users to sign up by providing their details
-        like first name, last name, email, etc.
-      parameters:
-        - description: User signup details
-          in: body
-          name: body
-          required: true
-          schema:
-            $ref: "#/definitions/request.RegisterRequest"
-      produces:
-        - application/json
-      responses:
-        "201":
-          description: Created
-          schema:
-            $ref: "#/definitions/response.UserSignupResponse"
-        "400":
-          description: Bad Request
-          schema:
-            $ref: "#/definitions/response.ErrorResponse"
-      summary: User signup
-      tags:
-        - Authentication
-  /auth/verify-email:
-    post:
-      consumes:
-        - application/json
-      description:
-        Allows users to verify their email by providing a verification
-        token.
-      produces:
-        - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: "#/definitions/response.EmailVerifyResponse"
-        "400":
-          description: Bad Request
-          schema:
-            $ref: "#/definitions/response.ErrorResponse"
-      summary: Verify user email
-      tags:
-        - Authentication
+      - Providers
 securityDefinitions:
   BearerAuth:
     in: header

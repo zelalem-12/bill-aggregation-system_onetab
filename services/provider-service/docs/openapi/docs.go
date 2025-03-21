@@ -24,9 +24,9 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/auth/login": {
-            "post": {
-                "description": "Allows users to log in using their email and password, returning access and refresh tokens.",
+        "/providers": {
+            "get": {
+                "description": "Retrieves a list of all available providers.",
                 "consumes": [
                     "application/json"
                 ],
@@ -34,25 +34,52 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Authentication"
+                    "Providers"
                 ],
-                "summary": "User login",
+                "summary": "Get all providers",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.GetProvidersResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/providers/name/{provider_name}": {
+            "get": {
+                "description": "Fetches provider details using the provider name.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Providers"
+                ],
+                "summary": "Get a provider by name",
                 "parameters": [
                     {
-                        "description": "User login details",
-                        "name": "body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/request.LoginRequest"
-                        }
+                        "type": "string",
+                        "description": "Provider Name",
+                        "name": "provider_name",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.UserLoginResponse"
+                            "$ref": "#/definitions/response.GetProviderByNameResponse"
                         }
                     },
                     "400": {
@@ -64,9 +91,9 @@ const docTemplate = `{
                 }
             }
         },
-        "/auth/refresh-token": {
-            "post": {
-                "description": "Allows users to refresh their access token by providing a valid refresh token.",
+        "/providers/{provider_id}": {
+            "get": {
+                "description": "Fetches provider details using the provider ID.",
                 "consumes": [
                     "application/json"
                 ],
@@ -74,169 +101,23 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Authentication"
+                    "Providers"
                 ],
-                "summary": "Refresh access token",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/response.TokenRefreshResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/response.ErrorResponse"
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/response.ErrorResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/auth/request-password-reset": {
-            "post": {
-                "description": "Allows users to request a password reset by providing their email.",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Authentication"
-                ],
-                "summary": "Request password reset",
+                "summary": "Get a provider by ID",
                 "parameters": [
                     {
-                        "description": "Password reset request details",
-                        "name": "body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/request.PasswordResetRequestRequest"
-                        }
+                        "type": "string",
+                        "description": "Provider ID",
+                        "name": "provider_id",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.PasswordResetRequestResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/response.ErrorResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/auth/reset-password": {
-            "post": {
-                "description": "Allows users to reset their password by providing a new password and reset token.",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Authentication"
-                ],
-                "summary": "Reset user password",
-                "parameters": [
-                    {
-                        "description": "Password reset details",
-                        "name": "body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/request.PasswordResetRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/response.PasswordResetResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/response.ErrorResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/auth/signup": {
-            "post": {
-                "description": "This endpoint allows users to sign up by providing their details like first name, last name, email, etc.",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Authentication"
-                ],
-                "summary": "User signup",
-                "parameters": [
-                    {
-                        "description": "User signup details",
-                        "name": "body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/request.RegisterRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "Created",
-                        "schema": {
-                            "$ref": "#/definitions/response.UserSignupResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/response.ErrorResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/auth/verify-email": {
-            "post": {
-                "description": "Allows users to verify their email by providing a verification token.",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Authentication"
-                ],
-                "summary": "Verify user email",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/response.EmailVerifyResponse"
+                            "$ref": "#/definitions/response.GetProviderByIDResponse"
                         }
                     },
                     "400": {
@@ -250,73 +131,6 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "request.LoginRequest": {
-            "type": "object",
-            "required": [
-                "email",
-                "password"
-            ],
-            "properties": {
-                "email": {
-                    "type": "string"
-                },
-                "password": {
-                    "type": "string"
-                }
-            }
-        },
-        "request.PasswordResetRequest": {
-            "type": "object",
-            "properties": {
-                "confirm_password": {
-                    "type": "string"
-                },
-                "password": {
-                    "type": "string"
-                }
-            }
-        },
-        "request.PasswordResetRequestRequest": {
-            "type": "object",
-            "required": [
-                "email"
-            ],
-            "properties": {
-                "email": {
-                    "type": "string"
-                }
-            }
-        },
-        "request.RegisterRequest": {
-            "type": "object",
-            "required": [
-                "email",
-                "first_name",
-                "last_name"
-            ],
-            "properties": {
-                "email": {
-                    "type": "string"
-                },
-                "first_name": {
-                    "type": "string"
-                },
-                "last_name": {
-                    "type": "string"
-                },
-                "middle_name": {
-                    "type": "string"
-                }
-            }
-        },
-        "response.EmailVerifyResponse": {
-            "type": "object",
-            "properties": {
-                "message": {
-                    "type": "string"
-                }
-            }
-        },
         "response.ErrorResponse": {
             "type": "object",
             "properties": {
@@ -328,48 +142,43 @@ const docTemplate = `{
                 }
             }
         },
-        "response.PasswordResetRequestResponse": {
+        "response.GetProviderByIDResponse": {
             "type": "object",
             "properties": {
-                "message": {
-                    "type": "string"
+                "provider": {
+                    "$ref": "#/definitions/response.ProviderResponse"
                 }
             }
         },
-        "response.PasswordResetResponse": {
+        "response.GetProviderByNameResponse": {
             "type": "object",
             "properties": {
-                "message": {
-                    "type": "string"
+                "provider": {
+                    "$ref": "#/definitions/response.ProviderResponse"
                 }
             }
         },
-        "response.TokenRefreshResponse": {
+        "response.GetProvidersResponse": {
             "type": "object",
             "properties": {
-                "access_token": {
-                    "type": "string"
+                "providers": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/response.ProviderResponse"
+                    }
                 }
             }
         },
-        "response.UserLoginResponse": {
+        "response.ProviderResponse": {
             "type": "object",
             "properties": {
-                "access_token": {
+                "api_url": {
                     "type": "string"
                 },
-                "refresh_token": {
-                    "type": "string"
-                }
-            }
-        },
-        "response.UserSignupResponse": {
-            "type": "object",
-            "properties": {
-                "message": {
+                "id": {
                     "type": "string"
                 },
-                "user_id": {
+                "name": {
                     "type": "string"
                 }
             }
@@ -390,8 +199,8 @@ var SwaggerInfo = &swag.Spec{
 	Host:             "127.0.0.1:8080",
 	BasePath:         "/api/v1/",
 	Schemes:          []string{},
-	Title:            "OneTab API",
-	Description:      "This is the API for OneTab Bill Aggregation  Service.",
+	Title:            "Bill Aggregation System API",
+	Description:      "This is the API for Bill Aggregation System.",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

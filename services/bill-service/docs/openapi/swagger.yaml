@@ -1,46 +1,51 @@
 basePath: /api/v1/
 definitions:
-  request.LoginRequest:
+  request.CreateBillRequest:
     properties:
-      email:
+      amount:
+        type: number
+      due_date:
         type: string
-      password:
+      provider_id:
+        type: string
+      status:
+        enum:
+        - paid
+        - unpaid
+        type: string
+      user_id:
         type: string
     required:
-      - email
-      - password
+    - amount
+    - due_date
+    - provider_id
+    - status
+    - user_id
     type: object
-  request.PasswordResetRequest:
+  response.BillResponse:
     properties:
-      confirm_password:
+      amount:
+        type: number
+      due_date:
         type: string
-      password:
+      id:
+        type: string
+      provider:
+        type: string
+      status:
         type: string
     type: object
-  request.PasswordResetRequestRequest:
+  response.CategorySpendingResponse:
     properties:
-      email:
+      category:
         type: string
-    required:
-      - email
+      total_spent:
+        type: number
     type: object
-  request.RegisterRequest:
+  response.CreateBillResponse:
     properties:
-      email:
+      id:
         type: string
-      first_name:
-        type: string
-      last_name:
-        type: string
-      middle_name:
-        type: string
-    required:
-      - email
-      - first_name
-      - last_name
-    type: object
-  response.EmailVerifyResponse:
-    properties:
       message:
         type: string
     type: object
@@ -51,34 +56,85 @@ definitions:
       message:
         type: string
     type: object
-  response.PasswordResetRequestResponse:
+  response.GetAggregatedBillsResponse:
+    properties:
+      bills:
+        items:
+          $ref: '#/definitions/response.BillResponse'
+        type: array
+      total_due:
+        type: number
+    type: object
+  response.GetBillSummaryResponse:
+    properties:
+      total_amount_due:
+        type: number
+      total_overdue:
+        type: number
+      total_paid:
+        type: number
+    type: object
+  response.GetBillsByProviderResponse:
+    properties:
+      bills:
+        items:
+          $ref: '#/definitions/response.BillResponse'
+        type: array
+      provider:
+        type: string
+    type: object
+  response.GetCategorySpendingResponse:
+    properties:
+      categories:
+        items:
+          $ref: '#/definitions/response.CategorySpendingResponse'
+        type: array
+    type: object
+  response.GetMonthlySpendingTrendsResponse:
+    properties:
+      trends:
+        items:
+          $ref: '#/definitions/response.TrendResponse'
+        type: array
+    type: object
+  response.GetOverdueBillsResponse:
+    properties:
+      bills:
+        items:
+          $ref: '#/definitions/response.OverdueBillResponse'
+        type: array
+    type: object
+  response.OverdueBillResponse:
+    properties:
+      amount_due:
+        type: number
+      bill_id:
+        type: string
+      due_date:
+        type: string
+    type: object
+  response.PaymentHistoryResponse:
+    properties:
+      amount:
+        type: number
+      bill_id:
+        type: string
+      due_date:
+        type: string
+      paid_date:
+        type: string
+    type: object
+  response.SuccessResponse:
     properties:
       message:
         type: string
     type: object
-  response.PasswordResetResponse:
+  response.TrendResponse:
     properties:
-      message:
+      month:
         type: string
-    type: object
-  response.TokenRefreshResponse:
-    properties:
-      access_token:
-        type: string
-    type: object
-  response.UserLoginResponse:
-    properties:
-      access_token:
-        type: string
-      refresh_token:
-        type: string
-    type: object
-  response.UserSignupResponse:
-    properties:
-      message:
-        type: string
-      user_id:
-        type: string
+      total_spent:
+        type: number
     type: object
 host: 127.0.0.1:8080
 info:
@@ -86,170 +142,295 @@ info:
     email: support@example.com
     name: API Support
     url: http://www.example.com/support
-  description: This is the API for fund donations.
+  description: This is the API for Bill Aggregation System.
   license:
     name: MIT
     url: http://opensource.org/licenses/MIT
   termsOfService: http://example.com/terms/
-  title: OneTab API
+  title: Bill Aggregation System API
   version: "1.0"
 paths:
-  /auth/login:
-    post:
+  /bills:
+    get:
       consumes:
-        - application/json
-      description:
-        Allows users to log in using their email and password, returning
-        access and refresh tokens.
+      - application/json
+      description: Retrieve all bills for a user, aggregated from all linked providers.
       parameters:
-        - description: User login details
-          in: body
-          name: body
-          required: true
-          schema:
-            $ref: "#/definitions/request.LoginRequest"
+      - description: User ID
+        in: path
+        name: user_id
+        required: true
+        type: string
       produces:
-        - application/json
+      - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: "#/definitions/response.UserLoginResponse"
+            $ref: '#/definitions/response.GetAggregatedBillsResponse'
         "400":
           description: Bad Request
           schema:
-            $ref: "#/definitions/response.ErrorResponse"
-      summary: User login
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Fetch aggregated bills for a user
       tags:
-        - Authentication
-  /auth/refresh-token:
+      - Bills
     post:
       consumes:
-        - application/json
-      description:
-        Allows users to refresh their access token by providing a valid
-        refresh token.
-      produces:
-        - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: "#/definitions/response.TokenRefreshResponse"
-        "400":
-          description: Bad Request
-          schema:
-            $ref: "#/definitions/response.ErrorResponse"
-        "401":
-          description: Unauthorized
-          schema:
-            $ref: "#/definitions/response.ErrorResponse"
-      summary: Refresh access token
-      tags:
-        - Authentication
-  /auth/request-password-reset:
-    post:
-      consumes:
-        - application/json
-      description: Allows users to request a password reset by providing their email.
+      - application/json
+      description: Creates a new bill record.
       parameters:
-        - description: Password reset request details
-          in: body
-          name: body
-          required: true
-          schema:
-            $ref: "#/definitions/request.PasswordResetRequestRequest"
+      - description: Bill details
+        in: body
+        name: bill
+        required: true
+        schema:
+          $ref: '#/definitions/request.CreateBillRequest'
       produces:
-        - application/json
+      - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: "#/definitions/response.PasswordResetRequestResponse"
+            $ref: '#/definitions/response.CreateBillResponse'
         "400":
           description: Bad Request
           schema:
-            $ref: "#/definitions/response.ErrorResponse"
-      summary: Request password reset
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Create a new bill
       tags:
-        - Authentication
-  /auth/reset-password:
-    post:
+      - Bills
+  /bills/{bill_id}:
+    delete:
       consumes:
-        - application/json
-      description:
-        Allows users to reset their password by providing a new password
-        and reset token.
+      - application/json
+      description: Removes a bill record (if user deletes a linked provider, associated
+        bills may also be deleted)
       parameters:
-        - description: Password reset details
-          in: body
-          name: body
-          required: true
-          schema:
-            $ref: "#/definitions/request.PasswordResetRequest"
+      - description: Bill ID
+        in: path
+        name: bill_id
+        required: true
+        type: string
       produces:
-        - application/json
+      - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: "#/definitions/response.PasswordResetResponse"
+            $ref: '#/definitions/response.SuccessResponse'
         "400":
           description: Bad Request
           schema:
-            $ref: "#/definitions/response.ErrorResponse"
-      summary: Reset user password
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Delete a bill
       tags:
-        - Authentication
-  /auth/signup:
-    post:
+      - Bills
+  /bills/{bill_id}/pay:
+    patch:
       consumes:
-        - application/json
-      description:
-        This endpoint allows users to sign up by providing their details
-        like first name, last name, email, etc.
+      - application/json
+      description: Marks a bill as paid in the system
       parameters:
-        - description: User signup details
-          in: body
-          name: body
-          required: true
-          schema:
-            $ref: "#/definitions/request.RegisterRequest"
+      - description: Bill ID
+        in: path
+        name: bill_id
+        required: true
+        type: string
       produces:
-        - application/json
-      responses:
-        "201":
-          description: Created
-          schema:
-            $ref: "#/definitions/response.UserSignupResponse"
-        "400":
-          description: Bad Request
-          schema:
-            $ref: "#/definitions/response.ErrorResponse"
-      summary: User signup
-      tags:
-        - Authentication
-  /auth/verify-email:
-    post:
-      consumes:
-        - application/json
-      description:
-        Allows users to verify their email by providing a verification
-        token.
-      produces:
-        - application/json
+      - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: "#/definitions/response.EmailVerifyResponse"
+            $ref: '#/definitions/response.SuccessResponse'
         "400":
           description: Bad Request
           schema:
-            $ref: "#/definitions/response.ErrorResponse"
-      summary: Verify user email
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Mark a bill as paid
       tags:
-        - Authentication
+      - Bills
+  /bills/{provider_name}:
+    get:
+      consumes:
+      - application/json
+      description: Fetch all bills from a specific provider
+      parameters:
+      - description: Provider Name
+        in: path
+        name: provider_name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.GetBillsByProviderResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Fetch all bills from a specific provider
+      tags:
+      - Bills
+  /bills/categories:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves insights into the total amount spent in each bill category.
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.GetCategorySpendingResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get category spending insights for a user
+      tags:
+      - Bills
+  /bills/history:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves the payment history of bills for a user, including paid
+        date and due date.
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/response.PaymentHistoryResponse'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get bill payment history
+      tags:
+      - Bills
+  /bills/overdue:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves all overdue bills for a user along with amount due and
+        due dates.
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.GetOverdueBillsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get overdue bills for a user
+      tags:
+      - Bills
+  /bills/provider/{provider_Id}:
+    get:
+      consumes:
+      - application/json
+      description: Fetch all bills from a specific provider
+      parameters:
+      - description: Provider ID
+        in: path
+        name: provider_name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.GetBillsByProviderResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Fetch all bills from a specific provider
+      tags:
+      - Bills
+  /bills/summary:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves total outstanding, total paid, and overall due amounts
+        for the user.
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.GetBillSummaryResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get bill summary for a user
+      tags:
+      - Bills
+  /bills/summary/trends:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves spending trends over time, grouped by month.
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.GetMonthlySpendingTrendsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get monthly spending trends for a user
+      tags:
+      - Bills
 securityDefinitions:
   BearerAuth:
     in: header
