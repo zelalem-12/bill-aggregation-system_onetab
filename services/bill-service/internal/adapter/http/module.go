@@ -19,6 +19,7 @@ func setupRoutes(
 ) {
 	v1 := e.Group("/api/v1")
 
+	router.RegisterSwaggerRoute(v1)
 	router.RegisterBillRoutes(v1, billMiddleware, billHandler)
 	router.RegisterinternalBillRoutes(v1, billMiddleware, billHandler)
 

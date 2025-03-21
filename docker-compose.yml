@@ -48,6 +48,8 @@ services:
         - SERVER_PORT=${USER_SERVER_PORT}
     container_name: user
     restart: unless-stopped
+    ports:
+      - "${USER_SERVER_PORT}:${USER_SERVER_PORT}"
     environment:
       - POSTGRES_HOST=${POSTGRES_HOST}
       - POSTGRES_PORT=${POSTGRES_PORT}
@@ -70,6 +72,8 @@ services:
         - SERVER_PORT=${PROVIDER_SERVER_PORT}
     container_name: provider
     restart: unless-stopped
+    ports:
+      - "${PROVIDER_SERVER_PORT}:${PROVIDER_SERVER_PORT}"
     environment:
       - POSTGRES_HOST=${POSTGRES_HOST}
       - POSTGRES_PORT=${POSTGRES_PORT}
@@ -92,6 +96,8 @@ services:
         - SERVER_PORT=${BILL_SERVER_PORT}
     container_name: bill
     restart: unless-stopped
+    ports:
+      - "${BILL_SERVER_PORT}:${BILL_SERVER_PORT}"
     environment:
       - POSTGRES_HOST=${POSTGRES_HOST}
       - POSTGRES_PORT=${POSTGRES_PORT}

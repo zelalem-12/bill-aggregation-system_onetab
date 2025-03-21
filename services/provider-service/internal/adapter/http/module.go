@@ -20,6 +20,7 @@ func setupRoutes(
 
 	v1 := e.Group("/api/v1")
 
+	router.RegisterSwaggerRoute(v1)
 	router.RegisterProviderRoutes(v1, providerMiddleware, providerHandler)
 
 }

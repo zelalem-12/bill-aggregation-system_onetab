@@ -39,7 +39,6 @@ func RegisterAuthRoutes(
 	authRoutes.POST("/refresh-token", authHandler.RefreshTokenHandler, authMiddleware.ValidateRefreshTokenMiddleware)
 
 	authRoutes.POST("/logout", authHandler.LogoutHandler, authMiddleware.ValidateAccessTokenMiddleware)
-
 }
 
 func RegisterUserRoutes(
@@ -53,7 +52,6 @@ func RegisterUserRoutes(
 	userRoutes.GET("/me", userHandler.GetCurrentUserHandler)
 	userRoutes.PUT("/me", userHandler.UpdateCurrentUserHandler)
 	userRoutes.DELETE("/me", userHandler.DeleteCurrentUserHandler)
-
 }
 
 func RegisterLinkedAccountRoutes(
@@ -61,7 +59,6 @@ func RegisterLinkedAccountRoutes(
 	linkedAccountMiddleware *middleware.LinkedAccountMiddleware,
 	linkedAccountHandler *handler.LinkedAccountHandler,
 ) {
-
 	linkedAccountRoutes := baseApi.Group("/accounts", linkedAccountMiddleware.ConstructJWTConfig(), linkedAccountMiddleware.AttachCustomClaims)
 
 	linkedAccountRoutes.POST("/link", linkedAccountHandler.LinkAccountHandler)
