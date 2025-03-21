@@ -47,17 +47,33 @@ services:
         paths:
           - /api/v1/accounts/:account_id
         strip_path: false
+      - name: change-password-route
+        paths:
+          - /api/v1/user/me/change-password
+        strip_path: false
+      - name: get-current-user-route
+        paths:
+          - /api/v1/user/me
+        strip_path: false
+      - name: update-current-user-route
+        paths:
+          - /api/v1/user/me
+        strip_path: false
+      - name: delete-current-user-route
+        paths:
+          - /api/v1/user/me
+        strip_path: false
 
   - name: provider-service
     url: http://provider-service:8082
     routes:
       - name: get-provider-by-id-route
         paths:
-          - /api/v1/providers/:providerID
+          - /api/v1/providers/:provider_id
         strip_path: false
       - name: get-provider-by-name-route
         paths:
-          - /api/v1/providers/name/:providerName
+          - /api/v1/providers/name/:provider_name
         strip_path: false
       - name: get-all-providers-route
         paths:
@@ -77,7 +93,7 @@ services:
         strip_path: false
       - name: get-bills-by-provider-id-route
         paths:
-          - /api/v1/bills/provider/:provider_Id
+          - /api/v1/bills/provider/:provider_id
         strip_path: false
       - name: mark-bill-as-paid-route
         paths:
