@@ -117,51 +117,48 @@ services:
       context: ./mock-api/electricity-provider
       dockerfile: dockerfile
       args:
-        - ELECTRICITY_PROVIDER_PORT=${ELECTRICITY_PROVIDER_PORT}
+        - PROVIDER_PORT=${ELECTRICITY_PROVIDER_PORT}
     container_name: electricity-mock
     restart: unless-stopped
     ports:
       - "${ELECTRICITY_PROVIDER_PORT}:${ELECTRICITY_PROVIDER_PORT}"
     environment:
-      - ELECTRICITY_PROVIDER_PORT=${ELECTRICITY_PROVIDER_PORT}
       - MOCKOON_ENVIRONMENT_PATH=/data/environment.json
     volumes:
       - ./mock-api/electricity-provider:/data
-      - ./.env:/app/.env  # Added .env file volume
+      - ./.env:/app/.env
 
   water-mock:
     build:
       context: ./mock-api/water-provider
       dockerfile: dockerfile
       args:
-        - WATER_PROVIDER_PORT=${WATER_PROVIDER_PORT}
+        - PROVIDER_PORT=${WATER_PROVIDER_PORT}
     container_name: water-mock
     restart: unless-stopped
     ports:
       - "${WATER_PROVIDER_PORT}:${WATER_PROVIDER_PORT}"
     environment:
-      - WATER_PROVIDER_PORT=${WATER_PROVIDER_PORT}
       - MOCKOON_ENVIRONMENT_PATH=/data/environment.json
     volumes:
       - ./mock-api/water-provider:/data
-      - ./.env:/app/.env  # Added .env file volume
+      - ./.env:/app/.env
 
   internet-mock:
     build:
       context: ./mock-api/internet-provider
       dockerfile: dockerfile
       args:
-        - INTERNET_PROVIDER_PORT=${INTERNET_PROVIDER_PORT}
+        - PROVIDER_PORT=${INTERNET_PROVIDER_PORT}
     container_name: internet-mock
     restart: unless-stopped
     ports:
       - "${INTERNET_PROVIDER_PORT}:${INTERNET_PROVIDER_PORT}"
     environment:
-      - INTERNET_PROVIDER_PORT=${INTERNET_PROVIDER_PORT}
       - MOCKOON_ENVIRONMENT_PATH=/data/environment.json
     volumes:
       - ./mock-api/internet-provider:/data
-      - ./.env:/app/.env  # Added .env file volume
+      - ./.env:/app/.env
 
 networks:
   services_network:

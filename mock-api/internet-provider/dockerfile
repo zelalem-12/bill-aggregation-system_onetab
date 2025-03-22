@@ -4,9 +4,9 @@ WORKDIR /app
 
 COPY environment.json /data/environment.json
 
-ARG INTERNET_PROVIDER_PORT
-EXPOSE ${INTERNET_PROVIDER_PORT}
+ARG PROVIDER_PORT=5003
+ENV PROVIDER_PORT=${PROVIDER_PORT}
 
-# Use ENTRYPOINT to fix the base command, and CMD to provide default arguments
-ENTRYPOINT ["/bin/sh", "-c"]
-CMD exec mockoon-cli start --data /data/environment.json --port "$INTERNET_PROVIDER_PORT" --type mockoon
+EXPOSE ${PROVIDER_PORT}
+
+CMD ["start", "--data", "/data/environment.json", "--port", "5003"]
