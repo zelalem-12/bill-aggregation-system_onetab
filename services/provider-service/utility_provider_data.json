@@ -1,20 +1,23 @@
 [
   {
-    "name": "Aqua Water Supply",
-    "client_id": "water-client-id-001",
-    "client_secret": "water-client-secret-001",
-    "token_url": "https://api.aquawater.com/token",
-    "api_url": "https://api.aquawater.com"
-  },
-  {
     "name": "National Electricity Grid",
+    "description": "Provider of electricity services",
     "client_id": "electricity-client-id-001",
     "client_secret": "electricity-client-secret-001",
     "token_url": "https://api.nationalelectricity.com/token",
     "api_url": "https://api.nationalelectricity.com"
   },
   {
+    "name": "Aqua Water Supply",
+    "description": "Provider of water supply services",
+    "client_id": "water-client-id-001",
+    "client_secret": "water-client-secret-001",
+    "token_url": "https://api.aquawater.com/token",
+    "api_url": "https://api.aquawater.com"
+  },
+  {
     "name": "FiberNet ISP",
+    "description": "Provider of internet services",
     "client_id": "isp-client-id-001",
     "client_secret": "isp-client-secret-001",
     "token_url": "https://api.fibernet.com/token",

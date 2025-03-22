@@ -1,0 +1,12 @@
+FROM mockoon/cli:latest
+
+WORKDIR /app
+
+COPY environment.json /data/environment.json
+
+ARG INTERNET_PROVIDER_PORT
+EXPOSE ${INTERNET_PROVIDER_PORT}
+
+# Use ENTRYPOINT to fix the base command, and CMD to provide default arguments
+ENTRYPOINT ["/bin/sh", "-c"]
+CMD exec mockoon-cli start --data /data/environment.json --port "$INTERNET_PROVIDER_PORT" --type mockoon

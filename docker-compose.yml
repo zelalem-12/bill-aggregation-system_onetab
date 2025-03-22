@@ -1,116 +1,167 @@
 services:
-  kong:
-    build:
-      context: ./api-gateway
-      dockerfile: Dockerfile
-      args:
-        - KONG_PROXY_PORT=${KONG_PROXY_PORT}
-        - KONG_ADMIN_PORT=${KONG_ADMIN_PORT}
-    restart: unless-stopped
-    container_name: kong
-    ports:
-      - "${KONG_PROXY_PORT}:${KONG_PROXY_PORT}"
-      - "${KONG_ADMIN_PORT}:${KONG_ADMIN_PORT}"
-    environment:
-      KONG_DATABASE: off
-      KONG_PROXY_LISTEN: "${KONG_PROXY_HOST}:${KONG_PROXY_PORT}"
-      KONG_ADMIN_LISTEN: "${KONG_ADMIN_HOST}:${KONG_ADMIN_PORT}"
-      KONG_DECLARATIVE_CONFIG: /etc/kong/kong.yml
-    volumes:
-      - ./api-gateway/config/kong.yml:/etc/kong/kong.yml
-      - ./.env:/app/.env
-    networks:
-      - services_network
-    depends_on:
-      - user-service
-      - provider-service
-      - bill-service
+  # kong:
+  #   build:
+  #     context: ./api-gateway
+  #     dockerfile: dockerfile
+  #     args:
+  #       - KONG_PROXY_PORT=${KONG_PROXY_PORT}
+  #       - KONG_ADMIN_PORT=${KONG_ADMIN_PORT}
+  #   restart: unless-stopped
+  #   container_name: kong
+  #   ports:
+  #     - "${KONG_PROXY_PORT}:${KONG_PROXY_PORT}"
+  #     - "${KONG_ADMIN_PORT}:${KONG_ADMIN_PORT}"
+  #   environment:
+  #     KONG_DATABASE: off
+  #     KONG_PROXY_LISTEN: "${KONG_PROXY_HOST}:${KONG_PROXY_PORT}"
+  #     KONG_ADMIN_LISTEN: "${KONG_ADMIN_HOST}:${KONG_ADMIN_PORT}"
+  #     KONG_DECLARATIVE_CONFIG: /etc/kong/kong.yml
+  #   volumes:
+  #     - ./api-gateway/config/kong.yml:/etc/kong/kong.yml
+  #     - ./.env:/app/.env
+  #   networks:
+  #     - services_network
+  #   depends_on:
+  #     - user-service
+  #     - provider-service
+  #     - bill-service
 
-  postgres:
-    image: postgres:14-alpine
-    container_name: postgres
-    restart: unless-stopped
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DATABASE}
-    volumes:
-      - postgres-data:/var/lib/postgresql/data
-      - ./init-multiple-databases.sql:/docker-entrypoint-initdb.d/init-multiple-databases.sql
-    networks:
-      - services_network
+  # postgres:
+  #   image: postgres:14-alpine
+  #   container_name: postgres
+  #   restart: unless-stopped
+  #   environment:
+  #     POSTGRES_USER: ${POSTGRES_USER}
+  #     POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+  #     POSTGRES_DB: ${POSTGRES_DATABASE}
+  #   volumes:
+  #     - postgres-data:/var/lib/postgresql/data
+  #     - ./init-multiple-databases.sql:/docker-entrypoint-initdb.d/init-multiple-databases.sql
+  #   networks:
+  #     - services_network
 
-  user-service:
+  # user-service:
+  #   build:
+  #     context: ./services/user-service
+  #     dockerfile: dockerfile
+  #     args:
+  #       - SERVER_PORT=${USER_SERVER_PORT}
+  #   container_name: user
+  #   restart: unless-stopped
+  #   ports:
+  #     - "${USER_SERVER_PORT}:${USER_SERVER_PORT}"
+  #   environment:
+  #     - POSTGRES_HOST=${POSTGRES_HOST}
+  #     - POSTGRES_PORT=${POSTGRES_PORT}
+  #     - POSTGRES_DATABASE=user_db
+  #     - POSTGRES_USER=${POSTGRES_USER}
+  #     - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+  #   volumes:
+  #     - ./.env:/app/.env
+  #   command: ["go", "run", "./cmd/http/main.go"]
+  #   depends_on:
+  #     - postgres
+  #   networks:
+  #     - services_network
+
+  # provider-service:
+  #   build:
+  #     context: ./services/provider-service
+  #     dockerfile: dockerfile
+  #     args:
+  #       - SERVER_PORT=${PROVIDER_SERVER_PORT}
+  #   container_name: provider
+  #   restart: unless-stopped
+  #   ports:
+  #     - "${PROVIDER_SERVER_PORT}:${PROVIDER_SERVER_PORT}"
+  #   environment:
+  #     - POSTGRES_HOST=${POSTGRES_HOST}
+  #     - POSTGRES_PORT=${POSTGRES_PORT}
+  #     - POSTGRES_DATABASE=provider_db
+  #     - POSTGRES_USER=${POSTGRES_USER}
+  #     - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+  #   volumes:
+  #     - ./.env:/app/.env
+  #   command: ["go", "run", "./cmd/http/main.go"]
+  #   depends_on:
+  #     - postgres
+  #   networks:
+  #     - services_network
+
+  # bill-service:
+  #   build:
+  #     context: ./services/bill-service
+  #     dockerfile: dockerfile
+  #     args:
+  #       - SERVER_PORT=${BILL_SERVER_PORT}
+  #   container_name: bill
+  #   restart: unless-stopped
+  #   ports:
+  #     - "${BILL_SERVER_PORT}:${BILL_SERVER_PORT}"
+  #   environment:
+  #     - POSTGRES_HOST=${POSTGRES_HOST}
+  #     - POSTGRES_PORT=${POSTGRES_PORT}
+  #     - POSTGRES_DATABASE=bill_db
+  #     - POSTGRES_USER=${POSTGRES_USER}
+  #     - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+  #   volumes:
+  #     - ./.env:/app/.env
+  #   command: ["go", "run", "./cmd/http/main.go"]
+  #   depends_on:
+  #     - postgres
+  #   networks:
+  #     - services_network
+
+  electricity-mock:
     build:
-      context: ./services/user-service
+      context: ./mock-api/electricity-provider
       dockerfile: dockerfile
       args:
-        - SERVER_PORT=${USER_SERVER_PORT}
-    container_name: user
+        - ELECTRICITY_PROVIDER_PORT=${ELECTRICITY_PROVIDER_PORT}
+    container_name: electricity-mock
     restart: unless-stopped
     ports:
-      - "${USER_SERVER_PORT}:${USER_SERVER_PORT}"
+      - "${ELECTRICITY_PROVIDER_PORT}:${ELECTRICITY_PROVIDER_PORT}"
     environment:
-      - POSTGRES_HOST=${POSTGRES_HOST}
-      - POSTGRES_PORT=${POSTGRES_PORT}
-      - POSTGRES_DATABASE=user_db
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - ELECTRICITY_PROVIDER_PORT=${ELECTRICITY_PROVIDER_PORT}
+      - MOCKOON_ENVIRONMENT_PATH=/data/environment.json
     volumes:
-      - ./.env:/app/.env
-    command: ["go", "run", "./cmd/http/main.go"]
-    depends_on:
-      - postgres
-    networks:
-      - services_network
+      - ./mock-api/electricity-provider:/data
+      - ./.env:/app/.env  # Added .env file volume
 
-  provider-service:
+  water-mock:
     build:
-      context: ./services/provider-service
+      context: ./mock-api/water-provider
       dockerfile: dockerfile
       args:
-        - SERVER_PORT=${PROVIDER_SERVER_PORT}
-    container_name: provider
+        - WATER_PROVIDER_PORT=${WATER_PROVIDER_PORT}
+    container_name: water-mock
     restart: unless-stopped
     ports:
-      - "${PROVIDER_SERVER_PORT}:${PROVIDER_SERVER_PORT}"
+      - "${WATER_PROVIDER_PORT}:${WATER_PROVIDER_PORT}"
     environment:
-      - POSTGRES_HOST=${POSTGRES_HOST}
-      - POSTGRES_PORT=${POSTGRES_PORT}
-      - POSTGRES_DATABASE=provider_db
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - WATER_PROVIDER_PORT=${WATER_PROVIDER_PORT}
+      - MOCKOON_ENVIRONMENT_PATH=/data/environment.json
     volumes:
-      - ./.env:/app/.env
-    command: ["go", "run", "./cmd/http/main.go"]
-    depends_on:
-      - postgres
-    networks:
-      - services_network
+      - ./mock-api/water-provider:/data
+      - ./.env:/app/.env  # Added .env file volume
 
-  bill-service:
+  internet-mock:
     build:
-      context: ./services/bill-service
+      context: ./mock-api/internet-provider
       dockerfile: dockerfile
       args:
-        - SERVER_PORT=${BILL_SERVER_PORT}
-    container_name: bill
+        - INTERNET_PROVIDER_PORT=${INTERNET_PROVIDER_PORT}
+    container_name: internet-mock
     restart: unless-stopped
     ports:
-      - "${BILL_SERVER_PORT}:${BILL_SERVER_PORT}"
+      - "${INTERNET_PROVIDER_PORT}:${INTERNET_PROVIDER_PORT}"
     environment:
-      - POSTGRES_HOST=${POSTGRES_HOST}
-      - POSTGRES_PORT=${POSTGRES_PORT}
-      - POSTGRES_DATABASE=bill_db
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - INTERNET_PROVIDER_PORT=${INTERNET_PROVIDER_PORT}
+      - MOCKOON_ENVIRONMENT_PATH=/data/environment.json
     volumes:
-      - ./.env:/app/.env
-    command: ["go", "run", "./cmd/http/main.go"]
-    depends_on:
-      - postgres
-    networks:
-      - services_network
+      - ./mock-api/internet-provider:/data
+      - ./.env:/app/.env  # Added .env file volume
 
 networks:
   services_network:

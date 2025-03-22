@@ -1,0 +1,77 @@
+{
+  "name": "FiberNet ISP",
+  "type": "MockoonEnvironment",
+  "port": 5003,
+  "routes": [
+    {
+      "method": "GET",
+      "endpoint": "/api/v1/bills",
+      "responses": [
+        {
+          "statusCode": 200,
+          "body": {
+            "bills": [
+              {
+                "amount": 85.0,
+                "dueDate": "2025-04-15T00:00:00Z",
+                "status": "Pending",
+                "paidDate": null
+              },
+              {
+                "amount": 50.5,
+                "dueDate": "2025-02-28T00:00:00Z",
+                "status": "Pending",
+                "paidDate": null
+              },
+              {
+                "amount": 105.0,
+                "dueDate": "2025-05-25T00:00:00Z",
+                "status": "Pending",
+                "paidDate": null
+              },
+              {
+                "amount": 72.0,
+                "dueDate": "2025-01-20T00:00:00Z",
+                "status": "Pending",
+                "paidDate": null
+              },
+              {
+                "amount": 99.9,
+                "dueDate": "2025-07-22T00:00:00Z",
+                "status": "Pending",
+                "paidDate": null
+              },
+              {
+                "amount": 150.0,
+                "dueDate": "2025-06-08T00:00:00Z",
+                "status": "Paid",
+                "paidDate": "2025-05-28T00:00:00Z"
+              },
+              {
+                "amount": 55.0,
+                "dueDate": "2025-03-15T00:00:00Z",
+                "status": "Paid",
+                "paidDate": "2025-03-10T00:00:00Z"
+              },
+              {
+                "amount": 78.0,
+                "dueDate": "2025-04-25T00:00:00Z",
+                "status": "Paid",
+                "paidDate": "2025-04-15T00:00:00Z"
+              },
+              {
+                "amount": 92.5,
+                "dueDate": "2025-02-10T00:00:00Z",
+                "status": "Paid",
+                "paidDate": "2025-02-05T00:00:00Z"
+              }
+            ]
+          },
+          "headers": {
+            "Content-Type": "application/json"
+          }
+        }
+      ]
+    }
+  ]
+}

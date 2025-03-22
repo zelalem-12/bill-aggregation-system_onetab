@@ -1,0 +1,143 @@
+{
+  "name": "National Electricity Grid",
+  "type": "MockoonEnvironment",
+  "port": 5001,
+  "routes": [
+    {
+      "method": "GET",
+      "endpoint": "/api/v1/bills",
+      "responses": [
+        {
+          "statusCode": 200,
+          "body": {
+            "bills": [
+              {
+                "amount": 50.0,
+                "dueDate": "2025-04-05T00:00:00Z",
+                "status": "Pending",
+                "paidDate": null
+              },
+              {
+                "amount": 75.5,
+                "dueDate": "2025-03-25T00:00:00Z",
+                "status": "Pending",
+                "paidDate": null
+              },
+              {
+                "amount": 60.75,
+                "dueDate": "2025-05-10T00:00:00Z",
+                "status": "Pending",
+                "paidDate": null
+              },
+              {
+                "amount": 47.0,
+                "dueDate": "2025-06-05T00:00:00Z",
+                "status": "Paid",
+                "paidDate": "2025-05-15T00:00:00Z"
+              },
+              {
+                "amount": 90.0,
+                "dueDate": "2025-02-15T00:00:00Z",
+                "status": "Pending",
+                "paidDate": null
+              },
+              {
+                "amount": 100.5,
+                "dueDate": "2025-07-01T00:00:00Z",
+                "status": "Pending",
+                "paidDate": null
+              },
+              {
+                "amount": 55.25,
+                "dueDate": "2025-05-05T00:00:00Z",
+                "status": "Paid",
+                "paidDate": "2025-04-25T00:00:00Z"
+              },
+              {
+                "amount": 85.0,
+                "dueDate": "2025-08-15T00:00:00Z",
+                "status": "Pending",
+                "paidDate": null
+              },
+              {
+                "amount": 110.75,
+                "dueDate": "2025-09-01T00:00:00Z",
+                "status": "Pending",
+                "paidDate": null
+              },
+              {
+                "amount": 120.0,
+                "dueDate": "2025-10-05T00:00:00Z",
+                "status": "Pending",
+                "paidDate": null
+              },
+              {
+                "amount": 95.5,
+                "dueDate": "2025-01-10T00:00:00Z",
+                "status": "Paid",
+                "paidDate": "2025-01-05T00:00:00Z"
+              },
+              {
+                "amount": 70.0,
+                "dueDate": "2025-03-01T00:00:00Z",
+                "status": "Paid",
+                "paidDate": "2025-02-27T00:00:00Z"
+              },
+              {
+                "amount": 40.0,
+                "dueDate": "2025-02-01T00:00:00Z",
+                "status": "Pending",
+                "paidDate": null
+              },
+              {
+                "amount": 88.0,
+                "dueDate": "2025-05-20T00:00:00Z",
+                "status": "Pending",
+                "paidDate": null
+              },
+              {
+                "amount": 99.9,
+                "dueDate": "2025-02-10T00:00:00Z",
+                "status": "Pending",
+                "paidDate": null
+              },
+              {
+                "amount": 150.0,
+                "dueDate": "2025-06-30T00:00:00Z",
+                "status": "Pending",
+                "paidDate": null
+              },
+              {
+                "amount": 30.0,
+                "dueDate": "2025-01-15T00:00:00Z",
+                "status": "Pending",
+                "paidDate": null
+              },
+              {
+                "amount": 77.5,
+                "dueDate": "2025-07-15T00:00:00Z",
+                "status": "Pending",
+                "paidDate": null
+              },
+              {
+                "amount": 125.0,
+                "dueDate": "2025-03-15T00:00:00Z",
+                "status": "Paid",
+                "paidDate": "2025-03-10T00:00:00Z"
+              },
+              {
+                "amount": 200.0,
+                "dueDate": "2025-04-20T00:00:00Z",
+                "status": "Pending",
+                "paidDate": null
+              }
+            ]
+          },
+          "headers": {
+            "Content-Type": "application/json"
+          }
+        }
+      ]
+    }
+  ]
+}
