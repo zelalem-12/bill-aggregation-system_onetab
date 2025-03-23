@@ -65,7 +65,7 @@ services:
         strip_path: false
 
   - name: provider-service
-    url: http://provider-service:8082
+    url: http://provider-service:8081
     routes:
       - name: get-provider-by-id-route
         paths:
@@ -81,7 +81,7 @@ services:
         strip_path: false
 
   - name: bill-service
-    url: http://bill-service:8083
+    url: http://bill-service:8082
     routes:
       - name: get-aggregated-bills-route
         paths:

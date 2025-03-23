@@ -34,7 +34,15 @@ func (h *AddProviderCommandHandler) Handle(ctx context.Context, cmd *AddProvider
 		}, nil
 	}
 
-	provider := domain.NewProvider(cmd.Name, cmd.ClientID, cmd.ClientSecret, cmd.TokenURL, cmd.APIURL)
+	provider := domain.NewProvider(
+		cmd.Name,
+		cmd.APIURL,
+		cmd.AuthMethod,
+		cmd.ClientID,
+		cmd.ClientSecret,
+		cmd.TokenURL,
+		cmd.APIToken,
+	)
 
 	persistedProvider, err := h.ProviderRepo.Save(ctx, provider)
 	if err != nil {

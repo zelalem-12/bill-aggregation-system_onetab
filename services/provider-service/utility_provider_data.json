@@ -1,26 +1,26 @@
 [
   {
-    "name": "National Electricity Grid",
-    "description": "Provider of electricity services",
+    "name": "Electricity Provider Mock API",
+    "api_url": "http://localhost:5001",
+    "auth_method": "oauth2",
     "client_id": "electricity-client-id-001",
     "client_secret": "electricity-client-secret-001",
-    "token_url": "https://api.nationalelectricity.com/token",
-    "api_url": "https://api.nationalelectricity.com"
+    "token_url": "http://localhost:5001/token"
   },
   {
-    "name": "Aqua Water Supply",
-    "description": "Provider of water supply services",
+    "name": "Water Provider Mock API",
+    "api_url": "http://localhost:5002",
+    "auth_method": "oauth2",
     "client_id": "water-client-id-001",
     "client_secret": "water-client-secret-001",
-    "token_url": "https://api.aquawater.com/token",
-    "api_url": "https://api.aquawater.com"
+    "token_url": "http://localhost:5002/token"
   },
   {
-    "name": "FiberNet ISP",
-    "description": "Provider of internet services",
+    "name": "Internet Provider Mock API",
+    "api_url": "http://localhost:5003",
+    "auth_method": "oauth2",
     "client_id": "isp-client-id-001",
     "client_secret": "isp-client-secret-001",
-    "token_url": "https://api.fibernet.com/token",
-    "api_url": "https://api.fibernet.com"
+    "token_url": "http://localhost:5003/token"
   }
 ]

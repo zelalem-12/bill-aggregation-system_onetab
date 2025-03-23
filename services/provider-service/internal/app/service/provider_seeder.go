@@ -30,7 +30,7 @@ func readProviderData(filename string) ([]*addprovider.AddProviderCommand, error
 	return commands, nil
 }
 
-func SeedutilityProviders() {
+func SeedUtilityProviders() {
 	commands, err := readProviderData("utility_provider_data.json")
 	if err != nil {
 		fmt.Printf("failed to read provider data: %v", err)

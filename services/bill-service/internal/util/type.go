@@ -21,3 +21,11 @@ type Claims struct {
 	UserID uuid.UUID `json:"user_id"`
 	jwt.RegisteredClaims
 }
+
+func ToString(ID uuid.UUID) string {
+	return ID.String()
+}
+
+func ToUUID(ID string) (uuid.UUID, error) {
+	return uuid.Parse(ID)
+}

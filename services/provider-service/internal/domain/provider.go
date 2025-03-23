@@ -2,68 +2,81 @@ package domain
 
 type Provider struct {
 	Base
-	Name         string
-	AuthMethod   string
-	ClientID     string
-	ClientSecret string
-	TokenURL     string
-	APIURL       string
+	name       string
+	authMethod string
+	apiUrl     string
+
+	clientID     string
+	clientSecret string
+	tokenURL     string
+
+	apiToken string
 }
 
 func (provider *Provider) SetName(name string) {
-	provider.Name = name
+	provider.name = name
 }
 
 func (provider *Provider) GetName() string {
-	return provider.Name
+	return provider.name
 }
 
 func (provider *Provider) SetAuthMethod(authMethod string) {
-	provider.AuthMethod = authMethod
+	provider.authMethod = authMethod
 }
 
 func (provider *Provider) GetAuthMethod() string {
-	return provider.AuthMethod
+	return provider.authMethod
 }
 
 func (provider *Provider) SetClientID(clientID string) {
-	provider.ClientID = clientID
+	provider.clientID = clientID
 }
 
 func (provider *Provider) GetClientID() string {
-	return provider.ClientID
+	return provider.clientID
 }
 
 func (provider *Provider) SetClientSecret(clientSecret string) {
-	provider.ClientSecret = clientSecret
+	provider.clientSecret = clientSecret
 }
 
 func (provider *Provider) GetClientSecret() string {
-	return provider.ClientSecret
+	return provider.clientSecret
 }
 
 func (provider *Provider) SetTokenURL(tokenURL string) {
-	provider.TokenURL = tokenURL
+	provider.tokenURL = tokenURL
 }
 
 func (provider *Provider) GetTokenURL() string {
-	return provider.TokenURL
+	return provider.tokenURL
 }
 
 func (provider *Provider) SetAPIBaseURL(apiBaseURL string) {
-	provider.APIURL = apiBaseURL
+	provider.apiUrl = apiBaseURL
 }
 
 func (provider *Provider) GetAPIBaseURL() string {
-	return provider.APIURL
+	return provider.apiUrl
 }
 
-func NewProvider(name, clientID, clientSecret, tokenURL, apiURL string) *Provider {
+func (provider *Provider) SetAPIToken(apiToken string) {
+	provider.apiToken = apiToken
+}
+
+func (provider *Provider) GetAPIToken() string {
+	return provider.apiToken
+}
+
+func NewProvider(name, apiURL, auth_method, clientID, clientSecret, tokenURL, apiToken string) *Provider {
 	return &Provider{
-		Name:         name,
-		ClientID:     clientID,
-		ClientSecret: clientSecret,
-		TokenURL:     tokenURL,
-		APIURL:       apiURL,
+		name:         name,
+		apiUrl:       apiURL,
+		authMethod:   auth_method,
+		clientID:     clientID,
+		clientSecret: clientSecret,
+		tokenURL:     tokenURL,
+		apiToken:     apiToken,
 	}
 }

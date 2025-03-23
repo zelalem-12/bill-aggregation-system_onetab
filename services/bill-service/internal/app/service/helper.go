@@ -1,11 +1,15 @@
 package service
 
-import "github.com/google/uuid"
+import (
+	"os"
+	"path/filepath"
+)
 
-func ToString(ID uuid.UUID) string {
-	return ID.String()
-}
+func GetRootFilePath(filename string) (string, error) {
+	rootDir, err := os.Getwd()
+	if err != nil {
+		return "", err
+	}
 
-func ToUUID(ID string) (uuid.UUID, error) {
-	return uuid.Parse(ID)
+	return filepath.Join(rootDir, filename), nil
 }

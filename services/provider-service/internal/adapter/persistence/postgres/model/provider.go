@@ -7,12 +7,15 @@ import (
 
 type Provider struct {
 	Base
-	Name         string `gorm:"not null;unique"`
-	AuthMethod   string `gorm:"not null;default:'OAuth2'"`
+	Name       string `gorm:"not null;unique"`
+	AuthMethod string `gorm:"not null;default:'OAuth2'"`
+	APIURL     string `gorm:"not null"`
+
 	ClientID     string `gorm:"not null"`
 	ClientSecret string `gorm:"not null"`
 	TokenURL     string `gorm:"not null"`
-	APIURL       string `gorm:"not null"`
+
+	APIToken string `gorm:"not null"`
 }
 
 func (p *Provider) FromDomainModel(provider *domain.Provider) error {
@@ -29,6 +32,7 @@ func (p *Provider) FromDomainModel(provider *domain.Provider) error {
 	p.ClientSecret = provider.GetClientSecret()
 	p.TokenURL = provider.GetTokenURL()
 	p.APIURL = provider.GetAPIBaseURL()
+	p.APIToken = provider.GetAPIToken()
 
 	return nil
 }
@@ -43,6 +47,7 @@ func (provider *Provider) ToDomainModel() *domain.Provider {
 	domainProvider.SetClientSecret(provider.ClientSecret)
 	domainProvider.SetTokenURL(provider.TokenURL)
 	domainProvider.SetAPIBaseURL(provider.APIURL)
+	domainProvider.SetAPIToken(provider.APIToken)
 
 	domainProvider.SetCreatedAt(provider.CreatedAt)
 	domainProvider.SetUpdatedAt(provider.UpdatedAt)

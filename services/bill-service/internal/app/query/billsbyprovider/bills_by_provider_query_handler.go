@@ -4,7 +4,6 @@ import (
 	"context"
 
 	"github.com/zelalem-12/bill-aggregation-system_onetab/bill-service/internal/app/repo"
-	"github.com/zelalem-12/bill-aggregation-system_onetab/bill-service/internal/app/service"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/bill-service/internal/domain"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/bill-service/internal/util"
 )
@@ -46,7 +45,7 @@ func (h *GetBillsByProviderQueryHandler) Handle(ctx context.Context, query *GetB
 	for _, bill := range result {
 
 		providerName = bill.GetProviderName()
-		billID, err := service.ToUUID(bill.GetID())
+		billID, err := util.ToUUID(bill.GetID())
 		if err != nil {
 			return nil, err
 		}

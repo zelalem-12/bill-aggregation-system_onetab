@@ -4,8 +4,8 @@ import (
 	"context"
 
 	"github.com/zelalem-12/bill-aggregation-system_onetab/bill-service/internal/app/repo"
-	"github.com/zelalem-12/bill-aggregation-system_onetab/bill-service/internal/app/service"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/bill-service/internal/domain"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/bill-service/internal/util"
 )
 
 type GetAggregatedBillsQueryHandler struct {
@@ -30,11 +30,11 @@ func (h *GetAggregatedBillsQueryHandler) Handle(ctx context.Context, query *GetA
 
 	for _, bill := range bills {
 
-		if bill.GetStatus() == domain.UNPAID {
+		if bill.GetStatus() == domain.PENDING {
 			totalDue += bill.GetAmount()
 		}
 
-		billID, err := service.ToUUID(bill.GetID())
+		billID, err := util.ToUUID(bill.GetID())
 		if err != nil {
 			return nil, err
 		}

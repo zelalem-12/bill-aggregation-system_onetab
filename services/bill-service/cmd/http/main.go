@@ -6,6 +6,7 @@ import (
 	"github.com/zelalem-12/bill-aggregation-system_onetab/bill-service/internal/adapter/persistence/postgres/migration"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/bill-service/internal/adapter/persistence/postgres/repo"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/bill-service/internal/app"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/bill-service/internal/app/service"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/bill-service/internal/infrastructure/config"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/bill-service/internal/infrastructure/database"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/bill-service/internal/infrastructure/server"
@@ -46,7 +47,7 @@ func main() {
 		fx.Invoke(
 			migration.MigrateDatabaseSchema,
 			app.RegisterCQRSHandlers,
-			//service.SeedutilityProviders,
+			service.SeedSampleBillData,
 			server.ManageServerLifecycle,
 		),
 	).Run()

@@ -4,8 +4,8 @@ import (
 	"context"
 
 	"github.com/zelalem-12/bill-aggregation-system_onetab/bill-service/internal/app/repo"
-	"github.com/zelalem-12/bill-aggregation-system_onetab/bill-service/internal/app/service"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/bill-service/internal/domain"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/bill-service/internal/util"
 )
 
 type GetBillPaymentHistoryQueryHandler struct {
@@ -32,7 +32,7 @@ func (h *GetBillPaymentHistoryQueryHandler) Handle(ctx context.Context, query *G
 			if !bill.GetDueDate().IsZero() {
 				dueDate = bill.GetDueDate().Format("2006-01-02")
 			}
-			billID, _ := service.ToUUID(bill.GetID())
+			billID, _ := util.ToUUID(bill.GetID())
 			history = append(history, PaymentHistory{
 				BillID:   billID,
 				Amount:   bill.GetAmount(),

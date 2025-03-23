@@ -20,8 +20,8 @@ func RegisterBillRoutes(
 
 	billRoute.GET("", billHandler.GetAggregatedBillsHandler)
 	billRoute.GET("/:provider_name", billHandler.GetBillsByProviderHandler)
-	billRoute.GET("/provider/:provider_Id", billHandler.GetBillsByProviderIdHandler)
-	billRoute.PATCH("/:bill_id/pay", billHandler.MarkBillAsPaidHandler)
+	billRoute.GET("/provider/:provider_id", billHandler.GetBillsByProviderIdHandler)
+	billRoute.PUT("/:bill_id/pay", billHandler.MarkBillAsPaidHandler)
 	billRoute.DELETE("/:bill_id", billHandler.DeleteBillHandler)
 	billRoute.POST("", billHandler.CreateBillHandler)
 

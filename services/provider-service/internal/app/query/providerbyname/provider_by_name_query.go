@@ -6,9 +6,10 @@ import (
 )
 
 type ProviderResponse struct {
-	ID     uuid.UUID `json:"id"`
-	Name   string    `json:"name"`
-	APIURL string    `json:"api_url"`
+	ID         uuid.UUID `json:"id"`
+	Name       string    `json:"name"`
+	APIURL     string    `json:"api_url"`
+	AUTHMethod string    `json:"auth_method"`
 }
 
 type GetProviderByNameQuery struct {

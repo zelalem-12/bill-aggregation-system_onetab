@@ -1,0 +1,613 @@
+[
+  {
+     "amount":75.50,
+     "due_date":"2025-04-10T00:00:00Z",
+     "status":"pending",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"1a44a587-0df1-40e2-85f6-145784d8c10d",
+     "provider_name":"Electricity Provider Mock API"
+  },
+  {
+     "amount":120.00,
+     "due_date":"2025-03-15T00:00:00Z",
+     "status":"pending",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"1a44a587-0df1-40e2-85f6-145784d8c10d",
+     "provider_name":"Electricity Provider Mock API"
+  },
+  {
+     "amount":95.75,
+     "due_date":"2025-02-28T00:00:00Z",
+     "status":"paid",
+     "paid_date":"2025-03-01T00:00:00Z",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"1a44a587-0df1-40e2-85f6-145784d8c10d",
+     "provider_name":"Electricity Provider Mock API"
+  },
+  {
+     "amount":89.30,
+     "due_date":"2025-04-20T00:00:00Z",
+     "status":"pending",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"f0d68de7-432e-46c3-9061-1a0a84fdcbcb",
+     "provider_name":"Water Provider Mock API"
+  },
+  {
+     "amount":145.60,
+     "due_date":"2025-03-05T00:00:00Z",
+     "status":"paid",
+     "paid_date":"2025-03-06T00:00:00Z",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"f0d68de7-432e-46c3-9061-1a0a84fdcbcb",
+     "provider_name":"Water Provider Mock API"
+  },
+  {
+     "amount":110.25,
+     "due_date":"2025-03-25T00:00:00Z",
+     "status":"pending",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"6c793945-a8bf-43a6-84c4-0b0bf57c9b1d",
+     "provider_name":"Internet Provider Mock API"
+  },
+  {
+     "amount":200.00,
+     "due_date":"2025-02-10T00:00:00Z",
+     "status":"paid",
+     "paid_date":"2025-02-12T00:00:00Z",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"6c793945-a8bf-43a6-84c4-0b0bf57c9b1d",
+     "provider_name":"Internet Provider Mock API"
+  },
+  {
+     "amount":150.75,
+     "due_date":"2025-04-10T00:00:00Z",
+     "status":"pending",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"1a44a587-0df1-40e2-85f6-145784d8c10d",
+     "provider_name":"Electricity Provider Mock API"
+  },
+  {
+     "amount":95.50,
+     "due_date":"2025-03-15T00:00:00Z",
+     "status":"pending",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"1a44a587-0df1-40e2-85f6-145784d8c10d",
+     "provider_name":"Electricity Provider Mock API"
+  },
+  {
+     "amount":200.00,
+     "due_date":"2025-03-01T00:00:00Z",
+     "status":"paid",
+     "paid_date":"2025-03-05T00:00:00Z",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"1a44a587-0df1-40e2-85f6-145784d8c10d",
+     "provider_name":"Electricity Provider Mock API"
+  },
+  {
+     "amount":120.25,
+     "due_date":"2025-04-05T00:00:00Z",
+     "status":"pending",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"f0d68de7-432e-46c3-9061-1a0a84fdcbcb",
+     "provider_name":"Water Provider Mock API"
+  },
+  {
+     "amount":80.99,
+     "due_date":"2025-02-20T00:00:00Z",
+     "status":"paid",
+     "paid_date":"2025-02-22T00:00:00Z",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"f0d68de7-432e-46c3-9061-1a0a84fdcbcb",
+     "provider_name":"Water Provider Mock API"
+  },
+  {
+     "amount":50.00,
+     "due_date":"2025-03-30T00:00:00Z",
+     "status":"pending",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"6c793945-a8bf-43a6-84c4-0b0bf57c9b1d",
+     "provider_name":"Internet Provider Mock API"
+  },
+  {
+     "amount":300.00,
+     "due_date":"2025-03-10T00:00:00Z",
+     "status":"paid",
+     "paid_date":"2025-03-11T00:00:00Z",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"6c793945-a8bf-43a6-84c4-0b0bf57c9b1d",
+     "provider_name":"Internet Provider Mock API"
+  },
+  {
+     "amount":50.75,
+     "due_date":"2025-04-10T00:00:00Z",
+     "status":"pending",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"1a44a587-0df1-40e2-85f6-145784d8c10d",
+     "provider_name":"Electricity Provider Mock API"
+  },
+  {
+     "amount":60.30,
+     "due_date":"2025-03-15T00:00:00Z",
+     "status":"pending",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"1a44a587-0df1-40e2-85f6-145784d8c10d",
+     "provider_name":"Electricity Provider Mock API"
+  },
+  {
+     "amount":75.10,
+     "due_date":"2025-03-20T00:00:00Z",
+     "status":"paid",
+     "paid_date":"2025-03-18T00:00:00Z",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"1a44a587-0df1-40e2-85f6-145784d8c10d",
+     "provider_name":"Electricity Provider Mock API"
+  },
+  {
+     "amount":80.00,
+     "due_date":"2025-03-22T00:00:00Z",
+     "status":"paid",
+     "paid_date":"2025-03-20T00:00:00Z",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"1a44a587-0df1-40e2-85f6-145784d8c10d",
+     "provider_name":"Electricity Provider Mock API"
+  },
+  {
+     "amount":45.90,
+     "due_date":"2025-04-05T00:00:00Z",
+     "status":"pending",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"1a44a587-0df1-40e2-85f6-145784d8c10d",
+     "provider_name":"Electricity Provider Mock API"
+  },
+  {
+     "amount":55.00,
+     "due_date":"2025-03-10T00:00:00Z",
+     "status":"pending",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"1a44a587-0df1-40e2-85f6-145784d8c10d",
+     "provider_name":"Electricity Provider Mock API"
+  },
+  {
+     "amount":120.25,
+     "due_date":"2025-03-05T00:00:00Z",
+     "status":"paid",
+     "paid_date":"2025-03-04T00:00:00Z",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"f0d68de7-432e-46c3-9061-1a0a84fdcbcb",
+     "provider_name":"Water Provider Mock API"
+  },
+  {
+     "amount":95.50,
+     "due_date":"2025-04-08T00:00:00Z",
+     "status":"pending",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"f0d68de7-432e-46c3-9061-1a0a84fdcbcb",
+     "provider_name":"Water Provider Mock API"
+  },
+  {
+     "amount":30.75,
+     "due_date":"2025-03-18T00:00:00Z",
+     "status":"paid",
+     "paid_date":"2025-03-16T00:00:00Z",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"f0d68de7-432e-46c3-9061-1a0a84fdcbcb",
+     "provider_name":"Water Provider Mock API"
+  },
+  {
+     "amount":110.00,
+     "due_date":"2025-03-25T00:00:00Z",
+     "status":"pending",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"f0d68de7-432e-46c3-9061-1a0a84fdcbcb",
+     "provider_name":"Water Provider Mock API"
+  },
+  {
+     "amount":85.40,
+     "due_date":"2025-03-12T00:00:00Z",
+     "status":"paid",
+     "paid_date":"2025-03-11T00:00:00Z",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"6c793945-a8bf-43a6-84c4-0b0bf57c9b1d",
+     "provider_name":"Internet Provider Mock API"
+  },
+  {
+     "amount":40.00,
+     "due_date":"2025-04-02T00:00:00Z",
+     "status":"pending",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"6c793945-a8bf-43a6-84c4-0b0bf57c9b1d",
+     "provider_name":"Internet Provider Mock API"
+  },
+  {
+     "amount":75.50,
+     "due_date":"2025-04-15T00:00:00Z",
+     "status":"pending",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"1a44a587-0df1-40e2-85f6-145784d8c10d",
+     "provider_name":"Electricity Provider Mock API"
+  },
+  {
+     "amount":120.75,
+     "due_date":"2025-04-20T00:00:00Z",
+     "status":"pending",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"1a44a587-0df1-40e2-85f6-145784d8c10d",
+     "provider_name":"Electricity Provider Mock API"
+  },
+  {
+     "amount":60.25,
+     "due_date":"2025-03-10T00:00:00Z",
+     "status":"pending",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"1a44a587-0df1-40e2-85f6-145784d8c10d",
+     "provider_name":"Electricity Provider Mock API"
+  },
+  {
+     "amount":98.90,
+     "due_date":"2025-03-05T00:00:00Z",
+     "status":"pending",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"1a44a587-0df1-40e2-85f6-145784d8c10d",
+     "provider_name":"Electricity Provider Mock API"
+  },
+  {
+     "amount":130.00,
+     "due_date":"2025-02-25T00:00:00Z",
+     "status":"paid",
+     "paid_date":"2025-02-26T00:00:00Z",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"1a44a587-0df1-40e2-85f6-145784d8c10d",
+     "provider_name":"Electricity Provider Mock API"
+  },
+  {
+     "amount":112.45,
+     "due_date":"2025-03-15T00:00:00Z",
+     "status":"paid",
+     "paid_date":"2025-03-16T00:00:00Z",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"1a44a587-0df1-40e2-85f6-145784d8c10d",
+     "provider_name":"Electricity Provider Mock API"
+  },
+  {
+     "amount":50.00,
+     "due_date":"2025-04-12T00:00:00Z",
+     "status":"pending",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"f0d68de7-432e-46c3-9061-1a0a84fdcbcb",
+     "provider_name":"Water Provider Mock API"
+  },
+  {
+     "amount":85.30,
+     "due_date":"2025-03-02T00:00:00Z",
+     "status":"pending",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"f0d68de7-432e-46c3-9061-1a0a84fdcbcb",
+     "provider_name":"Water Provider Mock API"
+  },
+  {
+     "amount":95.00,
+     "due_date":"2025-01-30T00:00:00Z",
+     "status":"paid",
+     "paid_date":"2025-01-31T00:00:00Z",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"f0d68de7-432e-46c3-9061-1a0a84fdcbcb",
+     "provider_name":"Water Provider Mock API"
+  },
+  {
+     "amount":70.00,
+     "due_date":"2025-04-18T00:00:00Z",
+     "status":"pending",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"6c793945-a8bf-43a6-84c4-0b0bf57c9b1d",
+     "provider_name":"Internet Provider Mock API"
+  },
+  {
+     "amount":140.25,
+     "due_date":"2025-02-28T00:00:00Z",
+     "status":"pending",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"6c793945-a8bf-43a6-84c4-0b0bf57c9b1d",
+     "provider_name":"Internet Provider Mock API"
+  },
+  {
+     "amount":160.75,
+     "due_date":"2025-03-25T00:00:00Z",
+     "status":"paid",
+     "paid_date":"2025-03-26T00:00:00Z",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"6c793945-a8bf-43a6-84c4-0b0bf57c9b1d",
+     "provider_name":"Internet Provider Mock API"
+  },
+  {
+     "amount":120.50,
+     "due_date":"2025-03-25T23:59:59Z",
+     "status":"pending",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"1a44a587-0df1-40e2-85f6-145784d8c10d",
+     "provider_name":"Electricity Provider Mock API"
+  },
+  {
+     "amount":75.30,
+     "due_date":"2025-03-20T23:59:59Z",
+     "status":"paid",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"f0d68de7-432e-46c3-9061-1a0a84fdcbcb",
+     "provider_name":"Water Provider Mock API",
+     "paid_date":"2025-03-21T10:15:30Z"
+  },
+  {
+     "amount":50.00,
+     "due_date":"2025-03-22T23:59:59Z",
+     "status":"pending",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"6c793945-a8bf-43a6-84c4-0b0bf57c9b1d",
+     "provider_name":"Internet Provider Mock API"
+  },
+  {
+     "amount":120.50,
+     "due_date":"2025-03-25T23:59:59Z",
+     "status":"pending",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"1a44a587-0df1-40e2-85f6-145784d8c10d",
+     "provider_name":"Electricity Provider Mock API"
+  },
+  {
+     "amount":75.30,
+     "due_date":"2025-03-20T23:59:59Z",
+     "status":"paid",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"f0d68de7-432e-46c3-9061-1a0a84fdcbcb",
+     "provider_name":"Water Provider Mock API",
+     "paid_date":"2025-03-21T10:15:30Z"
+  },
+  {
+     "amount":50.00,
+     "due_date":"2025-03-22T23:59:59Z",
+     "status":"pending",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"6c793945-a8bf-43a6-84c4-0b0bf57c9b1d",
+     "provider_name":"Internet Provider Mock API"
+  },
+  {
+     "amount":98.75,
+     "due_date":"2025-03-18T23:59:59Z",
+     "status":"paid",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"1a44a587-0df1-40e2-85f6-145784d8c10d",
+     "provider_name":"Electricity Provider Mock API",
+     "paid_date":"2025-03-19T08:45:00Z"
+  },
+  {
+     "amount":110.00,
+     "due_date":"2025-04-01T23:59:59Z",
+     "status":"pending",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"f0d68de7-432e-46c3-9061-1a0a84fdcbcb",
+     "provider_name":"Water Provider Mock API"
+  },
+  {
+     "amount":65.20,
+     "due_date":"2025-04-05T23:59:59Z",
+     "status":"pending",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"6c793945-a8bf-43a6-84c4-0b0bf57c9b1d",
+     "provider_name":"Internet Provider Mock API"
+  },
+  {
+     "amount":200.00,
+     "due_date":"2025-02-28T23:59:59Z",
+     "status":"paid",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"1a44a587-0df1-40e2-85f6-145784d8c10d",
+     "provider_name":"Electricity Provider Mock API",
+     "paid_date":"2025-02-28T12:00:00Z"
+  },
+  {
+     "amount":89.90,
+     "due_date":"2025-03-15T23:59:59Z",
+     "status":"paid",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"f0d68de7-432e-46c3-9061-1a0a84fdcbcb",
+     "provider_name":"Water Provider Mock API",
+     "paid_date":"2025-03-16T09:30:20Z"
+  },
+  {
+     "amount":45.00,
+     "due_date":"2025-04-10T23:59:59Z",
+     "status":"pending",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"6c793945-a8bf-43a6-84c4-0b0bf57c9b1d",
+     "provider_name":"Internet Provider Mock API"
+  },
+  {
+     "amount":120.75,
+     "due_date":"2025-02-20T23:59:59Z",
+     "status":"paid",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"1a44a587-0df1-40e2-85f6-145784d8c10d",
+     "provider_name":"Electricity Provider Mock API",
+     "paid_date":"2025-02-21T14:15:45Z"
+  },
+  {
+     "amount":78.40,
+     "due_date":"2025-03-27T23:59:59Z",
+     "status":"pending",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"f0d68de7-432e-46c3-9061-1a0a84fdcbcb",
+     "provider_name":"Water Provider Mock API"
+  },
+  {
+     "amount":132.99,
+     "due_date":"2025-04-03T23:59:59Z",
+     "status":"pending",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"6c793945-a8bf-43a6-84c4-0b0bf57c9b1d",
+     "provider_name":"Internet Provider Mock API"
+  },
+  {
+     "amount":94.50,
+     "due_date":"2025-02-22T23:59:59Z",
+     "status":"paid",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"1a44a587-0df1-40e2-85f6-145784d8c10d",
+     "provider_name":"Electricity Provider Mock API",
+     "paid_date":"2025-02-23T10:00:00Z"
+  },
+  {
+     "amount":59.99,
+     "due_date":"2025-03-30T23:59:59Z",
+     "status":"pending",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"f0d68de7-432e-46c3-9061-1a0a84fdcbcb",
+     "provider_name":"Water Provider Mock API"
+  },
+  {
+     "amount":79.20,
+     "due_date":"2025-04-12T23:59:59Z",
+     "status":"pending",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"6c793945-a8bf-43a6-84c4-0b0bf57c9b1d",
+     "provider_name":"Internet Provider Mock API"
+  },
+  {
+     "amount":150.00,
+     "due_date":"2025-01-15T23:59:59Z",
+     "status":"paid",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"1a44a587-0df1-40e2-85f6-145784d8c10d",
+     "provider_name":"Electricity Provider Mock API",
+     "paid_date":"2025-01-16T11:20:00Z"
+  },
+  {
+     "amount":67.80,
+     "due_date":"2025-03-19T23:59:59Z",
+     "status":"pending",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"f0d68de7-432e-46c3-9061-1a0a84fdcbcb",
+     "provider_name":"Water Provider Mock API"
+  },
+  {
+     "amount":50.0,
+     "due_date":"2025-04-12T00:00:00Z",
+     "status":"pending",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"f0d68de7-432e-46c3-9061-1a0a84fdcbcb",
+     "provider_name":"Water Provider Mock API"
+  },
+  {
+     "amount":89.3,
+     "due_date":"2025-04-20T00:00:00Z",
+     "status":"pending",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"f0d68de7-432e-46c3-9061-1a0a84fdcbcb",
+     "provider_name":"Water Provider Mock API"
+  },
+  {
+     "amount":110.0,
+     "due_date":"2025-03-25T00:00:00Z",
+     "status":"pending",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"f0d68de7-432e-46c3-9061-1a0a84fdcbcb",
+     "provider_name":"Water Provider Mock API"
+  },
+  {
+     "amount":75.3,
+     "due_date":"2025-03-20T23:59:59Z",
+     "status":"paid",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"f0d68de7-432e-46c3-9061-1a0a84fdcbcb",
+     "provider_name":"Water Provider Mock API",
+     "paid_date":"2025-03-21T10:15:30Z"
+  },
+  {
+     "amount":89.9,
+     "due_date":"2025-03-15T23:59:59Z",
+     "status":"paid",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"f0d68de7-432e-46c3-9061-1a0a84fdcbcb",
+     "provider_name":"Water Provider Mock API",
+     "paid_date":"2025-03-16T09:30:20Z"
+  },
+  {
+     "amount":95.5,
+     "due_date":"2025-04-08T00:00:00Z",
+     "status":"pending",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"f0d68de7-432e-46c3-9061-1a0a84fdcbcb",
+     "provider_name":"Water Provider Mock API"
+  },
+  {
+     "amount":50.0,
+     "due_date":"2025-03-22T23:59:59Z",
+     "status":"pending",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"6c793945-a8bf-43a6-84c4-0b0bf57c9b1d",
+     "provider_name":"Internet Provider Mock API"
+  },
+  {
+     "amount":70.0,
+     "due_date":"2025-04-18T00:00:00Z",
+     "status":"pending",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"6c793945-a8bf-43a6-84c4-0b0bf57c9b1d",
+     "provider_name":"Internet Provider Mock API"
+  },
+  {
+     "amount":132.99,
+     "due_date":"2025-04-03T23:59:59Z",
+     "status":"pending",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"6c793945-a8bf-43a6-84c4-0b0bf57c9b1d",
+     "provider_name":"Internet Provider Mock API"
+  },
+  {
+     "amount":40.0,
+     "due_date":"2025-04-02T00:00:00Z",
+     "status":"pending",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"6c793945-a8bf-43a6-84c4-0b0bf57c9b1d",
+     "provider_name":"Internet Provider Mock API"
+  },
+  {
+     "amount":300.0,
+     "due_date":"2025-03-10T00:00:00Z",
+     "status":"paid",
+     "paid_date":"2025-03-11T00:00:00Z",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"6c793945-a8bf-43a6-84c4-0b0bf57c9b1d",
+     "provider_name":"Internet Provider Mock API"
+  },
+  {
+     "amount":50.0,
+     "due_date":"2025-03-30T00:00:00Z",
+     "status":"pending",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"6c793945-a8bf-43a6-84c4-0b0bf57c9b1d",
+     "provider_name":"Internet Provider Mock API"
+  },
+  {
+     "amount":200.0,
+     "due_date":"2025-02-10T00:00:00Z",
+     "status":"paid",
+     "paid_date":"2025-02-12T00:00:00Z",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"6c793945-a8bf-43a6-84c4-0b0bf57c9b1d",
+     "provider_name":"Internet Provider Mock API"
+  },
+  {
+     "amount":45.0,
+     "due_date":"2025-04-10T23:59:59Z",
+     "status":"pending",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"6c793945-a8bf-43a6-84c4-0b0bf57c9b1d",
+     "provider_name":"Internet Provider Mock API"
+  },
+  {
+     "amount":140.25,
+     "due_date":"2025-02-28T00:00:00Z",
+     "status":"pending",
+     "user_id":"dea5d66f-94b6-431b-b8f6-2b675e19fa1c",
+     "provider_id":"6c793945-a8bf-43a6-84c4-0b0bf57c9b1d",
+     "provider_name":"Internet Provider Mock API"
+  }
+]

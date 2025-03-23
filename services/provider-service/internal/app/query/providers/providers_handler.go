@@ -32,9 +32,10 @@ func (h *GetProvidersQueryHandler) Handle(ctx context.Context, query *GetProvide
 		}
 
 		providerResponse := ProviderResponse{
-			ID:     providerID,
-			Name:   provider.Name,
-			APIURL: provider.APIURL,
+			ID:         providerID,
+			Name:       provider.GetName(),
+			APIURL:     provider.GetAPIBaseURL(),
+			AUTHMethod: provider.GetAuthMethod(),
 		}
 
 		providerResponses = append(providerResponses, &providerResponse)

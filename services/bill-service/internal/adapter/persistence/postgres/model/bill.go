@@ -4,8 +4,8 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/zelalem-12/bill-aggregation-system_onetab/bill-service/internal/app/service"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/bill-service/internal/domain"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/bill-service/internal/util"
 )
 
 type Bill struct {
@@ -16,25 +16,25 @@ type Bill struct {
 	Amount       float64   `gorm:"not null;default:0"`
 	DueDate      time.Time `gorm:"not null"`
 	Status       string    `gorm:"type:status;not null"`
-	PaidDate     time.Time `gorm:"null"`
+	PaidDate     time.Time `gorm:"column:paid_at"`
 }
 
 func (bill *Bill) FromDomainModel(domainBill *domain.Bill) error {
 	if domainBill.GetID() != "" {
-		billID, err := service.ToUUID(domainBill.GetID())
+		billID, err := util.ToUUID(domainBill.GetID())
 		if err != nil {
 			return err
 		}
 		bill.ID = billID
 	}
 
-	userId, err := service.ToUUID(domainBill.GetUserID())
+	userId, err := util.ToUUID(domainBill.GetUserID())
 	if err != nil {
 		return err
 	}
 	bill.UserID = userId
 
-	providerId, err := service.ToUUID(domainBill.GetProviderID())
+	providerId, err := util.ToUUID(domainBill.GetProviderID())
 	if err != nil {
 		return err
 	}
@@ -54,8 +54,8 @@ func (bill *Bill) ToDomainModel() *domain.Bill {
 	domainBill := domain.Bill{}
 
 	domainBill.SetID(bill.ID.String())
-	domainBill.SetUserID(service.ToString(bill.UserID))
-	domainBill.SetProviderID(service.ToString(bill.ProviderID))
+	domainBill.SetUserID(util.ToString(bill.UserID))
+	domainBill.SetProviderID(util.ToString(bill.ProviderID))
 	domainBill.SetProviderName(bill.ProviderName)
 	domainBill.SetAmount(bill.Amount)
 	domainBill.SetStatus(domain.BillStatus(bill.Status))

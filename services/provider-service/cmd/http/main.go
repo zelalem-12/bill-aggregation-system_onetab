@@ -47,7 +47,7 @@ func main() {
 		fx.Invoke(
 			migration.MigrateDatabaseSchema,
 			app.RegisterCQRSHandlers,
-			service.SeedutilityProviders,
+			service.SeedUtilityProviders,
 			server.ManageServerLifecycle,
 		),
 	).Run()

@@ -5,8 +5,8 @@ import (
 	"time"
 
 	"github.com/zelalem-12/bill-aggregation-system_onetab/bill-service/internal/app/repo"
-	"github.com/zelalem-12/bill-aggregation-system_onetab/bill-service/internal/app/service"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/bill-service/internal/domain"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/bill-service/internal/util"
 )
 
 type GetOverdueBillsQueryHandler struct {
@@ -25,8 +25,8 @@ func (h *GetOverdueBillsQueryHandler) Handle(ctx context.Context, query *GetOver
 	var overdue []OverdueBill
 	now := time.Now()
 	for _, bill := range bills {
-		if bill.GetDueDate().Before(now) && bill.GetStatus() == domain.UNPAID {
-			billID, _ := service.ToUUID(bill.GetID())
+		if bill.GetDueDate().Before(now) && bill.GetStatus() == domain.PENDING {
+			billID, _ := util.ToUUID(bill.GetID())
 			overdue = append(overdue, OverdueBill{
 				BillID:    billID,
 				AmountDue: bill.GetAmount(),

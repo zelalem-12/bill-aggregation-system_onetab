@@ -8,7 +8,7 @@ type User struct {
 	password       string
 	isVerified     bool
 	profilePicture string
-	LinkedAccounts []*LinkedAccount
+	linkedAccounts []*LinkedAccount
 }
 
 func (user *User) SetFirstName(firstName string) {
@@ -60,11 +60,11 @@ func (user *User) GetProfilePicture() string {
 }
 
 func (user *User) SetLinkedAccounts(linkedAccounts []*LinkedAccount) {
-	user.LinkedAccounts = linkedAccounts
+	user.linkedAccounts = linkedAccounts
 }
 
 func (user *User) GetLinkedAccounts() []*LinkedAccount {
-	return user.LinkedAccounts
+	return user.linkedAccounts
 }
 
 func NewUser(firstName, lastName, email string) *User {
@@ -76,5 +76,5 @@ func NewUser(firstName, lastName, email string) *User {
 }
 
 func (user *User) AddLinkedAccount(linkedAccount *LinkedAccount) {
-	user.LinkedAccounts = append(user.LinkedAccounts, linkedAccount)
+	user.linkedAccounts = append(user.linkedAccounts, linkedAccount)
 }

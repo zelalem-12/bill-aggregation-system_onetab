@@ -47,15 +47,7 @@ func (handler *BillHandler) GetAggregatedBillsHandler(c echo.Context) error {
 
 	user := c.Get("user").(util.BasicUserInfo)
 
-	requestDTO := &request.GetAggregatedBillsRequest{}
 	responseDTO := &response.GetAggregatedBillsResponse{}
-
-	if err := handler.BindAndValidate(c, requestDTO); err != nil {
-		return echo.ErrBadRequest
-	}
-	if err := requestDTO.Validate(); err != nil {
-		return echo.ErrBadRequest
-	}
 
 	query := aggregatedbills.GetAggregatedBillsQuery{
 		UserID: user.UserID,
@@ -138,9 +130,14 @@ func (handler *BillHandler) GetBillsByProviderIdHandler(c echo.Context) error {
 		return echo.ErrBadRequest
 	}
 
+	providerID, err := util.ToUUID(requestDTO.ProviderId)
+	if err != nil {
+		return echo.ErrBadRequest
+	}
+
 	query := billsbyprovider.GetBillsByProviderQuery{
-		UserID:       user.UserID,
-		ProviderName: &requestDTO.ProviderId,
+		UserID:     user.UserID,
+		ProviderID: &providerID,
 	}
 
 	result, err := mediatr.Send[*billsbyprovider.GetBillsByProviderQuery, *billsbyprovider.GetBillsByProviderQueryResponse](context.Background(), &query)
@@ -164,6 +161,7 @@ func (handler *BillHandler) GetBillsByProviderIdHandler(c echo.Context) error {
 // @Failure 400 {object} response.ErrorResponse
 // @Router /bills/{bill_id}/pay [patch]
 func (handler *BillHandler) MarkBillAsPaidHandler(c echo.Context) error {
+
 	requestDTO := &request.MarkBillAsPaidRequest{}
 	if err := handler.BindAndValidate(c, requestDTO); err != nil {
 		return echo.ErrBadRequest
@@ -220,6 +218,9 @@ func (handler *BillHandler) DeleteBillHandler(c echo.Context) error {
 // @Failure 400 {object} response.ErrorResponse
 // @Router /bills [post]
 func (handler *BillHandler) CreateBillHandler(c echo.Context) error {
+
+	user := c.Get("user").(util.BasicUserInfo)
+
 	reqDTO := &request.CreateBillRequest{}
 	if err := handler.BindAndValidate(c, reqDTO); err != nil {
 		return echo.ErrBadRequest
@@ -229,6 +230,7 @@ func (handler *BillHandler) CreateBillHandler(c echo.Context) error {
 	if err != nil {
 		return echo.ErrBadRequest
 	}
+	cmd.UserID = user.UserID
 
 	cmdResp, err := mediatr.Send[*createbill.CreateBillCommand, *createbill.CreateBillCommandResponse](context.Background(), cmd)
 	if err != nil {
@@ -244,12 +246,16 @@ func (handler *BillHandler) CreateBillHandler(c echo.Context) error {
 }
 
 func (handler *BillHandler) DeleteBillsByProvider(c echo.Context) error {
+
+	user := c.Get("user").(util.BasicUserInfo)
+
 	reqDTO := &request.DeleteBillsByProviderRequest{}
 	if err := handler.BindAndValidate(c, reqDTO); err != nil {
 		return echo.ErrBadRequest
 	}
 
 	cmd := reqDTO.ToCommand()
+	cmd.UserID = user.UserID
 
 	cmdResp, err := mediatr.Send[*deletebillsbyprovider.DeleteBillsByProviderCommand, *deletebillsbyprovider.DeleteBillsByProviderCommandResponse](context.Background(), cmd)
 	if err != nil {

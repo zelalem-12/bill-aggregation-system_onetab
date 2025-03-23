@@ -27,7 +27,7 @@ func (h *GetBillSummaryQueryHandler) Handle(ctx context.Context, query *GetBillS
 
 	for _, bill := range bills {
 		switch bill.GetStatus() {
-		case domain.UNPAID:
+		case domain.PENDING:
 			if bill.GetDueDate().Before(currentTime) {
 				totalOverdue += bill.GetAmount()
 			} else {

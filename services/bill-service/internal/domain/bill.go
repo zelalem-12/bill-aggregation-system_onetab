@@ -70,13 +70,14 @@ func (bill *Bill) GetPaidDate() time.Time {
 	return bill.paidDate
 }
 
-func NewBill(userId, providerId string, amount float64, status BillStatus, dueDate, paidDate time.Time) *Bill {
+func NewBill(userId, providerId, providerName string, amount float64, status BillStatus, dueDate, paidDate time.Time) *Bill {
 	return &Bill{
-		userID:     userId,
-		providerID: providerId,
-		amount:     amount,
-		status:     status,
-		dueDate:    dueDate,
-		paidDate:   paidDate,
+		userID:       userId,
+		providerID:   providerId,
+		providerName: providerName,
+		amount:       amount,
+		status:       status,
+		dueDate:      dueDate,
+		paidDate:     paidDate,
 	}
 }

@@ -6,11 +6,15 @@ import (
 )
 
 type AddProviderCommand struct {
-	Name         string `json:"name" validate:"required"`
-	ClientID     string `json:"client_id" validate:"required"`
-	ClientSecret string `json:"client_secret" validate:"required"`
-	TokenURL     string `json:"token_url" validate:"required"`
-	APIURL       string `json:"api_url" validate:"required"`
+	Name       string `json:"name" validate:"required"`
+	APIURL     string `json:"api_url" validate:"required"`
+	AuthMethod string `json:"auth_method" validate:"required"`
+
+	ClientID     string `json:"client_id"`
+	ClientSecret string `json:"client_secret"`
+	TokenURL     string `json:"token_url"`
+
+	APIToken string `json:"api_token"`
 }
 
 func (c *AddProviderCommand) Validate() error {

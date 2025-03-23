@@ -88,7 +88,7 @@ func (repo *BillRepo) MarkAsPaid(ctx context.Context, billID uuid.UUID) error {
 	return repo.DB.WithContext(ctx).
 		Model(&model.Bill{}).
 		Where("id = ?", billID).
-		Update("status", "paid").
+		Update("status", domain.PAID.String()).
 		Update("paid_at", time.Now()).
 		Error
 }

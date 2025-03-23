@@ -60,7 +60,6 @@ type CreateBillRequest struct {
 	Amount     float64   `json:"amount" validate:"required,gt=0"`
 	DueDate    string    `json:"due_date" validate:"required,datetime=2006-01-02"`
 	Status     string    `json:"status" validate:"required,oneof=paid unpaid"`
-	UserID     uuid.UUID `json:"user_id" validate:"required"`
 	ProviderID uuid.UUID `json:"provider_id" validate:"required"`
 }
 
@@ -77,13 +76,11 @@ func (r *CreateBillRequest) ToCommand() (*createbill.CreateBillCommand, error) {
 		Amount:     r.Amount,
 		DueDate:    dt,
 		Status:     r.Status,
-		UserID:     r.UserID,
 		ProviderID: r.ProviderID,
 	}, nil
 }
 
 type DeleteBillsByProviderRequest struct {
-	UserID     uuid.UUID `param:"user_id" validate:"required"`
 	ProviderID uuid.UUID `param:"provider_id" validate:"required"`
 }
 
@@ -93,7 +90,6 @@ func (r *DeleteBillsByProviderRequest) Validate() error {
 
 func (r *DeleteBillsByProviderRequest) ToCommand() *deletebillsbyprovider.DeleteBillsByProviderCommand {
 	return &deletebillsbyprovider.DeleteBillsByProviderCommand{
-		UserID:     r.UserID,
 		ProviderID: r.ProviderID,
 	}
 }

@@ -63,7 +63,11 @@ func (repo *ProviderRepo) FindByID(ctx context.Context, id uuid.UUID) (*domain.P
 
 	err := repo.DB.WithContext(ctx).Where("id = ?", id).First(dataModel).Error
 	if err != nil {
-		return nil, err
+		if err == gorm.ErrRecordNotFound {
+			return nil, nil
+		} else {
+			return nil, err
+		}
 	}
 
 	return dataModel.ToDomainModel(), nil
@@ -74,7 +78,11 @@ func (repo *ProviderRepo) FindByName(ctx context.Context, name string) (*domain.
 
 	err := repo.DB.WithContext(ctx).Where("name = ?", name).First(dataModel).Error
 	if err != nil {
-		return nil, err
+		if err == gorm.ErrRecordNotFound {
+			return nil, nil
+		} else {
+			return nil, err
+		}
 	}
 
 	return dataModel.ToDomainModel(), nil

@@ -8,9 +8,10 @@ import (
 )
 
 type ProviderResponse struct {
-	ID     uuid.UUID `json:"id"`
-	Name   string    `json:"name"`
-	APIURL string    `json:"api_url"`
+	ID         uuid.UUID `json:"id"`
+	Name       string    `json:"name"`
+	APIURL     string    `json:"api_url"`
+	AUTHMethod string    `json:"auth_method"`
 }
 
 type GetProviderByIDResponse struct {
@@ -19,9 +20,10 @@ type GetProviderByIDResponse struct {
 
 func (r *GetProviderByIDResponse) FromQueryResponse(queryResponse *providerbyid.GetProviderByIDQueryResponse) {
 	r.Provider = &ProviderResponse{
-		ID:     queryResponse.Provider.ID,
-		Name:   queryResponse.Provider.Name,
-		APIURL: queryResponse.Provider.APIURL,
+		ID:         queryResponse.Provider.ID,
+		Name:       queryResponse.Provider.Name,
+		APIURL:     queryResponse.Provider.APIURL,
+		AUTHMethod: queryResponse.Provider.AUTHMethod,
 	}
 }
 
@@ -31,9 +33,10 @@ type GetProviderByNameResponse struct {
 
 func (r *GetProviderByNameResponse) FromQueryResponse(queryResponse *providerbyname.GetProviderByNameQueryResponse) {
 	r.Provider = &ProviderResponse{
-		ID:     queryResponse.Provider.ID,
-		Name:   queryResponse.Provider.Name,
-		APIURL: queryResponse.Provider.APIURL,
+		ID:         queryResponse.Provider.ID,
+		Name:       queryResponse.Provider.Name,
+		APIURL:     queryResponse.Provider.APIURL,
+		AUTHMethod: queryResponse.Provider.AUTHMethod,
 	}
 }
 
@@ -45,9 +48,10 @@ func (r *GetProvidersResponse) FromQueryResponse(queryResponse *providers.GetPro
 	r.Providers = make([]*ProviderResponse, len(queryResponse.Providers))
 	for i, provider := range queryResponse.Providers {
 		r.Providers[i] = &ProviderResponse{
-			ID:     provider.ID,
-			Name:   provider.Name,
-			APIURL: provider.APIURL,
+			ID:         provider.ID,
+			Name:       provider.Name,
+			APIURL:     provider.APIURL,
+			AUTHMethod: provider.AUTHMethod,
 		}
 	}
 }
