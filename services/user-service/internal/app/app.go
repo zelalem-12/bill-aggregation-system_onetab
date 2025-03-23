@@ -17,6 +17,7 @@ import (
 	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/command/userlogout"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/command/usersignup"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/query/currentuser"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/query/users"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/repo"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/infrastructure/config"
 )
@@ -45,6 +46,7 @@ func RegisterCQRSHandlers(
 	unlinkaccountCommandHandler := unlinkaccount.NewUnlinkAccountCommandHandler(cfg, linkedAccountRepo)
 
 	currentuserQueryHandler := currentuser.NewCurrentUserQueryHandler(userRepo)
+	usersQueryHandler := users.NewGetUsersQueryHandler(userRepo)
 
 	if err := mediatr.RegisterRequestHandler(emailVerifyCommandHandler); err != nil {
 		return err
@@ -87,6 +89,10 @@ func RegisterCQRSHandlers(
 	}
 
 	if err := mediatr.RegisterRequestHandler(currentuserQueryHandler); err != nil {
+		return err
+	}
+
+	if err := mediatr.RegisterRequestHandler(usersQueryHandler); err != nil {
 		return err
 	}
 

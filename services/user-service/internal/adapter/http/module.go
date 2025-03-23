@@ -25,6 +25,8 @@ func setupRoutes(
 ) {
 	router.RegisterHomeRoute(e, config, homeHandler)
 
+	router.RegisterinternalUserRoutes(e, userHandler)
+
 	v1 := e.Group("/api/v1")
 
 	router.RegisterSwaggerRoute(v1)

@@ -247,15 +247,12 @@ func (handler *BillHandler) CreateBillHandler(c echo.Context) error {
 
 func (handler *BillHandler) DeleteBillsByProvider(c echo.Context) error {
 
-	user := c.Get("user").(util.BasicUserInfo)
-
 	reqDTO := &request.DeleteBillsByProviderRequest{}
 	if err := handler.BindAndValidate(c, reqDTO); err != nil {
 		return echo.ErrBadRequest
 	}
 
 	cmd := reqDTO.ToCommand()
-	cmd.UserID = user.UserID
 
 	cmdResp, err := mediatr.Send[*deletebillsbyprovider.DeleteBillsByProviderCommand, *deletebillsbyprovider.DeleteBillsByProviderCommandResponse](context.Background(), cmd)
 	if err != nil {

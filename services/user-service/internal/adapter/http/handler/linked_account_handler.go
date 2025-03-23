@@ -73,23 +73,19 @@ func (handler *LinkedAccountHandler) LinkAccountHandler(c echo.Context) error {
 // @Router /accounts/{account_id} [delete]
 func (handler *LinkedAccountHandler) UnlinkAccountHandler(c echo.Context) error {
 
-	// Bind and validate request
 	request := &request.UnlinkAccountRequest{}
 	if err := handler.BindAndValidate(c, request); err != nil {
 		return err
 	}
 
-	// Validate request structure
 	if err := request.Validate(); err != nil {
 		return err
 	}
 
-	// Create command
 	command := &unlinkaccount.UnlinkAccountCommand{
 		AccountID: request.AccountID,
 	}
 
-	// Execute command
 	result, err := mediatr.Send[*unlinkaccount.UnlinkAccountCommand, *unlinkaccount.UnlinkAccountCommandResponse](context.Background(), command)
 	if err != nil {
 		return err

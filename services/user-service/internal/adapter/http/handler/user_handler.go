@@ -2,7 +2,9 @@ package handler
 
 import (
 	"context"
+	"net/http"
 
+	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 	"github.com/mehdihadeli/go-mediatr"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/adapter/http/request"
@@ -11,6 +13,7 @@ import (
 	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/command/currentuserupdate"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/command/passwordchange"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/query/currentuser"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/query/users"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/util"
 )
 
@@ -153,5 +156,39 @@ func (handler *UserHandler) DeleteCurrentUserHandler(c echo.Context) error {
 		return err
 	}
 
-	return c.JSON(200, response.NewUserDeleteResponse(result))
+	return c.JSON(http.StatusOK, response.NewUserDeleteResponse(result))
+}
+
+func (handler *UserHandler) GetUsersHandler(c echo.Context) error {
+
+	usersQuery := users.UsersQuery{}
+
+	result, err := mediatr.Send[*users.UsersQuery, *users.UsersQueryResponse](context.Background(), &usersQuery)
+	if err != nil {
+		return err
+	}
+
+	var usersResponse []*response.UserResponse
+	for _, u := range result.Users {
+		linkedAccounts := make([]*response.LinkedAccountResponse, 0)
+		for _, acc := range u.LinkedAccounts {
+			linkedAccounts = append(linkedAccounts, &response.LinkedAccountResponse{
+				ID:         uuid.MustParse(acc.ID),
+				ProviderID: acc.ProviderID,
+				AuthToken:  acc.AuthToken,
+			})
+		}
+
+		usersResponse = append(usersResponse, &response.UserResponse{
+			ID:             u.ID,
+			FirstName:      u.FirstName,
+			LastName:       u.LastName,
+			Email:          u.Email,
+			IsVerified:     u.IsVerified,
+			ProfilePicture: u.ProfilePicture,
+			LinkAccounts:   linkedAccounts,
+		})
+	}
+
+	return c.JSON(http.StatusOK, response.UsersResponse{Users: usersResponse})
 }

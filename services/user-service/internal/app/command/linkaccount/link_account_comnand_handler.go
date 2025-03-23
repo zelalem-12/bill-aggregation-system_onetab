@@ -6,7 +6,6 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/repo"
-	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/service"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/domain"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/infrastructure/config"
 )
@@ -31,7 +30,18 @@ func (h *LinkAccountCommandHandler) Handle(ctx context.Context, command *LinkAcc
 		return nil, err
 	}
 
-	linkedAccount := domain.NewLinkedAccount(service.ToString(command.UserID), service.ToString(command.ProviderID), command.AuthToken)
+	userID := command.UserID.String()
+	providerID := command.ProviderID.String()
+
+	linkedAccount := domain.NewLinkedAccount(
+		userID,
+		providerID,
+		command.AuthToken,
+		command.RefreshToken,
+		command.TokenType,
+		command.ProviderUserID,
+		command.ExpiresAt,
+	)
 
 	savedLinkedAccount, err := h.linkedAccountRepo.Save(ctx, linkedAccount)
 	if err != nil {

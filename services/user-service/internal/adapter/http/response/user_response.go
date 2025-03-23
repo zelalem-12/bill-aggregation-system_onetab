@@ -6,13 +6,20 @@ import (
 	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/app/command/currentuserupdate"
 )
 
+type LinkedAccountResponse struct {
+	ID         uuid.UUID `json:"id"`
+	ProviderID string    `json:"provider_id"`
+	AuthToken  string    `json:"auth_token"`
+}
+
 type UserResponse struct {
-	ID             uuid.UUID `json:"id"`
-	FirstName      string    `json:"first_name"`
-	LastName       string    `json:"last_name"`
-	Email          string    `json:"email"`
-	IsVerified     bool      `json:"is_verified"`
-	ProfilePicture string    `json:"profile_picture"`
+	ID             uuid.UUID                `json:"id"`
+	FirstName      string                   `json:"first_name"`
+	LastName       string                   `json:"last_name"`
+	Email          string                   `json:"email"`
+	IsVerified     bool                     `json:"is_verified"`
+	ProfilePicture string                   `json:"profile_picture"`
+	LinkAccounts   []*LinkedAccountResponse `json:"linked_accounts"`
 }
 
 type PasswordChangedResponse struct {
@@ -41,4 +48,24 @@ func NewUserDeleteResponse(commandResponse *currentuserdelete.CurrentUserDeleteC
 	return &UserDeleteResponse{
 		Message: commandResponse.Message,
 	}
+}
+
+type LinkedAccount struct {
+	ID         uuid.UUID `json:"id"`
+	ProviderID string    `json:"provider_id"`
+	AuthToken  string    `json:"auth_token"`
+}
+
+type UsersResponse struct {
+	Users []*UserResponse `json:"users"`
+}
+
+type User struct {
+	ID             uuid.UUID                `json:"id"`
+	FirstName      string                   `json:"first_name"`
+	LastName       string                   `json:"last_name"`
+	Email          string                   `json:"email"`
+	IsVerified     bool                     `json:"is_verified"`
+	ProfilePicture string                   `json:"profile_picture"`
+	LinkedAccounts []*LinkedAccountResponse `json:"linked_accounts"`
 }

@@ -10,18 +10,25 @@ type CurrentUserQuery struct {
 	UserID uuid.UUID `json:"user_id" validate:"required"`
 }
 
+type LinkedAccount struct {
+	ID         string `json:"id"`
+	ProviderID string `json:"provider_id"`
+	AuthToken  string `json:"auth_token"`
+}
+
 func (q *CurrentUserQuery) Validate() error {
 	validate := validator.New()
 	return validate.Struct(q)
 }
 
 type CurrentUserQueryResponse struct {
-	ID             uuid.UUID `json:"id"`
-	FirstName      string    `json:"first_name"`
-	LastName       string    `json:"last_name"`
-	Email          string    `json:"email"`
-	IsVerified     bool      `json:"is_verified"`
-	ProfilePicture string    `json:"profile_picture"`
+	ID             uuid.UUID       `json:"id"`
+	FirstName      string          `json:"first_name"`
+	LastName       string          `json:"last_name"`
+	Email          string          `json:"email"`
+	IsVerified     bool            `json:"is_verified"`
+	ProfilePicture string          `json:"profile_picture"`
+	LinkedAccounts []LinkedAccount `json:"linked_accounts"`
 }
 
 func NewCurrentUserQueryResponse(userDomain *domain.User) (*CurrentUserQueryResponse, error) {
@@ -38,6 +45,18 @@ func NewCurrentUserQueryResponse(userDomain *domain.User) (*CurrentUserQueryResp
 	user.Email = userDomain.GetEmail()
 	user.IsVerified = userDomain.GetIsVerified()
 	user.ProfilePicture = userDomain.GetProfilePicture()
+
+	accounts := make([]LinkedAccount, 0)
+
+	for _, linkedAccount := range userDomain.GetLinkedAccounts() {
+		accounts = append(accounts, LinkedAccount{
+			ID:         linkedAccount.GetID(),
+			ProviderID: linkedAccount.GetProviderID(),
+			AuthToken:  linkedAccount.GetAuthToken(),
+		})
+	}
+
+	user.LinkedAccounts = accounts
 
 	return &user, nil
 

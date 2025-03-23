@@ -82,6 +82,7 @@ func (r *CreateBillRequest) ToCommand() (*createbill.CreateBillCommand, error) {
 
 type DeleteBillsByProviderRequest struct {
 	ProviderID uuid.UUID `param:"provider_id" validate:"required"`
+	UserID     uuid.UUID `header:"user_id" validate:"required"`
 }
 
 func (r *DeleteBillsByProviderRequest) Validate() error {
@@ -91,5 +92,6 @@ func (r *DeleteBillsByProviderRequest) Validate() error {
 func (r *DeleteBillsByProviderRequest) ToCommand() *deletebillsbyprovider.DeleteBillsByProviderCommand {
 	return &deletebillsbyprovider.DeleteBillsByProviderCommand{
 		ProviderID: r.ProviderID,
+		UserID:     r.UserID,
 	}
 }

@@ -1,11 +1,17 @@
 package domain
 
+import "time"
+
 type LinkedAccount struct {
 	Base
-	userID     string
-	user       *User
-	providerID string
-	authToken  string
+	userID         string
+	user           *User
+	providerID     string
+	authToken      string
+	refreshToken   string
+	expiresAt      time.Time
+	tokenType      string
+	providerUserID string
 }
 
 func (la *LinkedAccount) SetUserID(userID string) {
@@ -40,10 +46,46 @@ func (la *LinkedAccount) GetUser() *User {
 	return la.user
 }
 
-func NewLinkedAccount(userID, providerID, authToken string) *LinkedAccount {
+func (la *LinkedAccount) SetRefreshToken(refreshToken string) {
+	la.refreshToken = refreshToken
+}
+
+func (la *LinkedAccount) GetRefreshToken() string {
+	return la.refreshToken
+}
+
+func (la *LinkedAccount) SetExpiresAt(expiresAt time.Time) {
+	la.expiresAt = expiresAt
+}
+
+func (la *LinkedAccount) GetExpiresAt() time.Time {
+	return la.expiresAt
+}
+
+func (la *LinkedAccount) SetTokenType(tokenType string) {
+	la.tokenType = tokenType
+}
+
+func (la *LinkedAccount) GetTokenType() string {
+	return la.tokenType
+}
+
+func (la *LinkedAccount) SetProviderUserID(providerUserID string) {
+	la.providerUserID = providerUserID
+}
+
+func (la *LinkedAccount) GetProviderUserID() string {
+	return la.providerUserID
+}
+
+func NewLinkedAccount(userID, providerID, authToken, refreshToken, tokenType, providerUserID string, expiresAt time.Time) *LinkedAccount {
 	return &LinkedAccount{
-		userID:     userID,
-		providerID: providerID,
-		authToken:  authToken,
+		userID:         userID,
+		providerID:     providerID,
+		authToken:      authToken,
+		refreshToken:   refreshToken,
+		tokenType:      tokenType,
+		providerUserID: providerUserID,
+		expiresAt:      expiresAt,
 	}
 }

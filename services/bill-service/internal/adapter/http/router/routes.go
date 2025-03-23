@@ -7,6 +7,15 @@ import (
 	"github.com/zelalem-12/bill-aggregation-system_onetab/bill-service/internal/adapter/http/middleware"
 )
 
+func RegisterinternalBillRoutes(
+	baseApi *echo.Echo,
+	billHandler *handler.BillHandler,
+) {
+
+	internalRoute := baseApi.Group("/internal")
+	internalRoute.DELETE("/bills/:provider_id", billHandler.DeleteBillsByProvider)
+}
+
 func RegisterSwaggerRoute(baseApi *echo.Group) {
 	baseApi.GET("/swagger/*filepath", echoSwagger.WrapHandler)
 }
@@ -31,13 +40,4 @@ func RegisterBillRoutes(
 	billRoute.GET("/summary", billHandler.HandlerGetBillSummary)
 	billRoute.GET("/summary/trends", billHandler.HandlerGetMonthlySpendingTrends)
 
-}
-
-func RegisterinternalBillRoutes(
-	baseApi *echo.Group,
-	billMiddleware *middleware.BillMiddleware,
-	billHandler *handler.BillHandler) {
-
-	internalRoute := baseApi.Group("/internal")
-	internalRoute.DELETE("/bills/provider/:provider_id/user/:user_id", billHandler.DeleteBillsByProvider)
 }
