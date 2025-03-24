@@ -72,10 +72,12 @@ func (r *CreateBillRequest) Validate() error {
 func (r *CreateBillRequest) ToCommand() (*createbill.CreateBillCommand, error) {
 
 	return &createbill.CreateBillCommand{
+		UserID:     r.UserID,
 		Amount:     r.Amount,
 		DueDate:    r.DueDate,
 		Status:     r.Status,
 		ProviderID: r.ProviderID,
+		PaidDate:   r.PaidDate,
 	}, nil
 }
 

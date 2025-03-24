@@ -1,26 +1,26 @@
 [
   {
     "name": "Electricity Provider Mock API",
-    "api_url": "http://localhost:5001/api/v1/bills",
+    "api_url": "http://mock-electricity_provider:5001/api/v1/bills",
     "auth_method": "oauth2",
     "client_id": "electricity-client-id-001",
     "client_secret": "electricity-client-secret-001",
-    "token_url": "http://localhost:5001/api/v1/oauth/token"
+    "token_url": "http://mock-electricity_provider:5001/api/v1/oauth/token"
   },
   {
     "name": "Water Provider Mock API",
-    "api_url": "http://localhost:5002/api/v1/bills",
+    "api_url": "http://mock-water_provider:5002/api/v1/bills",
     "auth_method": "oauth2",
     "client_id": "water-client-id-001",
     "client_secret": "water-client-secret-001",
-    "token_url": "http://localhost:5002/api/v1/oauth/token"
+    "token_url": "http://mock-water_provider:5002/api/v1/oauth/token"
   },
   {
     "name": "Internet Provider Mock API",
-    "api_url": "http://localhost:5003/api/v1/bills",
+    "api_url": "http://mock-internet_provider:5003/api/v1/bills",
     "auth_method": "oauth2",
     "client_id": "isp-client-id-001",
     "client_secret": "isp-client-secret-001",
-    "token_url": "http://localhost:5003/api/v1/oauth/token"
+    "token_url": "http://mock-internet_provider:5003/api/v1/oauth/token"
   }
 ]

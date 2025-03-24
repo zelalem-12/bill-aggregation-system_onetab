@@ -151,6 +151,43 @@ services:
     networks:
       - services_network
 
+  # Mock Services
+  mock-electricity_provider:
+    image: golang:1.21
+    working_dir: /app
+    container_name: mock-electricity
+    command: ["go", "run", "/app/main.go"]
+    volumes:
+      - ./mock-api/mock-electricity-provider:/app
+    ports:
+      - "5001:5001"
+    networks:
+      - services_network
+
+  mock-water_provider:
+    image: golang:1.21
+    working_dir: /app
+    container_name: mock-water
+    command: ["go", "run", "/app/main.go"]
+    volumes:
+      - ./mock-api/mock-water-provider:/app
+    ports:
+      - "5002:5002"
+    networks:
+      - services_network
+
+  mock-internet_provider:
+    image: golang:1.21
+    working_dir: /app
+    container_name: mock-internet
+    command: ["go", "run", "/app/main.go"]
+    volumes:
+      - ./mock-api/mock-internet-provider:/app
+    ports:
+      - "5003:5003"
+    networks:
+      - services_network
+
 networks:
   services_network:
     name: services_network

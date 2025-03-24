@@ -16,11 +16,10 @@ type CreateBillRequestDTO struct {
 }
 
 type ProviderBillResponse struct {
-	Amount     float64   `json:"amount"`
-	DueDate    time.Time `json:"due_date"`
-	Status     string    `json:"status"`
-	ProviderID uuid.UUID `json:"provider_id"`
-	PaidDate   time.Time `json:"paid_date"`
+	Amount   float64   `json:"amount"`
+	DueDate  time.Time `json:"due_date"`
+	Status   string    `json:"status"`
+	PaidDate time.Time `json:"paid_date"`
 }
 
 type CreateBillResponse struct {

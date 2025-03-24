@@ -8,7 +8,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/google/uuid"
 	"github.com/labstack/gommon/log"
 	clientPort "github.com/zelalem-12/bill-aggregation-system_onetab/provider-service/internal/app/client"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/provider-service/internal/domain"
@@ -63,7 +62,7 @@ func (c *ProviderServiceClient) FetchBillsFromProvider(account *clientPort.Linke
 		time.Sleep(time.Duration(attempt) * initialBackoff * backoffFactor)
 	}
 
-	return c.getFallbackBills(provider), nil
+	return c.getFallbackBills(), nil
 }
 
 func (c *ProviderServiceClient) allowRequest(provider *domain.Provider) bool {
@@ -140,22 +139,14 @@ func (c *ProviderServiceClient) fetchBills(account *clientPort.LinkedAccount, pr
 	return bills, nil
 }
 
-func (c *ProviderServiceClient) getFallbackBills(provider *domain.Provider) []*clientPort.ProviderBillResponse {
-	log.Warn("Using fallback data for provider:", provider.GetName())
-
-	providerID, err := uuid.Parse(provider.GetID())
-	if err != nil {
-		log.Error("Failed to parse provider ID:", err)
-		return nil
-	}
+func (c *ProviderServiceClient) getFallbackBills() []*clientPort.ProviderBillResponse {
 
 	return []*clientPort.ProviderBillResponse{
 		{
-			Amount:     100.0,
-			DueDate:    time.Now(),
-			Status:     "pending",
-			ProviderID: providerID,
-			PaidDate:   time.Now().AddDate(0, 0, 7),
+			Amount:   100.0,
+			DueDate:  time.Now(),
+			Status:   "pending",
+			PaidDate: time.Now().AddDate(0, 0, 7),
 		},
 	}
 }
