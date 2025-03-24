@@ -22,3 +22,12 @@ func RegisterProviderRoutes(
 	providerRoute.GET("/name/:provider_name", providerHandler.GetProviderByNameHandler)
 	providerRoute.GET("", providerHandler.GetProvidersHandler)
 }
+
+func RegisterRefreshBillsFromProviderRoutes(
+	baseApi *echo.Group,
+	providerMiddleware *middleware.ProviderMiddleware,
+	providerHandler *handler.ProviderHandler,
+) {
+	providerRoute := baseApi.Group("/bills", providerMiddleware.ConstructJWTConfig(), providerMiddleware.AttachCustomClaims)
+	providerRoute.POST("/refresh", providerHandler.RefreshBillsHandler)
+}

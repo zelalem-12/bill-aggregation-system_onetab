@@ -53,11 +53,11 @@ func (provider *Provider) GetTokenURL() string {
 	return provider.tokenURL
 }
 
-func (provider *Provider) SetAPIBaseURL(apiBaseURL string) {
-	provider.apiUrl = apiBaseURL
+func (provider *Provider) SetAPIURL(apiURL string) {
+	provider.apiUrl = apiURL
 }
 
-func (provider *Provider) GetAPIBaseURL() string {
+func (provider *Provider) GetAPIURL() string {
 	return provider.apiUrl
 }
 

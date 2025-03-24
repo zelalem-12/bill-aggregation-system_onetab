@@ -2,11 +2,13 @@ package main
 
 import (
 	_ "github.com/zelalem-12/bill-aggregation-system_onetab/provider-service/docs/openapi" // Swagger docs
+	"github.com/zelalem-12/bill-aggregation-system_onetab/provider-service/internal/adapter/client"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/provider-service/internal/adapter/http"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/provider-service/internal/adapter/persistence/postgres/migration"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/provider-service/internal/adapter/persistence/postgres/repo"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/provider-service/internal/app"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/provider-service/internal/app/service"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/provider-service/internal/infrastructure/cache"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/provider-service/internal/infrastructure/config"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/provider-service/internal/infrastructure/database"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/provider-service/internal/infrastructure/server"
@@ -40,14 +42,22 @@ func main() {
 
 			config.Load,
 			server.NewEcho,
+			server.InitCron,
 			database.InitPostgresDB,
+			cache.InitRedisInMemoryDB,
 			repo.NewProviderRepo,
+			client.NewCacheService,
+			client.NewCronScheduler,
+			client.NewUserServiceClient,
+			client.NewBillServiceClient,
+			client.NewProviderServiceClient,
 		),
 		http.Module,
 		fx.Invoke(
 			migration.MigrateDatabaseSchema,
 			app.RegisterCQRSHandlers,
 			service.SeedUtilityProviders,
+			service.ScheduleBillFetcher,
 			server.ManageServerLifecycle,
 		),
 	).Run()

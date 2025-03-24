@@ -35,7 +35,7 @@ func (h *GetProviderByIDQueryHandler) Handle(ctx context.Context, query *GetProv
 	providerResponse := ProviderResponse{
 		ID:         providerID,
 		Name:       provider.GetName(),
-		APIURL:     provider.GetAPIBaseURL(),
+		APIURL:     provider.GetAPIURL(),
 		AUTHMethod: provider.GetAuthMethod(),
 	}
 

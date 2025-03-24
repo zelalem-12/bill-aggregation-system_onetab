@@ -55,3 +55,7 @@ func (r *GetProvidersResponse) FromQueryResponse(queryResponse *providers.GetPro
 		}
 	}
 }
+
+type RefreshBillsResponse struct {
+	Message string `json:"message"`
+}

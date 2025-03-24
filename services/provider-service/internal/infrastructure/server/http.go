@@ -7,8 +7,10 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/go-redis/redis/v8"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+	"github.com/robfig/cron/v3"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/provider-service/internal/infrastructure/config"
 	"go.uber.org/fx"
 	"gorm.io/gorm"
@@ -52,6 +54,10 @@ func defaultHTTPErrorHandler(err error, c echo.Context) {
 	}
 }
 
+func InitCron() *cron.Cron {
+	return cron.New()
+}
+
 func NewEcho() *echo.Echo {
 	e := echo.New()
 	e.HideBanner = true
@@ -67,10 +73,17 @@ func NewEcho() *echo.Echo {
 	return e
 }
 
-func ManageServerLifecycle(lc fx.Lifecycle, cfg *config.Config, db *gorm.DB, e *echo.Echo) {
+func ManageServerLifecycle(
+	lc fx.Lifecycle,
+	cfg *config.Config,
+	db *gorm.DB,
+	e *echo.Echo,
+	cacheClient *redis.Client,
+	cron *cron.Cron) {
+
 	lc.Append(fx.Hook{
 		OnStart: func(ctx context.Context) error {
-
+			// Checking Database connection
 			sqlDB, err := db.DB()
 			if err != nil {
 				return fmt.Errorf("failed to get raw database instance: %w", err)
@@ -79,33 +92,52 @@ func ManageServerLifecycle(lc fx.Lifecycle, cfg *config.Config, db *gorm.DB, e *
 				return fmt.Errorf("failed to connect to the database: %w", err)
 			}
 
+			// Checking Cache connection
+			_, err = cacheClient.Ping(ctx).Result()
+			if err != nil {
+				return fmt.Errorf("failed to connect to the cache: %w", err)
+			}
+
+			// Starting the Echo server and Cron jobs in the background
 			go func() {
+				// Start Echo server
 				if err := e.Start(fmt.Sprintf(":%d", cfg.SERVER_PORT)); err != nil && err != http.ErrServerClosed {
 					e.Logger.Fatal("shutting down the server")
 				}
 			}()
+
+			// Start the cron scheduler after the server starts
+			cron.Start()
+
 			return nil
 		},
 
 		OnStop: func(ctx context.Context) error {
-
 			fmt.Println("Shutting down Echo server...")
 
+			// Gracefully shutting down Echo server
 			shutdownCtx, cancel := context.WithTimeout(ctx, 10*time.Second)
 			defer cancel()
 
-			err := e.Shutdown(shutdownCtx)
-			if err != nil {
+			if err := e.Shutdown(shutdownCtx); err != nil {
 				return fmt.Errorf("failed to shutdown the server: %w", err)
 			}
 
+			// Closing database connection
 			sqlDB, err := db.DB()
 			if err != nil {
 				return fmt.Errorf("failed to get raw database instance for closing: %w", err)
 			}
-
 			if err := sqlDB.Close(); err != nil {
 				return fmt.Errorf("failed to close database connection: %w", err)
+			}
+
+			// Stopping the cron scheduler
+			cron.Stop()
+
+			// Closing cache connection
+			if err := cacheClient.Close(); err != nil {
+				return fmt.Errorf("failed to close cache connection: %w", err)
 			}
 
 			return nil

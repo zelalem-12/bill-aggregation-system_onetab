@@ -31,7 +31,7 @@ func (p *Provider) FromDomainModel(provider *domain.Provider) error {
 	p.ClientID = provider.GetClientID()
 	p.ClientSecret = provider.GetClientSecret()
 	p.TokenURL = provider.GetTokenURL()
-	p.APIURL = provider.GetAPIBaseURL()
+	p.APIURL = provider.GetAPIURL()
 	p.APIToken = provider.GetAPIToken()
 
 	return nil
@@ -46,7 +46,7 @@ func (provider *Provider) ToDomainModel() *domain.Provider {
 	domainProvider.SetClientID(provider.ClientID)
 	domainProvider.SetClientSecret(provider.ClientSecret)
 	domainProvider.SetTokenURL(provider.TokenURL)
-	domainProvider.SetAPIBaseURL(provider.APIURL)
+	domainProvider.SetAPIURL(provider.APIURL)
 	domainProvider.SetAPIToken(provider.APIToken)
 
 	domainProvider.SetCreatedAt(provider.CreatedAt)

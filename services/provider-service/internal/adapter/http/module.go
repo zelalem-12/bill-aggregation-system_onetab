@@ -22,6 +22,7 @@ func setupRoutes(
 
 	router.RegisterSwaggerRoute(v1)
 	router.RegisterProviderRoutes(v1, providerMiddleware, providerHandler)
+	router.RegisterRefreshBillsFromProviderRoutes(v1, providerMiddleware, providerHandler)
 
 }
 

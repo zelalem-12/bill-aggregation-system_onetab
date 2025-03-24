@@ -8,9 +8,11 @@ import (
 	"github.com/mehdihadeli/go-mediatr"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/provider-service/internal/adapter/http/request"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/provider-service/internal/adapter/http/response"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/provider-service/internal/app/command/refreshbills"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/provider-service/internal/app/query/providerbyid"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/provider-service/internal/app/query/providerbyname"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/provider-service/internal/app/query/providers"
+	"github.com/zelalem-12/bill-aggregation-system_onetab/provider-service/internal/util"
 )
 
 type ProviderHandler struct {
@@ -112,4 +114,29 @@ func (handler *ProviderHandler) GetProvidersHandler(c echo.Context) error {
 	providerResponse.FromQueryResponse(result)
 
 	return c.JSON(http.StatusOK, providerResponse)
+}
+
+// RefreshBillsHandler godoc
+// @Summary Refresh bills from providers
+// @Description Fetches and refreshes the user's bills from linked utility providers.
+// @Tags Bills
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Success 200 {object} response.RefreshBillsResponse
+// @Failure 400 {object} map[string]string
+// @Failure 401 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /bills/refresh [post]
+func (handler *ProviderHandler) RefreshBillsHandler(c echo.Context) error {
+	user := c.Get("user").(util.BasicUserInfo)
+
+	cmd := &refreshbills.RefreshBillsCommand{UserID: user.UserID}
+
+	result, err := mediatr.Send[*refreshbills.RefreshBillsCommand, *refreshbills.RefreshBillsCommandResponse](context.Background(), cmd)
+	if err != nil {
+		return err
+	}
+
+	return c.JSON(http.StatusOK, response.RefreshBillsResponse{Message: result.Message})
 }
