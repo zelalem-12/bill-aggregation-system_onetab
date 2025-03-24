@@ -74,7 +74,7 @@ func (handler *UserHandler) ChangePasswordHandler(c echo.Context) error {
 // @Accept json
 // @Produce json
 // @Security BearerAuth
-// @Success 200 {object} response.UserResponse
+// @Success 200 {object} response.User
 // @Failure 401 {object} response.ErrorResponse
 // @Failure 500 {object} response.ErrorResponse
 // @Router /user/current [get]
@@ -90,13 +90,27 @@ func (handler *UserHandler) GetCurrentUserHandler(c echo.Context) error {
 		return err
 	}
 
-	response := response.UserResponse{
+	accounts := make([]*response.LinkedAccount, 0)
+	for _, acc := range result.LinkedAccounts {
+		accounts = append(accounts, &response.LinkedAccount{
+			ID:             uuid.MustParse(acc.ID),
+			ProviderID:     acc.ProviderID,
+			AuthToken:      acc.AuthToken,
+			RefreshToken:   acc.RefreshToken,
+			ExpiresAt:      acc.ExpiresAt,
+			TokenType:      acc.TokenType,
+			ProviderUserID: acc.ProviderUserID,
+		})
+	}
+
+	response := response.User{
 		ID:             result.ID,
 		FirstName:      result.FirstName,
 		LastName:       result.LastName,
 		Email:          result.Email,
 		IsVerified:     result.IsVerified,
 		ProfilePicture: result.ProfilePicture,
+		LinkedAccounts: accounts,
 	}
 
 	return c.JSON(200, response)
@@ -168,27 +182,73 @@ func (handler *UserHandler) GetUsersHandler(c echo.Context) error {
 		return err
 	}
 
-	var usersResponse []*response.UserResponse
+	var usersResponse []*response.User
 	for _, u := range result.Users {
-		linkedAccounts := make([]*response.LinkedAccountResponse, 0)
+		linkedAccounts := make([]*response.LinkedAccount, 0)
 		for _, acc := range u.LinkedAccounts {
-			linkedAccounts = append(linkedAccounts, &response.LinkedAccountResponse{
-				ID:         uuid.MustParse(acc.ID),
-				ProviderID: acc.ProviderID,
-				AuthToken:  acc.AuthToken,
+			linkedAccounts = append(linkedAccounts, &response.LinkedAccount{
+				ID:             uuid.MustParse(acc.ID),
+				ProviderID:     acc.ProviderID,
+				AuthToken:      acc.AuthToken,
+				RefreshToken:   acc.RefreshToken,
+				ExpiresAt:      acc.ExpiresAt,
+				TokenType:      acc.TokenType,
+				ProviderUserID: acc.ProviderUserID,
 			})
 		}
 
-		usersResponse = append(usersResponse, &response.UserResponse{
+		usersResponse = append(usersResponse, &response.User{
 			ID:             u.ID,
 			FirstName:      u.FirstName,
 			LastName:       u.LastName,
 			Email:          u.Email,
 			IsVerified:     u.IsVerified,
 			ProfilePicture: u.ProfilePicture,
-			LinkAccounts:   linkedAccounts,
+			LinkedAccounts: linkedAccounts,
 		})
 	}
 
 	return c.JSON(http.StatusOK, response.UsersResponse{Users: usersResponse})
+}
+
+func (handler *UserHandler) GetUserByIdHandler(c echo.Context) error {
+
+	userID, err := util.ToUUID(c.Param("user_id"))
+	if err != nil {
+		return echo.ErrBadRequest
+	}
+
+	userQuery := currentuser.CurrentUserQuery{
+		UserID: userID,
+	}
+
+	result, err := mediatr.Send[*currentuser.CurrentUserQuery, *currentuser.CurrentUserQueryResponse](context.Background(), &userQuery)
+	if err != nil {
+		return err
+	}
+
+	accounts := make([]*response.LinkedAccount, 0)
+	for _, acc := range result.LinkedAccounts {
+		accounts = append(accounts, &response.LinkedAccount{
+			ID:             uuid.MustParse(acc.ID),
+			ProviderID:     acc.ProviderID,
+			AuthToken:      acc.AuthToken,
+			RefreshToken:   acc.RefreshToken,
+			ExpiresAt:      acc.ExpiresAt,
+			TokenType:      acc.TokenType,
+			ProviderUserID: acc.ProviderUserID,
+		})
+	}
+
+	response := response.User{
+		ID:             result.ID,
+		FirstName:      result.FirstName,
+		LastName:       result.LastName,
+		Email:          result.Email,
+		IsVerified:     result.IsVerified,
+		ProfilePicture: result.ProfilePicture,
+		LinkedAccounts: accounts,
+	}
+
+	return c.JSON(200, response)
 }

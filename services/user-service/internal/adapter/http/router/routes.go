@@ -23,6 +23,7 @@ func RegisterinternalUserRoutes(
 
 	internalRoute := baseApi.Group("/internal")
 	internalRoute.GET("/users", userHandler.GetUsersHandler)
+	internalRoute.GET("/users/:user_id", userHandler.GetUserByIdHandler)
 }
 
 func RegisterSwaggerRoute(baseApi *echo.Group) {

@@ -44,9 +44,13 @@ func (h *GetCurrentUserQueryHandler) Handle(ctx context.Context, query *CurrentU
 
 	for _, linkedAccount := range userDomain.GetLinkedAccounts() {
 		accounts = append(accounts, LinkedAccount{
-			ID:         linkedAccount.GetID(),
-			ProviderID: linkedAccount.GetProviderID(),
-			AuthToken:  linkedAccount.GetAuthToken(),
+			ID:             linkedAccount.GetID(),
+			ProviderID:     linkedAccount.GetProviderID(),
+			AuthToken:      linkedAccount.GetAuthToken(),
+			RefreshToken:   linkedAccount.GetRefreshToken(),
+			ExpiresAt:      linkedAccount.GetExpiresAt(),
+			TokenType:      linkedAccount.GetTokenType(),
+			ProviderUserID: linkedAccount.GetProviderUserID(),
 		})
 	}
 

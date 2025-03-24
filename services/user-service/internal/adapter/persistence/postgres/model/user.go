@@ -47,8 +47,17 @@ func (user *User) ToDomainModel() *domain.User {
 	dominUser.SetIsVerified(user.IsVerified)
 	dominUser.SetProfilePicture(user.ProfilePicture)
 
+	accunts := make([]*domain.LinkedAccount, 0)
+
+	for _, account := range user.Accounts {
+		accunts = append(accunts, account.ToDomainModel())
+	}
+
+	dominUser.SetLinkedAccounts(accunts)
+
 	dominUser.SetCreatedAt(user.CreatedAt)
 	dominUser.SetUpdatedAt(user.UpdatedAt)
+
 	if user.DeletedAt.Valid {
 		dominUser.SetDeletedAt(&user.DeletedAt.Time)
 	}

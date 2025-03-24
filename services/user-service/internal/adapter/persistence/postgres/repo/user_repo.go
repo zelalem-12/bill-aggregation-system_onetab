@@ -44,7 +44,7 @@ func (repo *UserRepo) Save(ctx context.Context, domainModel *domain.User) (*doma
 func (repo *UserRepo) FindByID(ctx context.Context, id uuid.UUID) (*domain.User, error) {
 	dataModel := &model.User{}
 
-	err := repo.DB.WithContext(ctx).Where("id = ?", id).First(dataModel).Error
+	err := repo.DB.WithContext(ctx).Where("id = ?", id).Preload("Accounts").First(dataModel).Error
 	if err != nil {
 		return nil, err
 	}
@@ -56,7 +56,7 @@ func (repo *UserRepo) FindByID(ctx context.Context, id uuid.UUID) (*domain.User,
 func (repo *UserRepo) FindAll(ctx context.Context) ([]*domain.User, error) {
 	dataModels := []*model.User{}
 
-	err := repo.DB.WithContext(ctx).Find(&dataModels).Error
+	err := repo.DB.WithContext(ctx).Preload("Accounts").Find(&dataModels).Error
 	if err != nil {
 		return nil, err
 	}
@@ -75,7 +75,7 @@ func (repo *UserRepo) FindAll(ctx context.Context) ([]*domain.User, error) {
 func (repo *UserRepo) FindByEmail(ctx context.Context, email string) (*domain.User, error) {
 	dataModel := &model.User{}
 
-	err := repo.DB.WithContext(ctx).Where("email = ?", email).First(dataModel).Error
+	err := repo.DB.WithContext(ctx).Where("email = ?", email).Preload("Accounts").First(dataModel).Error
 	if err != nil {
 		return nil, err
 	}

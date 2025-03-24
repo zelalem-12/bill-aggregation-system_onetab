@@ -1,15 +1,21 @@
 package users
 
 import (
+	"time"
+
 	"github.com/google/uuid"
 )
 
 type UsersQuery struct{}
 
 type LinkedAccount struct {
-	ID         string `json:"id"`
-	ProviderID string `json:"provider_id"`
-	AuthToken  string `json:"auth_token"`
+	ID             string    `json:"id"`
+	ProviderID     string    `json:"provider_id"`
+	AuthToken      string    `json:"auth_token"`
+	RefreshToken   string    `json:"refresh_token"`
+	ExpiresAt      time.Time `json:"expires_at"`
+	TokenType      string    `json:"token_type"`
+	ProviderUserID string    `json:"provider_user_id"`
 }
 
 type User struct {

@@ -47,6 +47,7 @@ func main() {
 			repo.NewUserRepo,
 			repo.NewToken,
 			repo.NewLinkedAccountRepo,
+			clientService.NewBillServiceClient,
 		),
 		http.Module,
 		fx.Invoke(

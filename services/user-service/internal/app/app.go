@@ -28,6 +28,7 @@ func RegisterCQRSHandlers(
 	userRepo repo.UserRepo,
 	tokenRepo repo.TokenRepo,
 	linkedAccountRepo repo.LinkedAccountRepo,
+	billServiceClient client.BillServiceClient,
 
 ) error {
 
@@ -43,7 +44,7 @@ func RegisterCQRSHandlers(
 	currentuserupdateCommandHandler := currentuserupdate.NewUpdateCurrentUserHandler(userRepo)
 	currentuserdeleteCommandHandler := currentuserdelete.NewDeleteCurrentUserHandler(userRepo)
 	linkaccountCommandHandler := linkaccount.NewLinkAccountCommandHandler(cfg, linkedAccountRepo)
-	unlinkaccountCommandHandler := unlinkaccount.NewUnlinkAccountCommandHandler(cfg, linkedAccountRepo)
+	unlinkaccountCommandHandler := unlinkaccount.NewUnlinkAccountCommandHandler(cfg, linkedAccountRepo, billServiceClient)
 
 	currentuserQueryHandler := currentuser.NewCurrentUserQueryHandler(userRepo)
 	usersQueryHandler := users.NewGetUsersQueryHandler(userRepo)

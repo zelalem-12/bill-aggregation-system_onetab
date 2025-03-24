@@ -1,6 +1,8 @@
 package currentuser
 
 import (
+	"time"
+
 	"github.com/go-playground/validator/v10"
 	"github.com/google/uuid"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/user-service/internal/domain"
@@ -11,9 +13,13 @@ type CurrentUserQuery struct {
 }
 
 type LinkedAccount struct {
-	ID         string `json:"id"`
-	ProviderID string `json:"provider_id"`
-	AuthToken  string `json:"auth_token"`
+	ID             string    `json:"id"`
+	ProviderID     string    `json:"provider_id"`
+	AuthToken      string    `json:"auth_token"`
+	RefreshToken   string    `json:"refresh_token"`
+	ExpiresAt      time.Time `json:"expires_at"`
+	TokenType      string    `json:"token_type"`
+	ProviderUserID string    `json:"provider_user_id"`
 }
 
 func (q *CurrentUserQuery) Validate() error {
