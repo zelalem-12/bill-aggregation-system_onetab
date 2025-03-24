@@ -67,12 +67,6 @@ func (h *RefreshBillsCommandHandler) processLinkedAccountBills(ctx context.Conte
 	if err != nil {
 		return err
 	}
-	// UserID     uuid.UUID `json:"user_id" validate:"required"`
-	// Amount     float64   `json:"amount" validate:"required,gt=0"`
-	// DueDate    time.Time `json:"due_date" validate:"required"`
-	// Status     string    `json:"status" validate:"required,oneof=pending paid"`
-	// ProviderID uuid.UUID `json:"provider_id" validate:"required"`
-	// PaidDate   time.Time `json:"paid_date"`
 
 	bills := make([]*clientPort.CreateBillRequestDTO, 0)
 	for _, bill := range response {

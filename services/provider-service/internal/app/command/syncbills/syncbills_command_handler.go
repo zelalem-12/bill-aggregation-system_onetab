@@ -32,16 +32,16 @@ func NewSyncAllBillsCommandHandler(
 }
 
 func (h *SyncAllBillsCommandHandler) Handle(ctx context.Context, cmd *SyncAllBillsCommand) (*SyncAllBillsCommandResponse, error) {
-	users, err := h.userClient.GetUsers()
+	response, err := h.userClient.GetUsers()
 	if err != nil {
 		log.Printf("Failed to fetch users: %v", err)
 		return nil, err
 	}
 
 	var wg sync.WaitGroup
-	for _, user := range users {
+	for _, user := range response.Users {
 		wg.Add(1)
-		go func(user *clientPort.User) {
+		go func(user *clientPort.UserDetail) {
 			defer wg.Done()
 			h.processUserBills(ctx, user)
 		}(user)
@@ -51,7 +51,7 @@ func (h *SyncAllBillsCommandHandler) Handle(ctx context.Context, cmd *SyncAllBil
 	return &SyncAllBillsCommandResponse{Message: "All users' bills synced successfully"}, nil
 }
 
-func (h *SyncAllBillsCommandHandler) processUserBills(ctx context.Context, user *clientPort.User) {
+func (h *SyncAllBillsCommandHandler) processUserBills(ctx context.Context, user *clientPort.UserDetail) {
 	var wg sync.WaitGroup
 	for _, account := range user.LinkedAccounts {
 		wg.Add(1)

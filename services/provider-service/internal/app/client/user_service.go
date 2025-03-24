@@ -16,7 +16,7 @@ type LinkedAccount struct {
 	ProviderUserID string    `json:"provider_user_id"`
 }
 
-type User struct {
+type UserDetail struct {
 	ID             uuid.UUID        `json:"id"`
 	FirstName      string           `json:"first_name"`
 	LastName       string           `json:"last_name"`
@@ -27,10 +27,10 @@ type User struct {
 }
 
 type UsersResponse struct {
-	Users []*User `json:"users"`
+	Users []*UserDetail `json:"users"`
 }
 
 type UserServiceClient interface {
-	GetUsers() ([]*User, error)
-	GetUserDetail(userID uuid.UUID) (*User, error)
+	GetUsers() (*UsersResponse, error)
+	GetUserDetail(userID uuid.UUID) (*UserDetail, error)
 }
