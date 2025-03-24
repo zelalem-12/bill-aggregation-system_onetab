@@ -13,6 +13,7 @@ func RegisterinternalBillRoutes(
 ) {
 
 	internalRoute := baseApi.Group("/internal")
+	internalRoute.POST("/bills", billHandler.CreateBillHandler)
 	internalRoute.DELETE("/bills/:provider_id", billHandler.DeleteBillsByProvider)
 }
 
@@ -32,7 +33,6 @@ func RegisterBillRoutes(
 	billRoute.GET("/provider/:provider_id", billHandler.GetBillsByProviderIdHandler)
 	billRoute.PUT("/:bill_id/pay", billHandler.MarkBillAsPaidHandler)
 	billRoute.DELETE("/:bill_id", billHandler.DeleteBillHandler)
-	billRoute.POST("", billHandler.CreateBillHandler)
 
 	billRoute.GET("/overdue", billHandler.GetOverdueBillsHandler)
 	billRoute.GET("/categories", billHandler.GetCategorySpendingHandler)

@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/gommon/log"
 	"github.com/mehdihadeli/go-mediatr"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/bill-service/internal/adapter/http/request"
 	"github.com/zelalem-12/bill-aggregation-system_onetab/bill-service/internal/adapter/http/response"
@@ -219,10 +220,9 @@ func (handler *BillHandler) DeleteBillHandler(c echo.Context) error {
 // @Router /bills [post]
 func (handler *BillHandler) CreateBillHandler(c echo.Context) error {
 
-	user := c.Get("user").(util.BasicUserInfo)
-
 	reqDTO := &request.CreateBillRequest{}
 	if err := handler.BindAndValidate(c, reqDTO); err != nil {
+		log.Error("Error binding request", err)
 		return echo.ErrBadRequest
 	}
 
@@ -230,7 +230,6 @@ func (handler *BillHandler) CreateBillHandler(c echo.Context) error {
 	if err != nil {
 		return echo.ErrBadRequest
 	}
-	cmd.UserID = user.UserID
 
 	cmdResp, err := mediatr.Send[*createbill.CreateBillCommand, *createbill.CreateBillCommandResponse](context.Background(), cmd)
 	if err != nil {

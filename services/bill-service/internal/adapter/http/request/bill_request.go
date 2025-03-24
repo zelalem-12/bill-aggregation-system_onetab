@@ -57,10 +57,12 @@ func (r *DeleteBillRequest) Validate() error {
 }
 
 type CreateBillRequest struct {
+	UserID     uuid.UUID `header:"user_id" validate:"required"`
 	Amount     float64   `json:"amount" validate:"required,gt=0"`
-	DueDate    string    `json:"due_date" validate:"required,datetime=2006-01-02"`
-	Status     string    `json:"status" validate:"required,oneof=paid unpaid"`
+	DueDate    time.Time `json:"due_date" validate:"required"`
+	Status     string    `json:"status" validate:"required,oneof=pending paid"`
 	ProviderID uuid.UUID `json:"provider_id" validate:"required"`
+	PaidDate   time.Time `json:"paid_date"`
 }
 
 func (r *CreateBillRequest) Validate() error {
@@ -68,13 +70,10 @@ func (r *CreateBillRequest) Validate() error {
 }
 
 func (r *CreateBillRequest) ToCommand() (*createbill.CreateBillCommand, error) {
-	dt, err := time.Parse("2006-01-02", r.DueDate)
-	if err != nil {
-		return nil, err
-	}
+
 	return &createbill.CreateBillCommand{
 		Amount:     r.Amount,
-		DueDate:    dt,
+		DueDate:    r.DueDate,
 		Status:     r.Status,
 		ProviderID: r.ProviderID,
 	}, nil
