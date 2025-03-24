@@ -37,25 +37,55 @@ services:
     networks:
       - services_network
 
+  redis:
+    image: redis:alpine
+    container_name: redis
+    restart: unless-stopped
+    command: ["redis-server", "--requirepass", "${REDIS_PASSWORD}"]
+    ports:
+      - "${REDIS_PORT}:${REDIS_PORT}"
+    networks:
+      - services_network
+    volumes:
+      - redis-data:/data
+
   user-service:
     build:
       context: ./services/user-service
       dockerfile: Dockerfile
+      args:
+        - SERVER_PORT=${USER_SERVER_PORT}
     container_name: user
     restart: unless-stopped
     ports:
       - "${USER_SERVER_PORT}:${USER_SERVER_PORT}"
     environment:
+      SERVER_PORT: "${USER_SERVER_PORT}"
+      FRONTEND_URL: "${FRONTEND_URL}"
+      ACCESS_TOKEN_KEY: "${ACCESS_TOKEN_KEY}"
+      REFRESH_TOKEN_KEY: "${REFRESH_TOKEN_KEY}"
+      ACCESS_TOKEN_EXPIRY: "${ACCESS_TOKEN_EXPIRY}"
+      REFRESH_TOKEN_EXPIRY: "${REFRESH_TOKEN_EXPIRY}"
+      SMTP_HOST: "${SMTP_HOST}"
+      SMTP_PORT: "${SMTP_PORT}"
+      SENDER_EMAIL: "${SENDER_EMAIL}"
+      SENDER_PASSWORD: "${SENDER_PASSWORD}"
       POSTGRES_HOST: "${POSTGRES_HOST}"
       POSTGRES_PORT: "${POSTGRES_PORT}"
       POSTGRES_DATABASE: "user_db"
       POSTGRES_USER: "${POSTGRES_USER}"
       POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      PROVIDER_BASE_URL: "${PROVIDER_BASE_URL}"
+      BILL_BASE_URL: "${BILL_BASE_URL}"
+      REDIS_HOST: "${REDIS_HOST}"
+      REDIS_PORT: "${REDIS_PORT}"
+      REDIS_PASSWORD: "${REDIS_PASSWORD}"
     volumes:
       - ./.env:/app/.env
     command: ["go", "run", "./cmd/http/main.go"]
     depends_on:
       - postgres
+      - redis
     networks:
       - services_network
 
@@ -63,21 +93,31 @@ services:
     build:
       context: ./services/provider-service
       dockerfile: Dockerfile
+      args:
+        - SERVER_PORT=${PROVIDER_SERVER_PORT}
     container_name: provider
     restart: unless-stopped
     ports:
       - "${PROVIDER_SERVER_PORT}:${PROVIDER_SERVER_PORT}"
     environment:
+      SERVER_PORT: "${PROVIDER_SERVER_PORT}"
+      ACCESS_TOKEN_KEY: "${ACCESS_TOKEN_KEY}"
       POSTGRES_HOST: "${POSTGRES_HOST}"
       POSTGRES_PORT: "${POSTGRES_PORT}"
       POSTGRES_DATABASE: "provider_db"
       POSTGRES_USER: "${POSTGRES_USER}"
       POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      USER_BASE_URL: "${USER_BASE_URL}"
+      BILL_BASE_URL: "${BILL_BASE_URL}"
+      REDIS_HOST: "${REDIS_HOST}"
+      REDIS_PORT: "${REDIS_PORT}"
+      REDIS_PASSWORD: "${REDIS_PASSWORD}"
     volumes:
       - ./.env:/app/.env
     command: ["go", "run", "./cmd/http/main.go"]
     depends_on:
       - postgres
+      - redis
     networks:
       - services_network
 
@@ -85,6 +125,8 @@ services:
     build:
       context: ./services/bill-service
       dockerfile: Dockerfile
+      args:
+        - SERVER_PORT=${BILL_SERVER_PORT}
     container_name: bill
     restart: unless-stopped
     ports:
@@ -95,61 +137,19 @@ services:
       POSTGRES_DATABASE: "bill_db"
       POSTGRES_USER: "${POSTGRES_USER}"
       POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      USER_BASE_URL: "${USER_BASE_URL}"
+      PROVIDER_BASE_URL: "${PROVIDER_BASE_URL}"
+      REDIS_HOST: "${REDIS_HOST}"
+      REDIS_PORT: "${REDIS_PORT}"
+      REDIS_PASSWORD: "${REDIS_PASSWORD}"
     volumes:
       - ./.env:/app/.env
     command: ["go", "run", "./cmd/http/main.go"]
     depends_on:
       - postgres
+      - redis
     networks:
       - services_network
-
-  # electricity-mock:
-  #   build:
-  #     context: ./mock-api/electricity-provider
-  #     dockerfile: Dockerfile
-  #   container_name: electricity-mock
-  #   restart: unless-stopped
-  #   ports:
-  #     - "${ELECTRICITY_PROVIDER_PORT}:${ELECTRICITY_PROVIDER_PORT}"
-  #   environment:
-  #     MOCKOON_ENVIRONMENT_PATH: "/data/environment.json"
-  #   volumes:
-  #     - ./mock-api/electricity-provider:/data
-  #     - ./.env:/app/.env
-  #   networks:
-  #     - services_network
-
-  # water-mock:
-  #   build:
-  #     context: ./mock-api/water-provider
-  #     dockerfile: Dockerfile
-  #   container_name: water-mock
-  #   restart: unless-stopped
-  #   ports:
-  #     - "${WATER_PROVIDER_PORT}:${WATER_PROVIDER_PORT}"
-  #   environment:
-  #     MOCKOON_ENVIRONMENT_PATH: "/data/environment.json"
-  #   volumes:
-  #     - ./mock-api/water-provider:/data
-  #     - ./.env:/app/.env
-  #   networks:
-  #     - services_network
-
-  # internet-mock:
-  #   build:
-  #     context: ./mock-api/internet-provider
-  #     dockerfile: Dockerfile
-  #   container_name: internet-mock
-  #   restart: unless-stopped
-  #   ports:
-  #     - "${INTERNET_PROVIDER_PORT}:${INTERNET_PROVIDER_PORT}"
-  #   environment:
-  #     MOCKOON_ENVIRONMENT_PATH: "/data/environment.json"
-  #   volumes:
-  #     - ./mock-api/internet-provider:/data
-  #     - ./.env:/app/.env
-  #   networks:
-  #     - services_network
 
 networks:
   services_network:
@@ -158,3 +158,4 @@ networks:
 
 volumes:
   postgres-data:
+  redis-data:

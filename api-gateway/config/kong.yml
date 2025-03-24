@@ -79,6 +79,10 @@ services:
         paths:
           - /api/v1/providers
         strip_path: false
+      - name: refresh-bills-route
+        paths:
+          - /api/v1/bills/refresh
+        strip_path: false
 
   - name: bill-service
     url: http://bill-service:8082
