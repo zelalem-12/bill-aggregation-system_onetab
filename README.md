@@ -4,6 +4,11 @@
 
 This guide provides step-by-step instructions to set up and run the Bill Aggregation System using Docker Compose. The system consists of multiple services, including microservices for users, providers, and billing, as well as supporting services like PostgreSQL, Redis, Kong API Gateway, and mock utility providers.
 
+## Documentation
+
+- [Live Postman Documentation](https://documenter.getpostman.com/view/4195725/2sAYkKGcpD)
+- [Local Swagger Docume documentation](http://127.0.0.1:8000/) (for local development)
+
 ## Prerequisites
 
 Ensure you have the following installed on your system:
