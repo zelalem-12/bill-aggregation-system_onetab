@@ -27,7 +27,7 @@ func RegisterinternalUserRoutes(
 }
 
 func RegisterSwaggerRoute(baseApi *echo.Group) {
-	baseApi.GET("/swagger/*filepath", echoSwagger.WrapHandler)
+	baseApi.GET("/user/swagger/*filepath", echoSwagger.WrapHandler)
 }
 
 func RegisterAuthRoutes(

@@ -13,9 +13,9 @@ import (
 	"go.uber.org/fx"
 )
 
-// @title  Bill Aggregation System API
+// @title  Bill Aggregation System API(Bill Service)
 // @version 1.0
-// @description This is the API for Bill Aggregation System.
+// @description This is the API for Bill Relaetd things and insights
 // @termsOfService http://example.com/terms/
 
 // @contact.name API Support
@@ -25,7 +25,7 @@ import (
 // @license.name MIT
 // @license.url http://opensource.org/licenses/MIT
 
-// @host 127.0.0.1:8080
+// @host 127.0.0.1:8000
 // @BasePath /api/v1/
 
 // @securityDefinitions.apikey BearerAuth

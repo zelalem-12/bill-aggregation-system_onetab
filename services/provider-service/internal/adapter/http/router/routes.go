@@ -9,7 +9,7 @@ import (
 )
 
 func RegisterSwaggerRoute(baseApi *echo.Group) {
-	baseApi.GET("/swagger/*filepath", echoSwagger.WrapHandler)
+	baseApi.GET("/provider/swagger/*filepath", echoSwagger.WrapHandler)
 }
 
 func RegisterProviderRoutes(

@@ -7,9 +7,9 @@ services:
         paths:
           - /
         strip_path: false
-      - name: swagger-route
+      - name: user-swagger-route
         paths:
-          - /api/v1/swagger/*filepath
+          - /api/v1/user/swagger/*filepath
         strip_path: false
       - name: user-registration-route
         paths:
@@ -67,6 +67,12 @@ services:
   - name: provider-service
     url: http://provider-service:8081
     routes:
+      - name: provider-swagger-route
+        paths:
+          - /api/v1/provider/swagger/*filepath
+          - /api/v1/provider/swagger/
+          - /api/v1/provider/swagger/*
+        strip_path: false
       - name: get-provider-by-id-route
         paths:
           - /api/v1/providers/:provider_id
@@ -87,6 +93,12 @@ services:
   - name: bill-service
     url: http://bill-service:8082
     routes:
+      - name: bill-swagger-route
+        paths:
+          - /api/v1/bill/swagger/*filepath
+          - /api/v1/bill/swagger/
+          - /api/v1/bill/swagger/*
+        strip_path: false
       - name: get-aggregated-bills-route
         paths:
           - /api/v1/bills

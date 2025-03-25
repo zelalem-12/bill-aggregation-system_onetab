@@ -18,7 +18,7 @@ func RegisterinternalBillRoutes(
 }
 
 func RegisterSwaggerRoute(baseApi *echo.Group) {
-	baseApi.GET("/swagger/*filepath", echoSwagger.WrapHandler)
+	baseApi.GET("/bill/swagger/*filepath", echoSwagger.WrapHandler)
 }
 
 func RegisterBillRoutes(
@@ -41,3 +41,5 @@ func RegisterBillRoutes(
 	billRoute.GET("/summary/trends", billHandler.HandlerGetMonthlySpendingTrends)
 
 }
+
+

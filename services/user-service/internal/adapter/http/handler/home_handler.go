@@ -29,7 +29,9 @@ func NewHomeHandler(config *config.Config) (*HomeHandler, error) {
 func (h *HomeHandler) Home(c echo.Context) error {
 
 	data := map[string]interface{}{
-		"link": fmt.Sprintf("%s:%d/api/v1/swagger/index.html", "http://127.0.0.1", 8000),
+		"userServiceDocsUrl":     fmt.Sprintf("%s:%d/api/v1/user/swagger/index.html", "http://127.0.0.1", 8000),
+		"providerServiceDocsUrl": fmt.Sprintf("%s:%d/api/v1/provider/swagger/index.html", "http://127.0.0.1", 8000),
+		"billServiceDocsUrl":     fmt.Sprintf("%s:%d/api/v1/bill/swagger/index.html", "http://127.0.0.1", 8000),
 	}
 
 	return h.tmpl.Execute(c.Response(), data)
